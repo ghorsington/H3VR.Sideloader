@@ -31,9 +31,10 @@ namespace H3VR.Sideloader
             var currentIndex = 0;
             for (; currentIndex < parts.Length; currentIndex++)
             {
-                var newNode = new PathNode { Path = parts[currentIndex] };
-                node.Children.Add(newNode);
-                node = newNode;
+                var p = parts[currentIndex];
+                var child = node.Children.FirstOrDefault(n => n.Path == p) ?? new PathNode { Path = parts[currentIndex] };
+                node.Children.Add(child);
+                node = child;
             }
             
             var modNode = new ModNode
