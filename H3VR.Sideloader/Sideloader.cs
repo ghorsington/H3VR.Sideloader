@@ -26,7 +26,6 @@ namespace H3VR.Sideloader
 
             var modsPath = Path.Combine(Paths.GameRootPath, ModsDir);
             foreach (var modDir in Directory.GetDirectories(modsPath))
-            {
                 try
                 {
                     var mod = Mod.LoadDir(modDir);
@@ -35,12 +34,12 @@ namespace H3VR.Sideloader
                 {
                     Logger.LogWarning($"Skipping {modDir} because: {e.Message}");
                 }
-            }
         }
 
         private void PatchLoadedBundle(IAssetLoadingContext ctx)
         {
-            Logger.LogDebug($"Loading asset {ctx.Parameters.Name} from {ctx.GetAssetBundlePath()} (normalized: {ctx.GetNormalizedAssetBundlePath()})");
+            Logger.LogDebug(
+                $"Loading asset {ctx.Parameters.Name} from {ctx.GetAssetBundlePath()} (normalized: {ctx.GetNormalizedAssetBundlePath()})");
         }
     }
 }

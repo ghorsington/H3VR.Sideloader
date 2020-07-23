@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace H3VR.Sideloader
 {
@@ -11,48 +10,42 @@ namespace H3VR.Sideloader
         Mesh,
         Material
     }
-    
+
     internal class AssetMapping
     {
-        public AssetType type;
-        public string gamePath;
-        public string modPath;
+        public string GamePath { get; set; }
+        public string ModPath { get; set; }
+        public AssetType Type { get; set; }
     }
-    
+
     internal class ModManifest
     {
-        public const string MANIFEST_REVISION = "1";
-        
-        public string manifestRevision;
-        public string guid;
-        public string name;
-        public string version;
-        public AssetMapping[] assetsMappings;
-        
-        public Version Version => version != null ? new Version(version) : new Version(0, 0);
+        private const string MANIFEST_REVISION = "1";
+        public AssetMapping[] AssetMappings { get; set; }
+        public string Guid { get; set; }
+        public string ManifestRevision { get; set; }
+        public string Name { get; set; }
+        public Version Version { get; set; }
 
         public bool Verify(out string[] errors)
         {
             var errs = new List<string>();
 
-            void Missing(string field) => errs.Add($"Missing required property `{guid}`.");
-            
-            if (manifestRevision == null)
-                Missing(nameof(manifestRevision));
-            if (manifestRevision != MANIFEST_REVISION)
+            void Missing(string field)
+            {
+                errs.Add($"Missing required property `{field}`.");
+            }
+
+            if (ManifestRevision == null)
+                Missing(nameof(ManifestRevision));
+            if (ManifestRevision != MANIFEST_REVISION)
                 errs.Add($"Invalid manifest revision. Supported values are: `{MANIFEST_REVISION}`.");
-            if (guid == null)
-                Missing(nameof(guid));
-            if (name == null)
-                Missing(nameof(name));
-            try
-            {
-                var ver = new Version(version);
-            }
-            catch
-            {
-                errs.Add("Failed to parse version. Version must be of form `X.X.X.X`.");
-            }
+            if (Guid == null)
+                Missing(nameof(Guid));
+            if (Name == null)
+                Missing(nameof(Name));
+            if (Version == null)
+                errs.Add("Missing or invalid `version`. Version must be of form `X.X.X.X`.");
 
             errors = errs.ToArray();
             return errors.Length != 0;
