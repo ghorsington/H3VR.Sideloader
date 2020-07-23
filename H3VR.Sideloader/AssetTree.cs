@@ -4,14 +4,14 @@ using System.Linq;
 
 namespace H3VR.Sideloader
 {
-    internal class PathResolver
+    internal class AssetTree
     {
         public const char PATH_SEPARATOR = ':';
 
         private PathNode root;
         private int pathParts;
 
-        public PathResolver(int pathParts)
+        public AssetTree(int pathParts)
         {
             this.pathParts = pathParts;
             root = new PathNode();
