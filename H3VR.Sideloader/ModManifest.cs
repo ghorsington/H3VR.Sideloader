@@ -47,6 +47,14 @@ namespace H3VR.Sideloader
             if (Version == null)
                 errs.Add("Missing or invalid `version`. Version must be of form `X.X.X.X`.");
 
+            foreach (var assetMapping in AssetMappings)
+            {
+                if (assetMapping.GamePath == null)
+                    Missing(nameof(assetMapping.GamePath));
+                if (assetMapping.ModPath == null)
+                    Missing(nameof(assetMapping.GamePath));
+            }
+
             errors = errs.ToArray();
             return errors.Length != 0;
         }

@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using System.Text;
+using ICSharpCode.SharpZipLib.Zip;
 using MicroJson;
 
 namespace H3VR.Sideloader
@@ -13,6 +14,8 @@ namespace H3VR.Sideloader
         public ModManifest Manifest { get; private set; }
 
         public string ModPath { get; private set; }
+
+        private ZipFile Archive { get; set; }
 
         public static Mod LoadDir(string path)
         {
@@ -32,6 +35,31 @@ namespace H3VR.Sideloader
             {
                 Manifest = manifest,
                 ModPath = path
+            };
+        }
+
+        public static Mod LoadFromZip(string path)
+        {
+            var file = new ZipFile(path);
+
+            var manifestEntry = file.GetEntry(MANIFEST_FILE);
+
+            if (manifestEntry == null)
+                throw new ModLoadException("The archive is not a valid zipmod.");
+
+            using var manifestStream = file.GetInputStream(manifestEntry);
+            using var s = new StreamReader(manifestStream);
+
+            var manifest = new JsonSerializer().Deserialize<ModManifest>(s.ReadToEnd());
+            if (!manifest.Verify(out var errors))
+                throw new ModLoadException(
+                    $"The manifest file is invalid. The following problems were found: {errors.Aggregate(new StringBuilder(), (sb, s) => sb.AppendLine($"* {s}"))}");
+
+            return new Mod
+            {
+                Manifest = manifest,
+                ModPath = path,
+                Archive = file
             };
         }
     }
