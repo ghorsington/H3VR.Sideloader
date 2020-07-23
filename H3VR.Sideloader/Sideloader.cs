@@ -18,6 +18,8 @@ namespace H3VR.Sideloader
         {
             ResourceRedirection.EnableSyncOverAsyncAssetLoads();
             ResourceRedirection.RegisterAsyncAndSyncAssetLoadingHook(PatchLoadedBundle);
+            
+            LoadMods();
         }
 
         private void LoadMods()
@@ -30,7 +32,7 @@ namespace H3VR.Sideloader
             foreach (var modDir in Directory.GetDirectories(modsPath))
                 try
                 {
-                    var mod = Mod.LoadDir(modDir);
+                    var mod = Mod.LoadFromDir(modDir);
                     mods.Add(mod);
                 }
                 catch (Exception e)

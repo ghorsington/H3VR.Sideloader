@@ -13,9 +13,9 @@ namespace H3VR.Sideloader
 
     internal class AssetMapping
     {
-        public string GamePath { get; set; }
-        public string ModPath { get; set; }
         public AssetType Type { get; set; }
+        public string Target { get; set; }
+        public string Path { get; set; }
     }
 
     internal class ModManifest
@@ -49,10 +49,10 @@ namespace H3VR.Sideloader
 
             foreach (var assetMapping in AssetMappings)
             {
-                if (assetMapping.GamePath == null)
-                    Missing(nameof(assetMapping.GamePath));
-                if (assetMapping.ModPath == null)
-                    Missing(nameof(assetMapping.GamePath));
+                if (assetMapping.Path == null)
+                    Missing(nameof(assetMapping.Path));
+                if (assetMapping.Target == null)
+                    Missing(nameof(assetMapping.Path));
             }
 
             errors = errs.ToArray();

@@ -17,7 +17,7 @@ namespace H3VR.Sideloader
 
         private ZipFile Archive { get; set; }
 
-        public static Mod LoadDir(string path)
+        public static Mod LoadFromDir(string path)
         {
             if (!Directory.Exists(path))
                 throw new DirectoryNotFoundException("The path is not a valid mod directory!");
