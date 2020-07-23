@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using BepInEx;
 using BepInEx.Logging;
+using UnityEngine;
 using XUnity.ResourceRedirector;
 
 namespace H3VR.Sideloader
@@ -31,7 +32,8 @@ namespace H3VR.Sideloader
         {
             Logger = base.Logger;
             ResourceRedirection.EnableSyncOverAsyncAssetLoads();
-            ResourceRedirection.RegisterAsyncAndSyncAssetLoadingHook(PatchLoadedBundle);
+            ResourceRedirection.RegisterAssetLoadedHook(HookBehaviour.OneCallbackPerResourceLoaded, PatchLoadedBundle);
+            // ResourceRedirection.RegisterAsyncAndSyncAssetLoadingHook(PatchLoadedBundle);k
             
             LoadMods();
         }
@@ -72,10 +74,35 @@ namespace H3VR.Sideloader
             }
         }
 
-        private void PatchLoadedBundle(IAssetLoadingContext ctx)
+        private void PatchLoadedBundle(AssetLoadedContext ctx)
         {
             Logger.LogDebug(
-                $"Loading asset {ctx.Parameters.Name} from {ctx.GetAssetBundlePath()} (normalized: {ctx.GetNormalizedAssetBundlePath()})");
+                $"Loaded asset {ctx.Parameters.Name} from {ctx.GetAssetBundlePath()} (normalized: {ctx.GetNormalizedAssetBundlePath()})");
+            
+            
+            foreach (var obj in ctx.Assets)
+            {
+                var path = ctx.GetUniqueFileSystemAssetPath(obj);
+                if (!(obj is GameObject go)) continue;
+                var meshRenderers = go.GetComponentsInChildren<MeshRenderer>();
+                foreach (var meshRenderer in meshRenderers)
+                {
+                    var materials = meshRenderer.materials;
+                    foreach (var material in materials)
+                    {
+                        var materialName = material.name;
+                        var textureName = material.mainTexture.name;
+                        Logger.LogDebug($"Trying to resolve `{path}:{materialName}:_MainTexture:{textureName}`");
+                        var mod = textureAssets.Find(path, materialName, "_MainTexture", textureName);
+                        if (mod == null)
+                            continue;
+                        var tex = mod.Mod.LoadTexture(mod.FullPath);
+                        if (tex != null)
+                            material.mainTexture = tex;
+                    }
+                    meshRenderer.materials = materials;
+                }
+            }
         }
     }
 }

@@ -45,7 +45,7 @@ namespace H3VR.Sideloader
             node.Children.Add(modNode);
         }
 
-        public ModNode Find(string[] path)
+        public ModNode Find(params string[] path)
         {
             ModNode Process(int index, PathNode node)
             {
