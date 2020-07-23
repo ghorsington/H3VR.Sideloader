@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 namespace H3VR.Sideloader
 {
@@ -17,63 +18,89 @@ namespace H3VR.Sideloader
             root = new PathNode();
         }
 
-        public void AddMod(string path, Mod mod)
+        public void AddMod(string targetPath, string fullPath, Mod mod)
         {
             // Remove any trailing empty setters in order to place the item as high in the tree as possible
-            var parts = path.Split(PATH_SEPARATOR).Select(p => p.Trim())
+            var parts = targetPath.Split(PATH_SEPARATOR).Select(p => p.Trim())
+                .Select(p => p.Length == 0 ? null : p)
                 .Reverse()
-                .SkipWhile(p => p.Length == 0)
+                .SkipWhile(p => p == null)
                 .Reverse().ToArray();
             if (parts.Length > pathParts)
-                throw new ArgumentException($"Path '{path}' must consist of at most {pathParts} parts!", nameof(path));
+                throw new ArgumentException($"Path '{targetPath}' must consist of at most {pathParts} parts!",
+                    nameof(targetPath));
 
             var node = root;
             var currentIndex = 0;
             for (; currentIndex < parts.Length; currentIndex++)
             {
                 var p = parts[currentIndex];
-                var child = node.Children.FirstOrDefault(n => n.Path == p) ?? new PathNode { Path = parts[currentIndex] };
-                node.Children.Add(child);
+                var child = node.Children.FirstOrDefault(n => n.Path == p);
+
+                if (child == null)
+                {
+                    child = new PathNode {Path = p};
+                    node.Children.Add(child);
+                }
+
                 node = child;
             }
-            
+
             var modNode = new ModNode
             {
-                Path = parts.Length > 0 ? parts[currentIndex] : null,
+                Path = parts.Length == pathParts ? parts[pathParts - 1] : null,
                 Mod = mod,
-                FullPath = path
+                FullPath = fullPath
             };
             node.Children.Add(modNode);
         }
 
-        public ModNode Find(params string[] path)
+        public ModNode[] Find(params string[] path)
         {
-            ModNode Process(int index, PathNode node)
+            static void CollectAll(PathNode node, List<ModNode> modNodes)
             {
-                var part = path[index];
-                if (node.Path == part)
+                if (node is ModNode mn)
+                    modNodes.Add(mn);
+                else
+                    foreach (var nodeChild in node.Children)
+                        CollectAll(nodeChild, modNodes);
+            }
+
+            ModNode[] Process(int index, PathNode node)
+            {
+                if (node is ModNode mn)
+                    return new[] {mn};
+
+                if (index >= path.Length)
                 {
-                    if (node is ModNode mn)
-                        return mn;
-                    return (node.Children.FirstOrDefault(childNode => childNode is ModNode) as ModNode);
+                    var result = new List<ModNode>();
+                    CollectAll(node, result);
+                    return result.ToArray();
                 }
 
-                if (node.Children.Count == 0 && node is ModNode n)
-                    return n;
-                if (!(node is ModNode))
-                    return null;
-                
-                foreach (var nodeChild in node.Children)
+                var part = path[index];
+                if (node.Path != null && node.Path != part)
+                    return new ModNode[0];
+
+                foreach (var nodeChild in node.Children.Where(n => n.Path != null))
                 {
                     var result = Process(index + 1, nodeChild);
-                    if (result != null)
+                    if (result.Length != 0)
                         return result;
                 }
 
-                return null;
+                var globalNodes = node.Children.FirstOrDefault(n => n.Path == null);
+                return globalNodes != null ? Process(index + 1, globalNodes) : new ModNode[0];
             }
 
-            return Process(0, root);
+            foreach (var rootChild in root.Children.Where(n => !(n is ModNode)))
+            {
+                var result = Process(0, rootChild);
+                if (result.Length != 0)
+                    return result;
+            }
+
+            return root.Children.Where(n => n is ModNode).Cast<ModNode>().ToArray();
         }
 
         public class PathNode

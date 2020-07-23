@@ -56,7 +56,7 @@ namespace H3VR.Sideloader
             }
 
             errors = errs.ToArray();
-            return errors.Length != 0;
+            return errors.Length == 0;
         }
     }
 }

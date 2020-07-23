@@ -72,7 +72,7 @@ namespace H3VR.Sideloader
                 if (!FileExists(manifestAssetMapping.Path))
                     Sideloader.Logger.LogWarning(
                         $"[{Name}] Asset `{manifestAssetMapping.Path}` of type `{type}` does not exist in the mod, skipping...");
-                tree.AddMod(manifestAssetMapping.Target, this);
+                tree.AddMod(manifestAssetMapping.Target, manifestAssetMapping.Path, this);
                 textures[manifestAssetMapping.Path] = null;
             }
         }
@@ -93,10 +93,11 @@ namespace H3VR.Sideloader
         {
             if (!FileExists(path))
                 throw new FileNotFoundException($"`{path}` does not exist in {Name}");
+            var entry = Archive.GetEntry(path);
             using var stream = Archive != null
-                ? Archive.GetInputStream(Archive.GetEntry(path))
+                ? Archive.GetInputStream(entry)
                 : File.OpenRead(Path.Combine(ModPath, path));
-            var result = new byte[stream.Length];
+            var result = new byte[entry?.Size ?? stream.Length];
             stream.Read(result, 0, result.Length);
             return result;
         }

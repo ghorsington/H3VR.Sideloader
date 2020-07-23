@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using BepInEx;
 using BepInEx.Logging;
+using ICSharpCode.SharpZipLib.Zip;
 using UnityEngine;
 using XUnity.ResourceRedirector;
 
@@ -16,25 +18,25 @@ namespace H3VR.Sideloader
         internal const string NAME = "H3VR Sideloader";
         internal const string MODS_DIR = "Mods";
 
-        internal static new ManualLogSource Logger;
+        internal new static ManualLogSource Logger;
 
         private static readonly string[] TexturePathSchema =
         {
             "prefabPath",
             "materialName",
-            "materialParameter",
-            "textureName"
+            "textureName",
+            "materialParameter"
         };
 
         private AssetTree textureAssets = new AssetTree(TexturePathSchema.Length);
-        
+
         private void Awake()
         {
+            ZipConstants.DefaultCodePage = Encoding.UTF8.CodePage;
             Logger = base.Logger;
             ResourceRedirection.EnableSyncOverAsyncAssetLoads();
             ResourceRedirection.RegisterAssetLoadedHook(HookBehaviour.OneCallbackPerResourceLoaded, PatchLoadedBundle);
-            // ResourceRedirection.RegisterAsyncAndSyncAssetLoadingHook(PatchLoadedBundle);k
-            
+
             LoadMods();
         }
 
@@ -45,6 +47,9 @@ namespace H3VR.Sideloader
             var mods = new List<Mod>();
 
             var modsPath = Path.Combine(Paths.GameRootPath, MODS_DIR);
+
+            Directory.CreateDirectory(modsPath);
+
             foreach (var modDir in Directory.GetDirectories(modsPath))
                 try
                 {
@@ -53,7 +58,7 @@ namespace H3VR.Sideloader
                 }
                 catch (Exception e)
                 {
-                    Logger.LogWarning($"Skipping {modDir} because: {e.Message}");
+                    Logger.LogWarning($"Skipping {modDir} because: ({e.GetType()}) {e.Message}");
                 }
 
             foreach (var file in Directory.GetFiles(modsPath, "*.h3mod", SearchOption.TopDirectoryOnly))
@@ -64,44 +69,54 @@ namespace H3VR.Sideloader
                 }
                 catch (Exception e)
                 {
-                    Logger.LogWarning($"Skipping {file} because: {e.Message}");
+                    Logger.LogWarning($"Skipping {file} because: ({e.GetType()}) {e.Message}");
                 }
-            
+
             // TODO: Sanity checking etc
-            foreach (var mod in mods)
-            {
-                mod.RegisterTreeAssets(textureAssets, AssetType.Texture);
-            }
+            foreach (var mod in mods) mod.RegisterTreeAssets(textureAssets, AssetType.Texture);
+
+            Logger.LogInfo($"Loaded {mods.Count} mods!");
         }
 
         private void PatchLoadedBundle(AssetLoadedContext ctx)
         {
-            Logger.LogDebug(
-                $"Loaded asset {ctx.Parameters.Name} from {ctx.GetAssetBundlePath()} (normalized: {ctx.GetNormalizedAssetBundlePath()})");
-            
-            
             foreach (var obj in ctx.Assets)
             {
                 var path = ctx.GetUniqueFileSystemAssetPath(obj);
                 if (!(obj is GameObject go)) continue;
-                var meshRenderers = go.GetComponentsInChildren<MeshRenderer>();
-                foreach (var meshRenderer in meshRenderers)
+                ReplaceTextures(go, path);
+            }
+        }
+
+        private void ReplaceTextures(GameObject go, string path)
+        {
+            var meshRenderers = go.GetComponentsInChildren<MeshRenderer>();
+            foreach (var meshRenderer in meshRenderers)
+            {
+                var materials = meshRenderer.materials;
+                if (materials == null)
+                    continue;
+                foreach (var material in materials)
                 {
-                    var materials = meshRenderer.materials;
-                    foreach (var material in materials)
+                    var materialName = material.name;
+                    if (material.mainTexture == null)
+                        continue;
+                    var textureName = material.mainTexture.name;
+                    var nodes = textureAssets.Find(path, materialName, textureName);
+                    if (nodes.Length == 0)
+                        continue;
+                    // TODO: Remove duplicates to prevent duplicate loading
+                    foreach (var modNode in nodes)
                     {
-                        var materialName = material.name;
-                        var textureName = material.mainTexture.name;
-                        Logger.LogDebug($"Trying to resolve `{path}:{materialName}:_MainTexture:{textureName}`");
-                        var mod = textureAssets.Find(path, materialName, "_MainTexture", textureName);
-                        if (mod == null)
-                            continue;
-                        var tex = mod.Mod.LoadTexture(mod.FullPath);
-                        if (tex != null)
+                        var tex = modNode.Mod.LoadTexture(modNode.FullPath);
+                        if (modNode.Path == null)
                             material.mainTexture = tex;
+                        else
+                            material.SetTexture(modNode.Path, tex);
                     }
-                    meshRenderer.materials = materials;
                 }
+
+                meshRenderer.materials = materials;
             }
         }
     }
