@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using BepInEx;
+using BepInEx.Logging;
 using XUnity.ResourceRedirector;
 
 namespace H3VR.Sideloader
@@ -12,10 +13,23 @@ namespace H3VR.Sideloader
     {
         internal const string VERSION = "1.0.0";
         internal const string NAME = "H3VR Sideloader";
-        internal const string ModsDir = "Mods";
+        internal const string MODS_DIR = "Mods";
 
+        internal static new ManualLogSource Logger;
+
+        private static readonly string[] TexturePathSchema =
+        {
+            "prefabPath",
+            "materialName",
+            "materialParameter",
+            "textureName"
+        };
+
+        private AssetTree textureAssets = new AssetTree(TexturePathSchema.Length);
+        
         private void Awake()
         {
+            Logger = base.Logger;
             ResourceRedirection.EnableSyncOverAsyncAssetLoads();
             ResourceRedirection.RegisterAsyncAndSyncAssetLoadingHook(PatchLoadedBundle);
             
@@ -28,7 +42,7 @@ namespace H3VR.Sideloader
 
             var mods = new List<Mod>();
 
-            var modsPath = Path.Combine(Paths.GameRootPath, ModsDir);
+            var modsPath = Path.Combine(Paths.GameRootPath, MODS_DIR);
             foreach (var modDir in Directory.GetDirectories(modsPath))
                 try
                 {
@@ -50,6 +64,12 @@ namespace H3VR.Sideloader
                 {
                     Logger.LogWarning($"Skipping {file} because: {e.Message}");
                 }
+            
+            // TODO: Sanity checking etc
+            foreach (var mod in mods)
+            {
+                mod.RegisterTreeAssets(textureAssets, AssetType.Texture);
+            }
         }
 
         private void PatchLoadedBundle(IAssetLoadingContext ctx)
