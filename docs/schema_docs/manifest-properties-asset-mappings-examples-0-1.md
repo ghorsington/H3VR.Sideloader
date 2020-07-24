@@ -1,7 +1,7 @@
 # Untitled Material in The root schema Schema
 
 ```txt
-https://coder.horse/h3vr/manifest_schema.json#/properties/assetMappings/examples/0/1
+https://coder.horse/h3vr/manifest.schema.json#/properties/assetMappings/examples/0/1
 ```
 
 

@@ -1,7 +1,7 @@
 # Unique ID of the mod Schema
 
 ```txt
-https://coder.horse/h3vr/manifest_schema.json#/properties/guid
+https://coder.horse/h3vr/manifest.schema.json#/properties/guid
 ```
 
 GUID of the mod. Must be unique and must have no whitespaces. Preferably should follow reverse domain notation.

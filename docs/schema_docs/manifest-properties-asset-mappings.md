@@ -1,7 +1,7 @@
 # Asset mappings Schema
 
 ```txt
-https://coder.horse/h3vr/manifest_schema.json#/properties/assetMappings
+https://coder.horse/h3vr/manifest.schema.json#/properties/assetMappings
 ```
 
 An array of mapping objects that describe how to map each in-game asset to an asset defined in the mod

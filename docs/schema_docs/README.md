@@ -2,13 +2,13 @@
 
 ## Top-level Schemas
 
--   [The root schema](./manifest.md "The root schema comprises the entire JSON document") – `https://coder.horse/h3vr/manifest_schema.json`
+-   [The root schema](./manifest.md "The root schema comprises the entire JSON document") – `https://coder.horse/h3vr/manifest.schema.json`
 
 ## Other Schemas
 
 ### Objects
 
--   [Asset mappings](./manifest-properties-asset-mappings.md "An array of mapping objects that describe how to map each in-game asset to an asset defined in the mod") – `https://coder.horse/h3vr/manifest_schema.json#/properties/assetMappings`
+-   [Asset mappings](./manifest-properties-asset-mappings.md "An array of mapping objects that describe how to map each in-game asset to an asset defined in the mod") – `https://coder.horse/h3vr/manifest.schema.json#/properties/assetMappings`
 
 ### Arrays
 

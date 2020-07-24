@@ -1,7 +1,7 @@
 # Untitled undefined type in The root schema Schema
 
 ```txt
-https://coder.horse/h3vr/manifest_schema.json#/default
+https://coder.horse/h3vr/manifest.schema.json#/default
 ```
 
 

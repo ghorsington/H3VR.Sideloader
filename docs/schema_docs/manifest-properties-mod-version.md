@@ -1,7 +1,7 @@
 # Mod version Schema
 
 ```txt
-https://coder.horse/h3vr/manifest_schema.json#/properties/version
+https://coder.horse/h3vr/manifest.schema.json#/properties/version
 ```
 
 Version of the mod

@@ -1,7 +1,7 @@
 # Name of the mod Schema
 
 ```txt
-https://coder.horse/h3vr/manifest_schema.json#/properties/name
+https://coder.horse/h3vr/manifest.schema.json#/properties/name
 ```
 
 Name of the mod. Doesn't have to be unique, but must have some text.

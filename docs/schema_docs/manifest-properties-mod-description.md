@@ -1,7 +1,7 @@
 # Mod description Schema
 
 ```txt
-https://coder.horse/h3vr/manifest_schema.json#/properties/description
+https://coder.horse/h3vr/manifest.schema.json#/properties/description
 ```
 
 Optional description of the mod.

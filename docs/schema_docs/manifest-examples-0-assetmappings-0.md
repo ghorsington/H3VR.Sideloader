@@ -1,7 +1,7 @@
 # Untitled Mesh in The root schema Schema
 
 ```txt
-https://coder.horse/h3vr/manifest_schema.json#/examples/0/assetMappings/0
+https://coder.horse/h3vr/manifest.schema.json#/examples/0/assetMappings/0
 ```
 
 

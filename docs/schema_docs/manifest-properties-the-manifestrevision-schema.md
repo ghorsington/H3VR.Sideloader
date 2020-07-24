@@ -1,7 +1,7 @@
 # The manifestRevision schema Schema
 
 ```txt
-https://coder.horse/h3vr/manifest_schema.json#/properties/manifestRevision
+https://coder.horse/h3vr/manifest.schema.json#/properties/manifestRevision
 ```
 
 Revision of the manifest format. The value must be always specific!
