@@ -72,7 +72,7 @@
                 "1.0.0"
             ],
             "title": "Mod version",
-            "pattern": "\\d+\\.\\d+(\\.\\d)?"
+            "pattern": "\\d+\\.\\d+(\\.\\d+)?"
         },
         "description": {
             "description": "Optional description of the mod.",

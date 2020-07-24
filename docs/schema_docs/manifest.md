@@ -158,10 +158,10 @@ Version of the mod
 **pattern**: the string must match the following regular expression: 
 
 ```regexp
-\d+\.\d+(\.\d)?
+\d+\.\d+(\.\d+)?
 ```
 
-[try pattern](https://regexr.com/?expression=%5Cd%2B%5C.%5Cd%2B(%5C.%5Cd)%3F "try regular expression with regexr.com")
+[try pattern](https://regexr.com/?expression=%5Cd%2B%5C.%5Cd%2B(%5C.%5Cd%2B)%3F "try regular expression with regexr.com")
 
 ### version Examples
 
