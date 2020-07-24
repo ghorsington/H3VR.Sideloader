@@ -9,7 +9,7 @@ The root schema comprises the entire JSON document.
 
 | Abstract            | Extensible | Status         | Identifiable | Custom Properties | Additional Properties | Access Restrictions | Defined In                                                                 |
 | :------------------ | ---------- | -------------- | ------------ | :---------------- | --------------------- | ------------------- | -------------------------------------------------------------------------- |
-| Can be instantiated | No         | Unknown status | No           | Forbidden         | Allowed               | none                | [manifest.schema.json](../out/manifest.schema.json "open original schema") |
+| Can be instantiated | No         | Unknown status | No           | Forbidden         | Forbidden             | none                | [manifest.schema.json](../out/manifest.schema.json "open original schema") |
 
 ## The root schema Type
 
@@ -54,15 +54,14 @@ The default value is:
 
 # The root schema Properties
 
-| Property                              | Type          | Required | Nullable       | Defined by                                                                                                                                              |
-| :------------------------------------ | ------------- | -------- | -------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| [manifestRevision](#manifestRevision) | Not specified | Required | cannot be null | [The root schema](manifest-properties-the-manifestrevision-schema.md "https&#x3A;//coder.horse/h3vr/manifest_schema.json#/properties/manifestRevision") |
-| [guid](#guid)                         | Not specified | Required | cannot be null | [The root schema](manifest-properties-unique-id-of-the-mod.md "https&#x3A;//coder.horse/h3vr/manifest_schema.json#/properties/guid")                    |
-| [name](#name)                         | Not specified | Required | cannot be null | [The root schema](manifest-properties-name-of-the-mod.md "https&#x3A;//coder.horse/h3vr/manifest_schema.json#/properties/name")                         |
-| [version](#version)                   | Not specified | Required | cannot be null | [The root schema](manifest-properties-mod-version.md "https&#x3A;//coder.horse/h3vr/manifest_schema.json#/properties/version")                          |
-| [description](#description)           | Not specified | Optional | cannot be null | [The root schema](manifest-properties-mod-description.md "https&#x3A;//coder.horse/h3vr/manifest_schema.json#/properties/description")                  |
-| [assetMappings](#assetMappings)       | Not specified | Required | cannot be null | [The root schema](manifest-properties-asset-mappings.md "https&#x3A;//coder.horse/h3vr/manifest_schema.json#/properties/assetMappings")                 |
-| Additional Properties                 | Any           | Optional | can be null    |                                                                                                                                                         |
+| Property                              | Type     | Required | Nullable       | Defined by                                                                                                                                              |
+| :------------------------------------ | -------- | -------- | -------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| [manifestRevision](#manifestRevision) | `string` | Required | cannot be null | [The root schema](manifest-properties-the-manifestrevision-schema.md "https&#x3A;//coder.horse/h3vr/manifest_schema.json#/properties/manifestRevision") |
+| [guid](#guid)                         | `string` | Required | cannot be null | [The root schema](manifest-properties-unique-id-of-the-mod.md "https&#x3A;//coder.horse/h3vr/manifest_schema.json#/properties/guid")                    |
+| [name](#name)                         | `string` | Required | cannot be null | [The root schema](manifest-properties-name-of-the-mod.md "https&#x3A;//coder.horse/h3vr/manifest_schema.json#/properties/name")                         |
+| [version](#version)                   | `string` | Required | cannot be null | [The root schema](manifest-properties-mod-version.md "https&#x3A;//coder.horse/h3vr/manifest_schema.json#/properties/version")                          |
+| [description](#description)           | `string` | Optional | cannot be null | [The root schema](manifest-properties-mod-description.md "https&#x3A;//coder.horse/h3vr/manifest_schema.json#/properties/description")                  |
+| [assetMappings](#assetMappings)       | `object` | Required | cannot be null | [The root schema](manifest-properties-asset-mappings.md "https&#x3A;//coder.horse/h3vr/manifest_schema.json#/properties/assetMappings")                 |
 
 ## manifestRevision
 
@@ -72,13 +71,13 @@ Revision of the manifest format. The value must be always specific!
 `manifestRevision`
 
 -   is required
--   Type: unknown ([The manifestRevision schema](manifest-properties-the-manifestrevision-schema.md))
+-   Type: `string` ([The manifestRevision schema](manifest-properties-the-manifestrevision-schema.md))
 -   cannot be null
 -   defined in: [The root schema](manifest-properties-the-manifestrevision-schema.md "https&#x3A;//coder.horse/h3vr/manifest_schema.json#/properties/manifestRevision")
 
 ### manifestRevision Type
 
-unknown ([The manifestRevision schema](manifest-properties-the-manifestrevision-schema.md))
+`string` ([The manifestRevision schema](manifest-properties-the-manifestrevision-schema.md))
 
 ### manifestRevision Constraints
 
@@ -102,13 +101,13 @@ GUID of the mod. Must be unique and must have no whitespaces. Preferably should 
 `guid`
 
 -   is required
--   Type: unknown ([Unique ID of the mod](manifest-properties-unique-id-of-the-mod.md))
+-   Type: `string` ([Unique ID of the mod](manifest-properties-unique-id-of-the-mod.md))
 -   cannot be null
 -   defined in: [The root schema](manifest-properties-unique-id-of-the-mod.md "https&#x3A;//coder.horse/h3vr/manifest_schema.json#/properties/guid")
 
 ### guid Type
 
-unknown ([Unique ID of the mod](manifest-properties-unique-id-of-the-mod.md))
+`string` ([Unique ID of the mod](manifest-properties-unique-id-of-the-mod.md))
 
 ### guid Examples
 
@@ -124,13 +123,13 @@ Name of the mod. Doesn't have to be unique, but must have some text.
 `name`
 
 -   is required
--   Type: unknown ([Name of the mod](manifest-properties-name-of-the-mod.md))
+-   Type: `string` ([Name of the mod](manifest-properties-name-of-the-mod.md))
 -   cannot be null
 -   defined in: [The root schema](manifest-properties-name-of-the-mod.md "https&#x3A;//coder.horse/h3vr/manifest_schema.json#/properties/name")
 
 ### name Type
 
-unknown ([Name of the mod](manifest-properties-name-of-the-mod.md))
+`string` ([Name of the mod](manifest-properties-name-of-the-mod.md))
 
 ### name Examples
 
@@ -146,13 +145,13 @@ Version of the mod
 `version`
 
 -   is required
--   Type: unknown ([Mod version](manifest-properties-mod-version.md))
+-   Type: `string` ([Mod version](manifest-properties-mod-version.md))
 -   cannot be null
 -   defined in: [The root schema](manifest-properties-mod-version.md "https&#x3A;//coder.horse/h3vr/manifest_schema.json#/properties/version")
 
 ### version Type
 
-unknown ([Mod version](manifest-properties-mod-version.md))
+`string` ([Mod version](manifest-properties-mod-version.md))
 
 ### version Constraints
 
@@ -178,13 +177,13 @@ Optional description of the mod.
 `description`
 
 -   is optional
--   Type: unknown ([Mod description](manifest-properties-mod-description.md))
+-   Type: `string` ([Mod description](manifest-properties-mod-description.md))
 -   cannot be null
 -   defined in: [The root schema](manifest-properties-mod-description.md "https&#x3A;//coder.horse/h3vr/manifest_schema.json#/properties/description")
 
 ### description Type
 
-unknown ([Mod description](manifest-properties-mod-description.md))
+`string` ([Mod description](manifest-properties-mod-description.md))
 
 ### description Examples
 
@@ -200,13 +199,13 @@ An array of mapping objects that describe how to map each in-game asset to an as
 `assetMappings`
 
 -   is required
--   Type: unknown ([Asset mappings](manifest-properties-asset-mappings.md))
+-   Type: `object` ([Asset mappings](manifest-properties-asset-mappings.md))
 -   cannot be null
 -   defined in: [The root schema](manifest-properties-asset-mappings.md "https&#x3A;//coder.horse/h3vr/manifest_schema.json#/properties/assetMappings")
 
 ### assetMappings Type
 
-unknown ([Asset mappings](manifest-properties-asset-mappings.md))
+`object` ([Asset mappings](manifest-properties-asset-mappings.md))
 
 ### assetMappings Examples
 
@@ -224,7 +223,3 @@ unknown ([Asset mappings](manifest-properties-asset-mappings.md))
   }
 ]
 ```
-
-## Additional Properties
-
-Additional properties are allowed and do not have to follow a specific schema

@@ -13,7 +13,7 @@ Target string is a collection of substrings separated by `:`. The strings define
 
 ## target Type
 
-unknown ([Target string that describes how to find the in-game asset to replace](manifest-properties-asset-mappings-items-anyof-an-asset-mapping-properties-target-string-that-describes-how-to-find-the-in-game-asset-to-replace.md))
+`string` ([Target string that describes how to find the in-game asset to replace](manifest-properties-asset-mappings-items-anyof-an-asset-mapping-properties-target-string-that-describes-how-to-find-the-in-game-asset-to-replace.md))
 
 ## target Examples
 

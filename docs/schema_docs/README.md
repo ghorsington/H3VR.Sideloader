@@ -8,11 +8,11 @@
 
 ### Objects
 
-
+-   [Asset mappings](./manifest-properties-asset-mappings.md "An array of mapping objects that describe how to map each in-game asset to an asset defined in the mod") – `https://coder.horse/h3vr/manifest_schema.json#/properties/assetMappings`
 
 ### Arrays
 
-
+-   [Untitled array in The root schema](./manifest-properties-asset-mappings-items.md) – `#/properties/assetMappings/items#/properties/assetMappings/items`
 
 ## Version Note
 

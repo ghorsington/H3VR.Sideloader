@@ -13,7 +13,7 @@ Name of the mod. Doesn't have to be unique, but must have some text.
 
 ## name Type
 
-unknown ([Name of the mod](manifest-properties-name-of-the-mod.md))
+`string` ([Name of the mod](manifest-properties-name-of-the-mod.md))
 
 ## name Examples
 

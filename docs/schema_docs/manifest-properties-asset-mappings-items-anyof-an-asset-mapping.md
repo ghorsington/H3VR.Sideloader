@@ -30,8 +30,8 @@ unknown ([An asset mapping](manifest-properties-asset-mappings-items-anyof-an-as
 | Property              | Type          | Required | Nullable       | Defined by                                                                                                                                                                                                                                                           |
 | :-------------------- | ------------- | -------- | -------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | [type](#type)         | Not specified | Required | cannot be null | [The root schema](manifest-properties-asset-mappings-items-anyof-an-asset-mapping-properties-type-of-the-mapping.md "\#/properties/assetMappings/items#/properties/assetMappings/items/anyOf/0/properties/type")                                                     |
-| [target](#target)     | Not specified | Required | cannot be null | [The root schema](manifest-properties-asset-mappings-items-anyof-an-asset-mapping-properties-target-string-that-describes-how-to-find-the-in-game-asset-to-replace.md "\#/properties/assetMappings/items#/properties/assetMappings/items/anyOf/0/properties/target") |
-| [path](#path)         | Not specified | Required | cannot be null | [The root schema](manifest-properties-asset-mappings-items-anyof-an-asset-mapping-properties-path-to-replacement-asset.md "\#/properties/assetMappings/items#/properties/assetMappings/items/anyOf/0/properties/path")                                               |
+| [target](#target)     | `string`      | Required | cannot be null | [The root schema](manifest-properties-asset-mappings-items-anyof-an-asset-mapping-properties-target-string-that-describes-how-to-find-the-in-game-asset-to-replace.md "\#/properties/assetMappings/items#/properties/assetMappings/items/anyOf/0/properties/target") |
+| [path](#path)         | `string`      | Required | cannot be null | [The root schema](manifest-properties-asset-mappings-items-anyof-an-asset-mapping-properties-path-to-replacement-asset.md "\#/properties/assetMappings/items#/properties/assetMappings/items/anyOf/0/properties/path")                                               |
 | Additional Properties | Any           | Optional | can be null    |                                                                                                                                                                                                                                                                      |
 
 ## type
@@ -75,13 +75,13 @@ Target string is a collection of substrings separated by `:`. The strings define
 `target`
 
 -   is required
--   Type: unknown ([Target string that describes how to find the in-game asset to replace](manifest-properties-asset-mappings-items-anyof-an-asset-mapping-properties-target-string-that-describes-how-to-find-the-in-game-asset-to-replace.md))
+-   Type: `string` ([Target string that describes how to find the in-game asset to replace](manifest-properties-asset-mappings-items-anyof-an-asset-mapping-properties-target-string-that-describes-how-to-find-the-in-game-asset-to-replace.md))
 -   cannot be null
 -   defined in: [The root schema](manifest-properties-asset-mappings-items-anyof-an-asset-mapping-properties-target-string-that-describes-how-to-find-the-in-game-asset-to-replace.md "\#/properties/assetMappings/items#/properties/assetMappings/items/anyOf/0/properties/target")
 
 ### target Type
 
-unknown ([Target string that describes how to find the in-game asset to replace](manifest-properties-asset-mappings-items-anyof-an-asset-mapping-properties-target-string-that-describes-how-to-find-the-in-game-asset-to-replace.md))
+`string` ([Target string that describes how to find the in-game asset to replace](manifest-properties-asset-mappings-items-anyof-an-asset-mapping-properties-target-string-that-describes-how-to-find-the-in-game-asset-to-replace.md))
 
 ### target Examples
 
@@ -97,13 +97,13 @@ Path to an asset inside the mod (relative to mod's directory) that will be used 
 `path`
 
 -   is required
--   Type: unknown ([Path to replacement asset](manifest-properties-asset-mappings-items-anyof-an-asset-mapping-properties-path-to-replacement-asset.md))
+-   Type: `string` ([Path to replacement asset](manifest-properties-asset-mappings-items-anyof-an-asset-mapping-properties-path-to-replacement-asset.md))
 -   cannot be null
 -   defined in: [The root schema](manifest-properties-asset-mappings-items-anyof-an-asset-mapping-properties-path-to-replacement-asset.md "\#/properties/assetMappings/items#/properties/assetMappings/items/anyOf/0/properties/path")
 
 ### path Type
 
-unknown ([Path to replacement asset](manifest-properties-asset-mappings-items-anyof-an-asset-mapping-properties-path-to-replacement-asset.md))
+`string` ([Path to replacement asset](manifest-properties-asset-mappings-items-anyof-an-asset-mapping-properties-path-to-replacement-asset.md))
 
 ### path Examples
 

@@ -13,7 +13,7 @@ Optional description of the mod.
 
 ## description Type
 
-unknown ([Mod description](manifest-properties-mod-description.md))
+`string` ([Mod description](manifest-properties-mod-description.md))
 
 ## description Examples
 

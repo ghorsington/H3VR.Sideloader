@@ -13,7 +13,7 @@ GUID of the mod. Must be unique and must have no whitespaces. Preferably should 
 
 ## guid Type
 
-unknown ([Unique ID of the mod](manifest-properties-unique-id-of-the-mod.md))
+`string` ([Unique ID of the mod](manifest-properties-unique-id-of-the-mod.md))
 
 ## guid Examples
 

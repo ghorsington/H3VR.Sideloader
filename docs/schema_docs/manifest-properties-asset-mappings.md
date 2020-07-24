@@ -13,7 +13,7 @@ An array of mapping objects that describe how to map each in-game asset to an as
 
 ## assetMappings Type
 
-unknown ([Asset mappings](manifest-properties-asset-mappings.md))
+`object` ([Asset mappings](manifest-properties-asset-mappings.md))
 
 ## assetMappings Examples
 

@@ -13,7 +13,7 @@ Path to an asset inside the mod (relative to mod's directory) that will be used 
 
 ## path Type
 
-unknown ([Path to replacement asset](manifest-properties-asset-mappings-items-anyof-an-asset-mapping-properties-path-to-replacement-asset.md))
+`string` ([Path to replacement asset](manifest-properties-asset-mappings-items-anyof-an-asset-mapping-properties-path-to-replacement-asset.md))
 
 ## path Examples
 

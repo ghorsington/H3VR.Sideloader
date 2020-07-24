@@ -41,6 +41,7 @@
     "properties": {
         "manifestRevision": {
             "description": "Revision of the manifest format. The value must be always specific!",
+            "type": "string",
             "examples": [
                 "1"
             ],
@@ -49,6 +50,7 @@
         },
         "guid": {
             "description": "GUID of the mod. Must be unique and must have no whitespaces. Preferably should follow reverse domain notation.",
+            "type": "string",
             "examples": [
                 "horse.coder.asset_test"
             ],
@@ -57,6 +59,7 @@
         },
         "name": {
             "description": "Name of the mod. Doesn't have to be unique, but must have some text.",
+            "type": "string",
             "examples": [
                 "My cool mod!"
             ],
@@ -64,6 +67,7 @@
         },
         "version": {
             "description": "Version of the mod",
+            "type": "string",
             "examples": [
                 "1.0.0"
             ],
@@ -72,6 +76,7 @@
         },
         "description": {
             "description": "Optional description of the mod.",
+            "type": "string",
             "examples": [
                 "My cool mod!"
             ],
@@ -79,6 +84,7 @@
         },
         "assetMappings": {
             "description": "An array of mapping objects that describe how to map each in-game asset to an asset defined in the mod",
+            "type": "object",
             "examples": [
                 [
                     {
@@ -97,6 +103,7 @@
             "additionalItems": true,
             "items": {
                 "$id": "#/properties/assetMappings/items",
+                "type": "array",
                 "anyOf": [
                     {
                         "description": "A single mapping of an in-game asset to the asset defined in the mod",
@@ -128,8 +135,8 @@
                                 ]
                             },
                             "target": {
-                                "default": "",
                                 "description": "Target string is a collection of substrings separated by `:`. The strings define a path to the actual object to replace. The contents depend on the target value, so consult the docs for this property's value.",
+                                "type": "string",
                                 "examples": [
                                     "h3vr_data\\streamingassets\\assets_resources_objectids_weaponry_smg\\thompsonm1a1_magazine:magazine_30Round"
                                 ],
@@ -137,6 +144,7 @@
                             },
                             "path": {
                                 "description": "Path to an asset inside the mod (relative to mod's directory) that will be used to replace the original assset. Consult the docs for more info.",
+                                "type": "string",
                                 "examples": [
                                     "carrot:assets\\sosig_melee_crowbar.asset"
                                 ],
@@ -149,5 +157,5 @@
             }
         }
     },
-    "additionalProperties": true
+    "additionalProperties": false
 }

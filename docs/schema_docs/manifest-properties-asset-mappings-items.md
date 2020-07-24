@@ -1,4 +1,4 @@
-# Untitled undefined type in The root schema Schema
+# Untitled array in The root schema Schema
 
 ```txt
 #/properties/assetMappings/items#/properties/assetMappings/items
@@ -13,7 +13,7 @@
 
 ## items Type
 
-merged type ([Details](manifest-properties-asset-mappings-items.md))
+`array` ([Details](manifest-properties-asset-mappings-items.md))
 
 any of
 

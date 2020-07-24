@@ -13,7 +13,7 @@ Revision of the manifest format. The value must be always specific!
 
 ## manifestRevision Type
 
-unknown ([The manifestRevision schema](manifest-properties-the-manifestrevision-schema.md))
+`string` ([The manifestRevision schema](manifest-properties-the-manifestrevision-schema.md))
 
 ## manifestRevision Constraints
 

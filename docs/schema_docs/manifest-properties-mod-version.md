@@ -13,7 +13,7 @@ Version of the mod
 
 ## version Type
 
-unknown ([Mod version](manifest-properties-mod-version.md))
+`string` ([Mod version](manifest-properties-mod-version.md))
 
 ## version Constraints
 
