@@ -89,6 +89,11 @@ namespace H3VR.Sideloader
             return tex;
         }
 
+        public Material LoadMaterial(string path)
+        {
+            return null;
+        }
+
         private byte[] LoadBytes(string path)
         {
             if (!FileExists(path))

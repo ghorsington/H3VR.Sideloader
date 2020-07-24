@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using BepInEx;
 using BepInEx.Logging;
@@ -27,8 +28,15 @@ namespace H3VR.Sideloader
             "textureName",
             "materialParameter"
         };
+        
+        private static readonly string[] MaterialPathSchema =
+        {
+            "prefabPath",
+            "materialName"
+        };
 
         private AssetTree textureAssets = new AssetTree(TexturePathSchema.Length);
+        private AssetTree materialAssets = new AssetTree(MaterialPathSchema.Length);
 
         private void Awake()
         {
@@ -73,7 +81,11 @@ namespace H3VR.Sideloader
                 }
 
             // TODO: Sanity checking etc
-            foreach (var mod in mods) mod.RegisterTreeAssets(textureAssets, AssetType.Texture);
+            foreach (var mod in mods)
+            {
+                mod.RegisterTreeAssets(textureAssets, AssetType.Texture);
+                mod.RegisterTreeAssets(materialAssets, AssetType.Material);
+            } 
 
             Logger.LogInfo($"Loaded {mods.Count} mods!");
         }
@@ -84,11 +96,11 @@ namespace H3VR.Sideloader
             {
                 var path = ctx.GetUniqueFileSystemAssetPath(obj);
                 if (!(obj is GameObject go)) continue;
-                ReplaceTextures(go, path);
+                ReplaceTexturesMaterials(go, path);
             }
         }
 
-        private void ReplaceTextures(GameObject go, string path)
+        private void ReplaceTexturesMaterials(GameObject go, string path)
         {
             var meshRenderers = go.GetComponentsInChildren<MeshRenderer>();
             foreach (var meshRenderer in meshRenderers)
@@ -96,9 +108,18 @@ namespace H3VR.Sideloader
                 var materials = meshRenderer.materials;
                 if (materials == null)
                     continue;
-                foreach (var material in materials)
+                for (var index = 0; index < materials.Length; index++)
                 {
+                    var material = materials[index];
                     var materialName = material.name;
+
+                    // Materials come before texture replacements
+                    var materialMod = materialAssets.Find(path, materialName).FirstOrDefault();
+                    if (materialMod != null)
+                    {
+                        materials[index] = material = materialMod.Mod.LoadMaterial(materialMod.FullPath);
+                    }
+
                     if (material.mainTexture == null)
                         continue;
                     var textureName = material.mainTexture.name;
