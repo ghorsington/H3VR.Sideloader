@@ -111,15 +111,17 @@ namespace H3VR.Sideloader
                 for (var index = 0; index < materials.Length; index++)
                 {
                     var material = materials[index];
-                    var materialName = material.name;
-
+                    var materialName = material.name.Replace(" (Instance)", "");
+                    
+                    Logger.LogDebug($"Resolving material {path}:{materialName}");
                     // Materials come before texture replacements
                     var materialMod = materialAssets.Find(path, materialName).FirstOrDefault();
                     if (materialMod != null)
                     {
                         materials[index] = material = materialMod.Mod.LoadMaterial(materialMod.FullPath);
                     }
-
+                    
+                    // Finally, replace textures
                     if (material.mainTexture == null)
                         continue;
                     var textureName = material.mainTexture.name;

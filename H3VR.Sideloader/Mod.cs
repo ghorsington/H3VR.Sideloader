@@ -18,6 +18,8 @@ namespace H3VR.Sideloader
         public string Name => $"{Manifest.Name} {Manifest.Version}";
 
         private Dictionary<string, Texture2D> textures = new Dictionary<string, Texture2D>();
+        private Dictionary<string, Material> materials = new Dictionary<string, Material>();
+        private Dictionary<string, AssetBundle> assetBundles = new Dictionary<string, AssetBundle>();
 
         public static Mod LoadFromDir(string path)
         {
@@ -69,7 +71,7 @@ namespace H3VR.Sideloader
         {
             foreach (var manifestAssetMapping in Manifest.AssetMappings.Where(m => m.Type == type))
             {
-                if (!FileExists(manifestAssetMapping.Path))
+                if (!FileExists(ResolveCombinedPath(manifestAssetMapping.Path, out _)))
                     Sideloader.Logger.LogWarning(
                         $"[{Name}] Asset `{manifestAssetMapping.Path}` of type `{type}` does not exist in the mod, skipping...");
                 tree.AddMod(manifestAssetMapping.Target, manifestAssetMapping.Path, this);
@@ -91,14 +93,31 @@ namespace H3VR.Sideloader
 
         public Material LoadMaterial(string path)
         {
-            return null;
+            Sideloader.Logger.LogDebug($"Loading material from {path}");
+            if (materials.TryGetValue(path, out var material))
+                return material;
+            var filePath = ResolveCombinedPath(path, out var assetPath);
+            if (!assetBundles.TryGetValue(filePath, out var assetBundle))
+                assetBundle = assetBundles[filePath] = AssetBundle.LoadFromMemory(LoadBytes(filePath));
+            material = materials[path] = assetBundle.LoadAsset<Material>(assetPath);
+            return material;
+        }
+
+        private string ResolveCombinedPath(string path, out string assetPath)
+        {
+            assetPath = null;
+            var parts = path.Split(new[] {':'}, StringSplitOptions.RemoveEmptyEntries);
+            if (parts.Length == 0)
+               return null;
+            assetPath = parts.Length >= 2 ? parts[parts.Length - 1] : null;
+            return parts[0];
         }
 
         private byte[] LoadBytes(string path)
         {
             if (!FileExists(path))
                 throw new FileNotFoundException($"`{path}` does not exist in {Name}");
-            var entry = Archive.GetEntry(path);
+            var entry = Archive?.GetEntry(path);
             using var stream = Archive != null
                 ? Archive.GetInputStream(entry)
                 : File.OpenRead(Path.Combine(ModPath, path));
