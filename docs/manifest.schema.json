@@ -1,0 +1,153 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "https://coder.horse/h3vr/manifest_schema.json",
+    "type": "object",
+    "title": "The root schema",
+    "description": "The root schema comprises the entire JSON document.",
+    "default": {},
+    "examples": [
+        {
+            "manifestRevision": "1",
+            "guid": "horse.coder.asset_test",
+            "name": "Carrot Thompson Mesh",
+            "version": "1.0.0",
+            "description": "My cool mod!",
+            "assetMappings": [
+                {
+                    "type": "Mesh",
+                    "target": "h3vr_data\\streamingassets\\assets_resources_objectids_weaponry_smg\\thompsonm1a1_magazine:magazine_30Round",
+                    "path": "carrot:assets\\sosig_melee_crowbar.asset"
+                },
+                {
+                    "type": "Material",
+                    "target": "h3vr_data\\streamingassets\\assets_resources_objectids_weaponry_smg\\thompsonm1a1:m1a1_BaseColor",
+                    "path": "carrot:assets\\testmaterial.mat"
+                },
+                {
+                    "type": "Prefab",
+                    "target": "h3vr_data\\streamingassets\\assets_resources_objectids_weaponry_smg\\p90",
+                    "path": "carrot:assets\\cube.prefab"
+                }
+            ]
+        }
+    ],
+    "required": [
+        "manifestRevision",
+        "guid",
+        "name",
+        "version",
+        "assetMappings"
+    ],
+    "properties": {
+        "manifestRevision": {
+            "description": "Revision of the manifest format. The value must be always specific!",
+            "examples": [
+                "1"
+            ],
+            "title": "The manifestRevision schema",
+            "const": "1"
+        },
+        "guid": {
+            "description": "GUID of the mod. Must be unique and must have no whitespaces. Preferably should follow reverse domain notation.",
+            "examples": [
+                "horse.coder.asset_test"
+            ],
+            "required": [],
+            "title": "Unique ID of the mod"
+        },
+        "name": {
+            "description": "Name of the mod. Doesn't have to be unique, but must have some text.",
+            "examples": [
+                "My cool mod!"
+            ],
+            "title": "Name of the mod"
+        },
+        "version": {
+            "description": "Version of the mod",
+            "examples": [
+                "1.0.0"
+            ],
+            "title": "Mod version",
+            "pattern": "\\d+\\.\\d+(\\.\\d)?"
+        },
+        "description": {
+            "description": "Optional description of the mod.",
+            "examples": [
+                "My cool mod!"
+            ],
+            "title": "Mod description"
+        },
+        "assetMappings": {
+            "description": "An array of mapping objects that describe how to map each in-game asset to an asset defined in the mod",
+            "examples": [
+                [
+                    {
+                        "type": "Mesh",
+                        "target": "h3vr_data\\streamingassets\\assets_resources_objectids_weaponry_smg\\thompsonm1a1_magazine:magazine_30Round",
+                        "path": "carrot:assets\\sosig_melee_crowbar.asset"
+                    },
+                    {
+                        "type": "Material",
+                        "target": "h3vr_data\\streamingassets\\assets_resources_objectids_weaponry_smg\\thompsonm1a1:m1a1_BaseColor",
+                        "path": "carrot:assets\\testmaterial.mat"
+                    }
+                ]
+            ],
+            "title": "Asset mappings",
+            "additionalItems": true,
+            "items": {
+                "$id": "#/properties/assetMappings/items",
+                "anyOf": [
+                    {
+                        "description": "A single mapping of an in-game asset to the asset defined in the mod",
+                        "examples": [
+                            {
+                                "type": "Mesh",
+                                "target": "h3vr_data\\streamingassets\\assets_resources_objectids_weaponry_smg\\thompsonm1a1_magazine:magazine_30Round",
+                                "path": "carrot:assets\\sosig_melee_crowbar.asset"
+                            }
+                        ],
+                        "required": [
+                            "type",
+                            "target",
+                            "path"
+                        ],
+                        "title": "An asset mapping",
+                        "properties": {
+                            "type": {
+                                "description": "The type of the asset mapping that will tell the loader how to handle the provided asset",
+                                "examples": [
+                                    "Mesh"
+                                ],
+                                "title": "Type of the mapping",
+                                "enum": [
+                                    "Mesh",
+                                    "Prefab",
+                                    "Texture",
+                                    "Material"
+                                ]
+                            },
+                            "target": {
+                                "default": "",
+                                "description": "Target string is a collection of substrings separated by `:`. The strings define a path to the actual object to replace. The contents depend on the target value, so consult the docs for this property's value.",
+                                "examples": [
+                                    "h3vr_data\\streamingassets\\assets_resources_objectids_weaponry_smg\\thompsonm1a1_magazine:magazine_30Round"
+                                ],
+                                "title": "Target string that describes how to find the in-game asset to replace"
+                            },
+                            "path": {
+                                "description": "Path to an asset inside the mod (relative to mod's directory) that will be used to replace the original assset. Consult the docs for more info.",
+                                "examples": [
+                                    "carrot:assets\\sosig_melee_crowbar.asset"
+                                ],
+                                "title": "Path to replacement asset"
+                            }
+                        },
+                        "additionalProperties": true
+                    }
+                ]
+            }
+        }
+    },
+    "additionalProperties": true
+}
