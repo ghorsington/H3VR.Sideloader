@@ -17,7 +17,7 @@ namespace H3VR.Sideloader
     {
         internal const string VERSION = "1.0.0";
         internal const string NAME = "H3VR Sideloader";
-        internal const string MODS_DIR = "Mods";
+        private const string MODS_DIR = "Mods";
 
         internal new static ManualLogSource Logger;
 
@@ -28,13 +28,13 @@ namespace H3VR.Sideloader
             "textureName",
             "materialParameter"
         };
-        
+
         private static readonly string[] MaterialPathSchema =
         {
             "prefabPath",
             "materialName"
         };
-        
+
         private static readonly string[] MeshPathSchema =
         {
             "prefabPath",
@@ -42,10 +42,10 @@ namespace H3VR.Sideloader
             "meshName"
         };
 
-        private AssetTree textureAssets = new AssetTree(TexturePathSchema.Length);
-        private AssetTree materialAssets = new AssetTree(MaterialPathSchema.Length);
-        private AssetTree meshAssets = new AssetTree(MeshPathSchema.Length);
-        private Dictionary<string, Mod> prefabReplacements = new Dictionary<string, Mod>(); 
+        private readonly AssetTree textureAssets = new AssetTree(TexturePathSchema.Length);
+        private readonly AssetTree materialAssets = new AssetTree(MaterialPathSchema.Length);
+        private readonly AssetTree meshAssets = new AssetTree(MeshPathSchema.Length);
+        private readonly Dictionary<string, Mod> prefabReplacements = new Dictionary<string, Mod>();
 
         private void Awake()
         {
@@ -61,11 +61,9 @@ namespace H3VR.Sideloader
         private void ReplacePrefab(IAssetLoadingContext ctx)
         {
             var path = $"{ctx.GetNormalizedAssetBundlePath()}\\{ctx.Parameters.Name}".ToLowerInvariant();
-            
-            Logger.LogInfo($"Loading asset {path}");
+
             if (prefabReplacements.TryGetValue(path, out var mod))
             {
-                Logger.LogInfo($"Replacing {path} with mod {mod.Name}");
                 ctx.Asset = mod.LoadPrefab(path);
                 ctx.Complete(skipAllPostfixes: false);
             }
@@ -132,7 +130,6 @@ namespace H3VR.Sideloader
             {
                 var filterName = meshFilter.name;
                 var meshName = meshFilter.mesh.name.Replace(" Instance", "");
-                Logger.LogInfo($"Resolving mesh {path}:{filterName}:{meshName}");
                 var replacement = meshAssets.Find(path, filterName, meshName).FirstOrDefault();
                 if (replacement != null)
                     meshFilter.mesh = replacement.Mod.LoadMesh(replacement.FullPath);
@@ -151,15 +148,12 @@ namespace H3VR.Sideloader
                 {
                     var material = materials[index];
                     var materialName = material.name.Replace(" (Instance)", "");
-                    
-                    Logger.LogDebug($"Resolving material {path}:{materialName}");
+
                     // Materials come before texture replacements
                     var materialMod = materialAssets.Find(path, materialName).FirstOrDefault();
                     if (materialMod != null)
-                    {
                         materials[index] = material = materialMod.Mod.LoadMaterial(materialMod.FullPath);
-                    }
-                    
+
                     // Finally, replace textures
                     if (material.mainTexture == null)
                         continue;

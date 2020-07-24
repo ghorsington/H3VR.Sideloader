@@ -18,11 +18,11 @@ namespace H3VR.Sideloader
         private ZipFile Archive { get; set; }
         public string Name => $"{Manifest.Name} {Manifest.Version}";
 
-        private Dictionary<string, Texture2D> textures = new Dictionary<string, Texture2D>();
-        private Dictionary<string, Material> materials = new Dictionary<string, Material>();
-        private Dictionary<string, Mesh> meshes = new Dictionary<string, Mesh>();
-        private Dictionary<string, AssetBundle> assetBundles = new Dictionary<string, AssetBundle>();
-        private Dictionary<string, string> prefabPaths = new Dictionary<string, string>();
+        private readonly Dictionary<string, Texture2D> textures = new Dictionary<string, Texture2D>();
+        private readonly Dictionary<string, Material> materials = new Dictionary<string, Material>();
+        private readonly Dictionary<string, Mesh> meshes = new Dictionary<string, Mesh>();
+        private readonly Dictionary<string, AssetBundle> assetBundles = new Dictionary<string, AssetBundle>();
+        private readonly Dictionary<string, string> prefabPaths = new Dictionary<string, string>();
 
         public static Mod LoadFromDir(string path)
         {
@@ -79,14 +79,16 @@ namespace H3VR.Sideloader
                         $"[{Name}] Asset `{manifestAssetMapping.Path}` of type `{AssetType.Prefab}` does not exist in the mod, skipping...");
                 if (mappings.TryGetValue(manifestAssetMapping.Target, out var otherMod))
                 {
-                    Sideloader.Logger.LogWarning($"[{Name}] prefab {manifestAssetMapping.Type} is already being replaced by [{otherMod.Name}], skipping setting prefab replacement.");
+                    Sideloader.Logger.LogWarning(
+                        $"[{Name}] prefab {manifestAssetMapping.Type} is already being replaced by [{otherMod.Name}], skipping setting prefab replacement.");
                     continue;
                 }
+
                 prefabPaths[manifestAssetMapping.Target] = manifestAssetMapping.Path;
                 mappings[manifestAssetMapping.Target] = this;
             }
         }
-        
+
         public void RegisterTreeAssets(AssetTree tree, AssetType type)
         {
             foreach (var manifestAssetMapping in Manifest.AssetMappings.Where(m => m.Type == type))
@@ -124,13 +126,13 @@ namespace H3VR.Sideloader
         {
             return LoadAssetBundleAsset(path, materials);
         }
-        
+
         public Mesh LoadMesh(string path)
         {
             return LoadAssetBundleAsset(path, meshes);
         }
 
-        private T LoadAssetBundleAsset<T>(string path, IDictionary<string, T> assetCache) where T : UnityEngine.Object
+        private T LoadAssetBundleAsset<T>(string path, IDictionary<string, T> assetCache) where T : Object
         {
             Sideloader.Logger.LogDebug($"Loading asset from {path}");
             if (assetCache.TryGetValue(path, out var asset))
@@ -141,13 +143,13 @@ namespace H3VR.Sideloader
             asset = assetCache[path] = assetBundle.LoadAsset<T>(assetPath);
             return asset;
         }
-        
+
         private string ResolveCombinedPath(string path, out string assetPath)
         {
             assetPath = null;
             var parts = path.Split(new[] {':'}, StringSplitOptions.RemoveEmptyEntries);
             if (parts.Length == 0)
-               return null;
+                return null;
             assetPath = parts.Length >= 2 ? parts[parts.Length - 1] : null;
             return parts[0];
         }

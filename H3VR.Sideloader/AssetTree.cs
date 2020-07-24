@@ -9,8 +9,8 @@ namespace H3VR.Sideloader
     {
         public const char PATH_SEPARATOR = ':';
 
-        private PathNode root;
-        private int pathParts;
+        private readonly PathNode root;
+        private readonly int pathParts;
 
         public AssetTree(int pathParts)
         {
