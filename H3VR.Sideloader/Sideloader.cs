@@ -45,6 +45,7 @@ namespace H3VR.Sideloader
         private AssetTree textureAssets = new AssetTree(TexturePathSchema.Length);
         private AssetTree materialAssets = new AssetTree(MaterialPathSchema.Length);
         private AssetTree meshAssets = new AssetTree(MeshPathSchema.Length);
+        private Dictionary<string, Mod> prefabReplacements = new Dictionary<string, Mod>(); 
 
         private void Awake()
         {
@@ -52,8 +53,22 @@ namespace H3VR.Sideloader
             Logger = base.Logger;
             ResourceRedirection.EnableSyncOverAsyncAssetLoads();
             ResourceRedirection.RegisterAssetLoadedHook(HookBehaviour.OneCallbackPerResourceLoaded, PatchLoadedBundle);
+            ResourceRedirection.RegisterAsyncAndSyncAssetLoadingHook(ReplacePrefab);
 
             LoadMods();
+        }
+
+        private void ReplacePrefab(IAssetLoadingContext ctx)
+        {
+            var path = $"{ctx.GetNormalizedAssetBundlePath()}\\{ctx.Parameters.Name}".ToLowerInvariant();
+            
+            Logger.LogInfo($"Loading asset {path}");
+            if (prefabReplacements.TryGetValue(path, out var mod))
+            {
+                Logger.LogInfo($"Replacing {path} with mod {mod.Name}");
+                ctx.Asset = mod.LoadPrefab(path);
+                ctx.Complete(skipAllPostfixes: false);
+            }
         }
 
         private void LoadMods()
@@ -92,7 +107,8 @@ namespace H3VR.Sideloader
                 mod.RegisterTreeAssets(textureAssets, AssetType.Texture);
                 mod.RegisterTreeAssets(materialAssets, AssetType.Material);
                 mod.RegisterTreeAssets(meshAssets, AssetType.Mesh);
-            } 
+                mod.RegisterPrefabReplacements(prefabReplacements);
+            }
 
             Logger.LogInfo($"Loaded {mods.Count} mods!");
         }
@@ -118,7 +134,6 @@ namespace H3VR.Sideloader
                 var meshName = meshFilter.mesh.name.Replace(" Instance", "");
                 Logger.LogInfo($"Resolving mesh {path}:{filterName}:{meshName}");
                 var replacement = meshAssets.Find(path, filterName, meshName).FirstOrDefault();
-                Logger.LogInfo($"Got mesh: {replacement}");
                 if (replacement != null)
                     meshFilter.mesh = replacement.Mod.LoadMesh(replacement.FullPath);
             }

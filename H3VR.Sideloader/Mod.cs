@@ -6,6 +6,7 @@ using System.Text;
 using ICSharpCode.SharpZipLib.Zip;
 using MicroJson;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace H3VR.Sideloader
 {
@@ -21,6 +22,7 @@ namespace H3VR.Sideloader
         private Dictionary<string, Material> materials = new Dictionary<string, Material>();
         private Dictionary<string, Mesh> meshes = new Dictionary<string, Mesh>();
         private Dictionary<string, AssetBundle> assetBundles = new Dictionary<string, AssetBundle>();
+        private Dictionary<string, string> prefabPaths = new Dictionary<string, string>();
 
         public static Mod LoadFromDir(string path)
         {
@@ -68,6 +70,23 @@ namespace H3VR.Sideloader
             };
         }
 
+        public void RegisterPrefabReplacements(Dictionary<string, Mod> mappings)
+        {
+            foreach (var manifestAssetMapping in Manifest.AssetMappings.Where(m => m.Type == AssetType.Prefab))
+            {
+                if (!FileExists(ResolveCombinedPath(manifestAssetMapping.Path, out _)))
+                    Sideloader.Logger.LogWarning(
+                        $"[{Name}] Asset `{manifestAssetMapping.Path}` of type `{AssetType.Prefab}` does not exist in the mod, skipping...");
+                if (mappings.TryGetValue(manifestAssetMapping.Target, out var otherMod))
+                {
+                    Sideloader.Logger.LogWarning($"[{Name}] prefab {manifestAssetMapping.Type} is already being replaced by [{otherMod.Name}], skipping setting prefab replacement.");
+                    continue;
+                }
+                prefabPaths[manifestAssetMapping.Target] = manifestAssetMapping.Path;
+                mappings[manifestAssetMapping.Target] = this;
+            }
+        }
+        
         public void RegisterTreeAssets(AssetTree tree, AssetType type)
         {
             foreach (var manifestAssetMapping in Manifest.AssetMappings.Where(m => m.Type == type))
@@ -78,6 +97,15 @@ namespace H3VR.Sideloader
                 tree.AddMod(manifestAssetMapping.Target, manifestAssetMapping.Path, this);
                 textures[manifestAssetMapping.Path] = null;
             }
+        }
+
+        public GameObject LoadPrefab(string target)
+        {
+            // Specifically don't cache prefabs because they are usually loaded only once per scene anyway
+            if (prefabPaths.TryGetValue(target, out var assetPath))
+                return LoadAssetBundleAsset(assetPath, new Dictionary<string, GameObject>());
+            Sideloader.Logger.LogWarning($"[{Name}] no prefab defined at `{target}`");
+            return null;
         }
 
         public Texture2D LoadTexture(string path)
