@@ -19,6 +19,7 @@ namespace H3VR.Sideloader
 
         private Dictionary<string, Texture2D> textures = new Dictionary<string, Texture2D>();
         private Dictionary<string, Material> materials = new Dictionary<string, Material>();
+        private Dictionary<string, Mesh> meshes = new Dictionary<string, Mesh>();
         private Dictionary<string, AssetBundle> assetBundles = new Dictionary<string, AssetBundle>();
 
         public static Mod LoadFromDir(string path)
@@ -93,16 +94,26 @@ namespace H3VR.Sideloader
 
         public Material LoadMaterial(string path)
         {
-            Sideloader.Logger.LogDebug($"Loading material from {path}");
-            if (materials.TryGetValue(path, out var material))
-                return material;
+            return LoadAssetBundleAsset(path, materials);
+        }
+        
+        public Mesh LoadMesh(string path)
+        {
+            return LoadAssetBundleAsset(path, meshes);
+        }
+
+        private T LoadAssetBundleAsset<T>(string path, IDictionary<string, T> assetCache) where T : UnityEngine.Object
+        {
+            Sideloader.Logger.LogDebug($"Loading asset from {path}");
+            if (assetCache.TryGetValue(path, out var asset))
+                return asset;
             var filePath = ResolveCombinedPath(path, out var assetPath);
             if (!assetBundles.TryGetValue(filePath, out var assetBundle))
                 assetBundle = assetBundles[filePath] = AssetBundle.LoadFromMemory(LoadBytes(filePath));
-            material = materials[path] = assetBundle.LoadAsset<Material>(assetPath);
-            return material;
+            asset = assetCache[path] = assetBundle.LoadAsset<T>(assetPath);
+            return asset;
         }
-
+        
         private string ResolveCombinedPath(string path, out string assetPath)
         {
             assetPath = null;

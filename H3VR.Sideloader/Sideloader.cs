@@ -34,9 +34,17 @@ namespace H3VR.Sideloader
             "prefabPath",
             "materialName"
         };
+        
+        private static readonly string[] MeshPathSchema =
+        {
+            "prefabPath",
+            "meshContainerName",
+            "meshName"
+        };
 
         private AssetTree textureAssets = new AssetTree(TexturePathSchema.Length);
         private AssetTree materialAssets = new AssetTree(MaterialPathSchema.Length);
+        private AssetTree meshAssets = new AssetTree(MeshPathSchema.Length);
 
         private void Awake()
         {
@@ -53,9 +61,7 @@ namespace H3VR.Sideloader
             Logger.LogInfo("Loading mods...");
 
             var mods = new List<Mod>();
-
             var modsPath = Path.Combine(Paths.GameRootPath, MODS_DIR);
-
             Directory.CreateDirectory(modsPath);
 
             foreach (var modDir in Directory.GetDirectories(modsPath))
@@ -85,6 +91,7 @@ namespace H3VR.Sideloader
             {
                 mod.RegisterTreeAssets(textureAssets, AssetType.Texture);
                 mod.RegisterTreeAssets(materialAssets, AssetType.Material);
+                mod.RegisterTreeAssets(meshAssets, AssetType.Mesh);
             } 
 
             Logger.LogInfo($"Loaded {mods.Count} mods!");
@@ -97,6 +104,23 @@ namespace H3VR.Sideloader
                 var path = ctx.GetUniqueFileSystemAssetPath(obj);
                 if (!(obj is GameObject go)) continue;
                 ReplaceTexturesMaterials(go, path);
+                ReplaceMeshes(go, path);
+            }
+        }
+
+        private void ReplaceMeshes(GameObject go, string path)
+        {
+            // TODO: Eventually, might need to handle SkinnedMeshRenderers, but for now it seems H3 doesn't use those for guns
+            var meshFilters = go.GetComponentsInChildren<MeshFilter>();
+            foreach (var meshFilter in meshFilters)
+            {
+                var filterName = meshFilter.name;
+                var meshName = meshFilter.mesh.name.Replace(" Instance", "");
+                Logger.LogInfo($"Resolving mesh {path}:{filterName}:{meshName}");
+                var replacement = meshAssets.Find(path, filterName, meshName).FirstOrDefault();
+                Logger.LogInfo($"Got mesh: {replacement}");
+                if (replacement != null)
+                    meshFilter.mesh = replacement.Mod.LoadMesh(replacement.FullPath);
             }
         }
 
