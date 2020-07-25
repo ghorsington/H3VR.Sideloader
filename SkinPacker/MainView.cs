@@ -1,5 +1,7 @@
-﻿using System.Text.RegularExpressions;
+﻿using System;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
+using Microsoft.WindowsAPICodePack.Dialogs;
 
 namespace SkinPacker
 {
@@ -129,6 +131,18 @@ namespace SkinPacker
                     return "Version must be of form X.X.X, check help for info";
                 return string.Empty;
             });
+        }
+
+        private void selectProjectFolderButton_Click(object sender, EventArgs e)
+        {
+            var folderSelect = new CommonOpenFileDialog {IsFolderPicker = true};
+
+            var result = folderSelect.ShowDialog();
+
+            if (result == CommonFileDialogResult.Ok)
+            {
+                projectFolderTextBox.Text = folderSelect.FileName;
+            }
         }
     }
 }

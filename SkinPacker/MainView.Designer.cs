@@ -129,12 +129,13 @@
             // 
             this.projectFolderTextBox.Anchor = ((System.Windows.Forms.AnchorStyles) ((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
             this.projectFolderTextBox.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.tableLayoutPanel1.SetColumnSpan(this.projectFolderTextBox, 2);
             this.projectFolderTextBox.Location = new System.Drawing.Point(126, 33);
             this.projectFolderTextBox.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
             this.projectFolderTextBox.Name = "projectFolderTextBox";
             this.projectFolderTextBox.ReadOnly = true;
             this.projectFolderTextBox.ShortcutsEnabled = false;
-            this.projectFolderTextBox.Size = new System.Drawing.Size(336, 20);
+            this.projectFolderTextBox.Size = new System.Drawing.Size(351, 20);
             this.projectFolderTextBox.TabIndex = 1;
             this.projectFolderTextBox.WordWrap = false;
             // 
@@ -149,6 +150,7 @@
             this.selectProjectFolderButton.TabIndex = 2;
             this.selectProjectFolderButton.Text = "Select project folder";
             this.selectProjectFolderButton.UseVisualStyleBackColor = true;
+            this.selectProjectFolderButton.Click += new System.EventHandler(this.selectProjectFolderButton_Click);
             // 
             // label1
             // 
