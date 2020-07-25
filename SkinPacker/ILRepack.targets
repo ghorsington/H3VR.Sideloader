@@ -7,9 +7,11 @@
             <InputAssemblies Include="$(OutputPath)\Microsoft.WindowsAPICodePack.dll"/>
             <InputAssemblies Include="$(OutputPath)\Microsoft.WindowsAPICodePack.Shell.dll"/>
             <InputAssemblies Include="$(OutputPath)\Microsoft.WindowsAPICodePack.ShellExtensions.dll"/>
+            <InputAssemblies Include="$(OutputPath)\Newtonsoft.Json.dll"/>
         </ItemGroup>
 
         <ILRepack
+                Internalize="true"
                 Parallel="true"
                 InputAssemblies="@(InputAssemblies)"
                 TargetKind="WinExe"
@@ -18,5 +20,6 @@
         <Delete Files="$(OutputPath)\Microsoft.WindowsAPICodePack.dll" />
         <Delete Files="$(OutputPath)\Microsoft.WindowsAPICodePack.Shell.dll" />
         <Delete Files="$(OutputPath)\Microsoft.WindowsAPICodePack.ShellExtensions.dll" />
+        <Delete Files="$(OutputPath)\Newtonsoft.Json.dll" />
     </Target>
 </Project>
