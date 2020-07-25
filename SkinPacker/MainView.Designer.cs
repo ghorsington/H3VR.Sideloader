@@ -378,11 +378,12 @@
             // 
             // saveManifestButton
             // 
-            this.saveManifestButton.Location = new System.Drawing.Point(391, 3);
+            this.saveManifestButton.AutoSize = true;
+            this.saveManifestButton.Location = new System.Drawing.Point(382, 3);
             this.saveManifestButton.Name = "saveManifestButton";
-            this.saveManifestButton.Size = new System.Drawing.Size(75, 23);
+            this.saveManifestButton.Size = new System.Drawing.Size(84, 23);
             this.saveManifestButton.TabIndex = 2;
-            this.saveManifestButton.Text = "Save";
+            this.saveManifestButton.Text = "Save manifest";
             this.saveManifestButton.UseVisualStyleBackColor = true;
             this.saveManifestButton.Click += new System.EventHandler(this.saveManifestButton_Click);
             // 
