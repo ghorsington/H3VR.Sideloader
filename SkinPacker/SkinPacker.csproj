@@ -59,4 +59,5 @@
     <PackageReference Include="ILRepack.Lib.MSBuild.Task" Version="2.0.18.1" />
     <PackageReference Include="Microsoft.WindowsAPICodePack-Shell" Version="1.1.0" />
   </ItemGroup>
+  <Import Project="..\H3VR.Sideloader.Shared\H3VR.Sideloader.Shared.projitems" Label="Shared" />
 </Project>

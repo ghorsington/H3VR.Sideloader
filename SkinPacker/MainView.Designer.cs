@@ -65,9 +65,6 @@
             ((System.ComponentModel.ISupportInitialize) (this.assetMappingView)).BeginInit();
             this.flowLayoutPanel2.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // tableLayoutPanel1
-            // 
             this.tableLayoutPanel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.tableLayoutPanel1.ColumnCount = 4;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
@@ -112,9 +109,6 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.Size = new System.Drawing.Size(594, 471);
             this.tableLayoutPanel1.TabIndex = 0;
-            // 
-            // projectPathLabel
-            // 
             this.projectPathLabel.AutoSize = true;
             this.projectPathLabel.Dock = System.Windows.Forms.DockStyle.Top;
             this.projectPathLabel.Location = new System.Drawing.Point(0, 33);
@@ -124,9 +118,6 @@
             this.projectPathLabel.TabIndex = 0;
             this.projectPathLabel.Text = "Mod project directory";
             this.projectPathLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // projectFolderTextBox
-            // 
             this.projectFolderTextBox.Anchor = ((System.Windows.Forms.AnchorStyles) ((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
             this.projectFolderTextBox.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.tableLayoutPanel1.SetColumnSpan(this.projectFolderTextBox, 2);
@@ -138,9 +129,6 @@
             this.projectFolderTextBox.Size = new System.Drawing.Size(351, 20);
             this.projectFolderTextBox.TabIndex = 1;
             this.projectFolderTextBox.WordWrap = false;
-            // 
-            // selectProjectFolderButton
-            // 
             this.selectProjectFolderButton.Anchor = ((System.Windows.Forms.AnchorStyles) (((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) | System.Windows.Forms.AnchorStyles.Left)));
             this.selectProjectFolderButton.AutoSize = true;
             this.selectProjectFolderButton.Location = new System.Drawing.Point(480, 30);
@@ -151,9 +139,6 @@
             this.selectProjectFolderButton.Text = "Select project folder";
             this.selectProjectFolderButton.UseVisualStyleBackColor = true;
             this.selectProjectFolderButton.Click += new System.EventHandler(this.selectProjectFolderButton_Click);
-            // 
-            // label1
-            // 
             this.label1.Dock = System.Windows.Forms.DockStyle.Top;
             this.label1.Location = new System.Drawing.Point(3, 58);
             this.label1.Name = "label1";
@@ -161,9 +146,6 @@
             this.label1.TabIndex = 3;
             this.label1.Text = "Mod properties";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // label2
-            // 
             this.label2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label2.ForeColor = System.Drawing.SystemColors.GrayText;
             this.label2.Location = new System.Drawing.Point(129, 58);
@@ -172,9 +154,6 @@
             this.label2.TabIndex = 4;
             this.label2.Text = "Hover over the \'Help\' link for more information about each field";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // label3
-            // 
             this.label3.Dock = System.Windows.Forms.DockStyle.Top;
             this.label3.Location = new System.Drawing.Point(3, 81);
             this.label3.Name = "label3";
@@ -182,9 +161,6 @@
             this.label3.TabIndex = 5;
             this.label3.Text = "GUID";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // label4
-            // 
             this.label4.Dock = System.Windows.Forms.DockStyle.Top;
             this.label4.Location = new System.Drawing.Point(3, 107);
             this.label4.Name = "label4";
@@ -192,9 +168,6 @@
             this.label4.TabIndex = 6;
             this.label4.Text = "Name";
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // label5
-            // 
             this.label5.Dock = System.Windows.Forms.DockStyle.Top;
             this.label5.Location = new System.Drawing.Point(3, 133);
             this.label5.Name = "label5";
@@ -202,9 +175,6 @@
             this.label5.TabIndex = 7;
             this.label5.Text = "Version";
             this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // label6
-            // 
             this.label6.Dock = System.Windows.Forms.DockStyle.Top;
             this.label6.Location = new System.Drawing.Point(3, 159);
             this.label6.Name = "label6";
@@ -212,9 +182,6 @@
             this.label6.TabIndex = 8;
             this.label6.Text = "Description";
             this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // label7
-            // 
             this.label7.Dock = System.Windows.Forms.DockStyle.Top;
             this.label7.Location = new System.Drawing.Point(3, 237);
             this.label7.Name = "label7";
@@ -222,17 +189,11 @@
             this.label7.TabIndex = 9;
             this.label7.Text = "Skins";
             this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // guidTextBox
-            // 
             this.guidTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.guidTextBox.Location = new System.Drawing.Point(129, 84);
             this.guidTextBox.Name = "guidTextBox";
             this.guidTextBox.Size = new System.Drawing.Size(330, 20);
             this.guidTextBox.TabIndex = 10;
-            // 
-            // label8
-            // 
             this.label8.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.tableLayoutPanel1.SetColumnSpan(this.label8, 4);
             this.label8.Location = new System.Drawing.Point(10, 56);
@@ -242,25 +203,16 @@
             this.label8.Size = new System.Drawing.Size(574, 2);
             this.label8.TabIndex = 11;
             this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // nameTextBox
-            // 
             this.nameTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.nameTextBox.Location = new System.Drawing.Point(129, 110);
             this.nameTextBox.Name = "nameTextBox";
             this.nameTextBox.Size = new System.Drawing.Size(330, 20);
             this.nameTextBox.TabIndex = 12;
-            // 
-            // versionTextBox
-            // 
             this.versionTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.versionTextBox.Location = new System.Drawing.Point(129, 136);
             this.versionTextBox.Name = "versionTextBox";
             this.versionTextBox.Size = new System.Drawing.Size(330, 20);
             this.versionTextBox.TabIndex = 13;
-            // 
-            // descTextBox
-            // 
             this.descTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.descTextBox.Location = new System.Drawing.Point(129, 162);
             this.descTextBox.Multiline = true;
@@ -268,9 +220,6 @@
             this.descTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.descTextBox.Size = new System.Drawing.Size(330, 72);
             this.descTextBox.TabIndex = 14;
-            // 
-            // tableLayoutPanel2
-            // 
             this.tableLayoutPanel2.ColumnCount = 1;
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel2.Controls.Add(this.flowLayoutPanel1, 0, 0);
@@ -283,9 +232,6 @@
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel2.Size = new System.Drawing.Size(330, 183);
             this.tableLayoutPanel2.TabIndex = 15;
-            // 
-            // flowLayoutPanel1
-            // 
             this.flowLayoutPanel1.AutoSize = true;
             this.flowLayoutPanel1.Controls.Add(this.addMappingButton);
             this.flowLayoutPanel1.Controls.Add(this.deleteMappingButton);
@@ -296,18 +242,12 @@
             this.flowLayoutPanel1.Size = new System.Drawing.Size(324, 29);
             this.flowLayoutPanel1.TabIndex = 0;
             this.flowLayoutPanel1.WrapContents = false;
-            // 
-            // addMappingButton
-            // 
             this.addMappingButton.Location = new System.Drawing.Point(3, 3);
             this.addMappingButton.Name = "addMappingButton";
             this.addMappingButton.Size = new System.Drawing.Size(75, 23);
             this.addMappingButton.TabIndex = 0;
             this.addMappingButton.Text = "Add";
             this.addMappingButton.UseVisualStyleBackColor = true;
-            // 
-            // deleteMappingButton
-            // 
             this.deleteMappingButton.Enabled = false;
             this.deleteMappingButton.Location = new System.Drawing.Point(84, 3);
             this.deleteMappingButton.Name = "deleteMappingButton";
@@ -315,9 +255,6 @@
             this.deleteMappingButton.TabIndex = 1;
             this.deleteMappingButton.Text = "Delete";
             this.deleteMappingButton.UseVisualStyleBackColor = true;
-            // 
-            // editMappingButton
-            // 
             this.editMappingButton.Enabled = false;
             this.editMappingButton.Location = new System.Drawing.Point(165, 3);
             this.editMappingButton.Name = "editMappingButton";
@@ -325,9 +262,6 @@
             this.editMappingButton.TabIndex = 2;
             this.editMappingButton.Text = "Edit";
             this.editMappingButton.UseVisualStyleBackColor = true;
-            // 
-            // assetMappingView
-            // 
             this.assetMappingView.AllowUserToAddRows = false;
             this.assetMappingView.AllowUserToDeleteRows = false;
             this.assetMappingView.AllowUserToResizeColumns = false;
@@ -351,9 +285,6 @@
             this.assetMappingView.ShowRowErrors = false;
             this.assetMappingView.Size = new System.Drawing.Size(324, 142);
             this.assetMappingView.TabIndex = 1;
-            // 
-            // flowLayoutPanel2
-            // 
             this.flowLayoutPanel2.AutoSize = true;
             this.tableLayoutPanel1.SetColumnSpan(this.flowLayoutPanel2, 4);
             this.flowLayoutPanel2.Controls.Add(this.packModButton);
@@ -365,9 +296,6 @@
             this.flowLayoutPanel2.Size = new System.Drawing.Size(588, 29);
             this.flowLayoutPanel2.TabIndex = 16;
             this.flowLayoutPanel2.WrapContents = false;
-            // 
-            // packModButton
-            // 
             this.packModButton.AutoSize = true;
             this.packModButton.Location = new System.Drawing.Point(472, 3);
             this.packModButton.Name = "packModButton";
@@ -375,18 +303,12 @@
             this.packModButton.TabIndex = 1;
             this.packModButton.Text = "Pack into .h3mod";
             this.packModButton.UseVisualStyleBackColor = true;
-            // 
-            // saveManifestButton
-            // 
             this.saveManifestButton.Location = new System.Drawing.Point(391, 3);
             this.saveManifestButton.Name = "saveManifestButton";
             this.saveManifestButton.Size = new System.Drawing.Size(75, 23);
             this.saveManifestButton.TabIndex = 2;
             this.saveManifestButton.Text = "Save";
             this.saveManifestButton.UseVisualStyleBackColor = true;
-            // 
-            // guidHelp
-            // 
             this.guidHelp.Dock = System.Windows.Forms.DockStyle.Top;
             this.guidHelp.Location = new System.Drawing.Point(480, 81);
             this.guidHelp.Name = "guidHelp";
@@ -395,9 +317,6 @@
             this.guidHelp.TabStop = true;
             this.guidHelp.Text = "Help";
             this.guidHelp.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // nameHelp
-            // 
             this.nameHelp.Dock = System.Windows.Forms.DockStyle.Top;
             this.nameHelp.Location = new System.Drawing.Point(480, 107);
             this.nameHelp.Name = "nameHelp";
@@ -406,9 +325,6 @@
             this.nameHelp.TabStop = true;
             this.nameHelp.Text = "Help";
             this.nameHelp.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // versionHelp
-            // 
             this.versionHelp.Dock = System.Windows.Forms.DockStyle.Top;
             this.versionHelp.Location = new System.Drawing.Point(480, 133);
             this.versionHelp.Name = "versionHelp";
@@ -417,9 +333,6 @@
             this.versionHelp.TabStop = true;
             this.versionHelp.Text = "Help";
             this.versionHelp.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // descHelp
-            // 
             this.descHelp.Dock = System.Windows.Forms.DockStyle.Top;
             this.descHelp.Location = new System.Drawing.Point(480, 159);
             this.descHelp.Name = "descHelp";
@@ -428,9 +341,6 @@
             this.descHelp.TabStop = true;
             this.descHelp.Text = "Help";
             this.descHelp.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // skinsHelp
-            // 
             this.skinsHelp.Dock = System.Windows.Forms.DockStyle.Top;
             this.skinsHelp.Location = new System.Drawing.Point(480, 237);
             this.skinsHelp.Name = "skinsHelp";
@@ -439,9 +349,6 @@
             this.skinsHelp.TabStop = true;
             this.skinsHelp.Text = "Help";
             this.skinsHelp.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // MainView
-            // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(594, 471);

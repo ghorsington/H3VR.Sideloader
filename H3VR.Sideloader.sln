@@ -4,6 +4,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "H3VR.Sideloader", "H3VR.Sid
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkinPacker", "SkinPacker\SkinPacker.csproj", "{560E5F3B-9341-4FBF-B86D-0C7FD2E1D695}"
 EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "H3VR.Sideloader.Shared", "H3VR.Sideloader.Shared\H3VR.Sideloader.Shared.shproj", "{5305CA52-4AC5-48F6-B0FA-28EDB480B695}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

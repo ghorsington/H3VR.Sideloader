@@ -1,14 +1,8 @@
-﻿namespace SkinPacker.Model
-{
-    public enum AssetType
-    {
-        Texture,
-        Prefab,
-        Mesh,
-        Material
-    }
+﻿using H3VR.Sideloader;
 
-    public class AssetMapping
+namespace SkinPacker.Model
+{
+    internal class AssetMapping
     {
         public AssetType AssetType { get; set; }
 
