@@ -167,7 +167,7 @@
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(345, 23);
             this.label2.TabIndex = 4;
-            this.label2.Text = "Hover over each option label to see detailed description";
+            this.label2.Text = "Click on the \'Help\' link for more information about each field";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // label3
