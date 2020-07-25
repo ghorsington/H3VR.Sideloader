@@ -4,14 +4,30 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using H3VR.Sideloader;
-using MicroJson;
 using Microsoft.WindowsAPICodePack.Dialogs;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Serialization;
 
 namespace SkinPacker
 {
     public partial class MainView : Form
     {
         private const string TITLE = "Skin Packer";
+
+        private readonly JsonSerializerSettings jsonSerializerSettings = new JsonSerializerSettings
+        {
+            ContractResolver = new DefaultContractResolver
+            {
+                NamingStrategy = new CamelCaseNamingStrategy
+                {
+                    OverrideSpecifiedNames = true
+                }
+            },
+            Formatting = Formatting.Indented,
+            MissingMemberHandling = MissingMemberHandling.Ignore
+        };
+        private readonly JsonSerializer serializer;
         private readonly BindingSource assetMappings = new BindingSource();
         private bool isDirty;
         private bool isLoading;
@@ -30,6 +46,8 @@ namespace SkinPacker
 
         public MainView()
         {
+            serializer = JsonSerializer.Create(jsonSerializerSettings);
+            serializer.Converters.Add(new StringEnumConverter());
             InitializeComponent();
             Text = TITLE;
             InitAssetMappingsView();
@@ -209,7 +227,8 @@ namespace SkinPacker
             manifest.Description = descTextBox.Text;
             manifest.AssetMappings = assetMappings.Cast<AssetMapping>().ToArray();
             var manifestPath = Path.Combine(projectFolderTextBox.Text, ModManifest.MANIFEST_FILE_NAME);
-            File.WriteAllText(manifestPath, JsonSerializer.SerializeObject(manifest));
+            using var file = File.CreateText(manifestPath);
+            serializer.Serialize(file, manifest);
             Dirty = false;
             return true;
         }
@@ -266,7 +285,7 @@ namespace SkinPacker
 
             try
             {
-                newManifest = JsonSerializer.DeserializeObject<ModManifest>(File.ReadAllText(manifestFile));
+                newManifest = serializer.Deserialize<ModManifest>(new JsonTextReader(new StringReader(File.ReadAllText(manifestFile))));
                 return true;
             }
             catch (Exception exception)
