@@ -54,11 +54,11 @@
             this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
             this.packModButton = new System.Windows.Forms.Button();
             this.saveManifestButton = new System.Windows.Forms.Button();
-            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
-            this.linkLabel2 = new System.Windows.Forms.LinkLabel();
-            this.linkLabel3 = new System.Windows.Forms.LinkLabel();
-            this.linkLabel4 = new System.Windows.Forms.LinkLabel();
-            this.linkLabel5 = new System.Windows.Forms.LinkLabel();
+            this.guidHelp = new System.Windows.Forms.LinkLabel();
+            this.nameHelp = new System.Windows.Forms.LinkLabel();
+            this.versionHelp = new System.Windows.Forms.LinkLabel();
+            this.descHelp = new System.Windows.Forms.LinkLabel();
+            this.skinsHelp = new System.Windows.Forms.LinkLabel();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
@@ -90,11 +90,11 @@
             this.tableLayoutPanel1.Controls.Add(this.descTextBox, 1, 6);
             this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 1, 7);
             this.tableLayoutPanel1.Controls.Add(this.flowLayoutPanel2, 0, 8);
-            this.tableLayoutPanel1.Controls.Add(this.linkLabel1, 2, 3);
-            this.tableLayoutPanel1.Controls.Add(this.linkLabel2, 2, 4);
-            this.tableLayoutPanel1.Controls.Add(this.linkLabel3, 2, 5);
-            this.tableLayoutPanel1.Controls.Add(this.linkLabel4, 2, 6);
-            this.tableLayoutPanel1.Controls.Add(this.linkLabel5, 2, 7);
+            this.tableLayoutPanel1.Controls.Add(this.guidHelp, 2, 3);
+            this.tableLayoutPanel1.Controls.Add(this.nameHelp, 2, 4);
+            this.tableLayoutPanel1.Controls.Add(this.versionHelp, 2, 5);
+            this.tableLayoutPanel1.Controls.Add(this.descHelp, 2, 6);
+            this.tableLayoutPanel1.Controls.Add(this.skinsHelp, 2, 7);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -167,7 +167,7 @@
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(345, 23);
             this.label2.TabIndex = 4;
-            this.label2.Text = "Click on the \'Help\' link for more information about each field";
+            this.label2.Text = "Hover over the \'Help\' link for more information about each field";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // label3
@@ -381,60 +381,60 @@
             this.saveManifestButton.Text = "Save";
             this.saveManifestButton.UseVisualStyleBackColor = true;
             // 
-            // linkLabel1
+            // guidHelp
             // 
-            this.linkLabel1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.linkLabel1.Location = new System.Drawing.Point(480, 81);
-            this.linkLabel1.Name = "linkLabel1";
-            this.linkLabel1.Size = new System.Drawing.Size(111, 23);
-            this.linkLabel1.TabIndex = 17;
-            this.linkLabel1.TabStop = true;
-            this.linkLabel1.Text = "Help";
-            this.linkLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.guidHelp.Dock = System.Windows.Forms.DockStyle.Top;
+            this.guidHelp.Location = new System.Drawing.Point(480, 81);
+            this.guidHelp.Name = "guidHelp";
+            this.guidHelp.Size = new System.Drawing.Size(111, 23);
+            this.guidHelp.TabIndex = 17;
+            this.guidHelp.TabStop = true;
+            this.guidHelp.Text = "Help";
+            this.guidHelp.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // linkLabel2
+            // nameHelp
             // 
-            this.linkLabel2.Dock = System.Windows.Forms.DockStyle.Top;
-            this.linkLabel2.Location = new System.Drawing.Point(480, 107);
-            this.linkLabel2.Name = "linkLabel2";
-            this.linkLabel2.Size = new System.Drawing.Size(111, 23);
-            this.linkLabel2.TabIndex = 18;
-            this.linkLabel2.TabStop = true;
-            this.linkLabel2.Text = "Help";
-            this.linkLabel2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.nameHelp.Dock = System.Windows.Forms.DockStyle.Top;
+            this.nameHelp.Location = new System.Drawing.Point(480, 107);
+            this.nameHelp.Name = "nameHelp";
+            this.nameHelp.Size = new System.Drawing.Size(111, 23);
+            this.nameHelp.TabIndex = 18;
+            this.nameHelp.TabStop = true;
+            this.nameHelp.Text = "Help";
+            this.nameHelp.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // linkLabel3
+            // versionHelp
             // 
-            this.linkLabel3.Dock = System.Windows.Forms.DockStyle.Top;
-            this.linkLabel3.Location = new System.Drawing.Point(480, 133);
-            this.linkLabel3.Name = "linkLabel3";
-            this.linkLabel3.Size = new System.Drawing.Size(111, 23);
-            this.linkLabel3.TabIndex = 19;
-            this.linkLabel3.TabStop = true;
-            this.linkLabel3.Text = "Help";
-            this.linkLabel3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.versionHelp.Dock = System.Windows.Forms.DockStyle.Top;
+            this.versionHelp.Location = new System.Drawing.Point(480, 133);
+            this.versionHelp.Name = "versionHelp";
+            this.versionHelp.Size = new System.Drawing.Size(111, 23);
+            this.versionHelp.TabIndex = 19;
+            this.versionHelp.TabStop = true;
+            this.versionHelp.Text = "Help";
+            this.versionHelp.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // linkLabel4
+            // descHelp
             // 
-            this.linkLabel4.Dock = System.Windows.Forms.DockStyle.Top;
-            this.linkLabel4.Location = new System.Drawing.Point(480, 159);
-            this.linkLabel4.Name = "linkLabel4";
-            this.linkLabel4.Size = new System.Drawing.Size(111, 23);
-            this.linkLabel4.TabIndex = 20;
-            this.linkLabel4.TabStop = true;
-            this.linkLabel4.Text = "Help";
-            this.linkLabel4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.descHelp.Dock = System.Windows.Forms.DockStyle.Top;
+            this.descHelp.Location = new System.Drawing.Point(480, 159);
+            this.descHelp.Name = "descHelp";
+            this.descHelp.Size = new System.Drawing.Size(111, 23);
+            this.descHelp.TabIndex = 20;
+            this.descHelp.TabStop = true;
+            this.descHelp.Text = "Help";
+            this.descHelp.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // linkLabel5
+            // skinsHelp
             // 
-            this.linkLabel5.Dock = System.Windows.Forms.DockStyle.Top;
-            this.linkLabel5.Location = new System.Drawing.Point(480, 237);
-            this.linkLabel5.Name = "linkLabel5";
-            this.linkLabel5.Size = new System.Drawing.Size(111, 23);
-            this.linkLabel5.TabIndex = 21;
-            this.linkLabel5.TabStop = true;
-            this.linkLabel5.Text = "Help";
-            this.linkLabel5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.skinsHelp.Dock = System.Windows.Forms.DockStyle.Top;
+            this.skinsHelp.Location = new System.Drawing.Point(480, 237);
+            this.skinsHelp.Name = "skinsHelp";
+            this.skinsHelp.Size = new System.Drawing.Size(111, 23);
+            this.skinsHelp.TabIndex = 21;
+            this.skinsHelp.TabStop = true;
+            this.skinsHelp.Text = "Help";
+            this.skinsHelp.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // MainView
             // 
@@ -460,10 +460,12 @@
         private System.Windows.Forms.Button addMappingButton;
         private System.Windows.Forms.DataGridView assetMappingView;
         private System.Windows.Forms.Button deleteMappingButton;
+        private System.Windows.Forms.LinkLabel descHelp;
         private System.Windows.Forms.TextBox descTextBox;
         private System.Windows.Forms.Button editMappingButton;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel2;
+        private System.Windows.Forms.LinkLabel guidHelp;
         private System.Windows.Forms.TextBox guidTextBox;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
@@ -473,19 +475,17 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.LinkLabel linkLabel1;
-        private System.Windows.Forms.LinkLabel linkLabel2;
-        private System.Windows.Forms.LinkLabel linkLabel3;
-        private System.Windows.Forms.LinkLabel linkLabel4;
-        private System.Windows.Forms.LinkLabel linkLabel5;
+        private System.Windows.Forms.LinkLabel nameHelp;
         private System.Windows.Forms.TextBox nameTextBox;
         private System.Windows.Forms.Button packModButton;
         private System.Windows.Forms.TextBox projectFolderTextBox;
         private System.Windows.Forms.Label projectPathLabel;
         private System.Windows.Forms.Button saveManifestButton;
         private System.Windows.Forms.Button selectProjectFolderButton;
+        private System.Windows.Forms.LinkLabel skinsHelp;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
+        private System.Windows.Forms.LinkLabel versionHelp;
         private System.Windows.Forms.TextBox versionTextBox;
 
         #endregion
