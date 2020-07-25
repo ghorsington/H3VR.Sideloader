@@ -1,4 +1,5 @@
-﻿using System.Windows.Forms;
+﻿using System.Text.RegularExpressions;
+using System.Windows.Forms;
 
 namespace SkinPacker
 {
@@ -13,7 +14,7 @@ namespace SkinPacker
             AddToolTips();
             InitializeValidators();
 
-            // Load += (sender, args) => ControlsEnabled = false;
+            Load += (sender, args) => ControlsEnabled = true;
         }
 
         private bool ControlsEnabled
@@ -31,6 +32,7 @@ namespace SkinPacker
                 deleteMappingButton.Enabled = value && assetMappingView.SelectedRows.Count != 0;
                 saveManifestButton.Enabled = value;
                 packModButton.Enabled = value;
+                ValidateChildren(ValidationConstraints.Selectable);
             }
         }
 
@@ -105,10 +107,26 @@ namespace SkinPacker
 
         private void InitializeValidators()
         {
+            var guidPattern = new Regex("^[a-z0-9_.-]+$");
+            var versionPattern = new Regex("^\\d+\\.\\d+(\\.\\d+)?$"); 
+            
             guidTextBox.AddValidator(() =>
             {
-                if (guidTextBox.Text != "wew")
-                    return "Must be wew";
+                if (string.IsNullOrWhiteSpace(guidTextBox.Text))
+                    return "Required field";
+                if (!guidPattern.IsMatch(guidTextBox.Text))
+                    return "GUID contains invalid characters, check help";
+                return string.Empty;
+            });
+            
+            nameTextBox.AddValidator(() => string.IsNullOrWhiteSpace(nameTextBox.Text) ? "Required field" : string.Empty);
+            
+            versionTextBox.AddValidator(() =>
+            {
+                if (string.IsNullOrWhiteSpace(versionTextBox.Text))
+                    return "Required field";
+                if (!versionPattern.IsMatch(versionTextBox.Text))
+                    return "Version must be of form X.X.X, check help for info";
                 return string.Empty;
             });
         }
