@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace H3VR.Sideloader
+﻿namespace H3VR.Sideloader
 {
     internal enum AssetType
     {

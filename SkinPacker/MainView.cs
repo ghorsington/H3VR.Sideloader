@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using H3VR.Sideloader;
@@ -12,8 +11,8 @@ namespace SkinPacker
     public partial class MainView : Form
     {
         private readonly BindingSource assetMappings = new BindingSource();
+        private readonly bool isDirty = false;
         private ModManifest manifest;
-        private bool isDirty = false;
 
         public MainView()
         {
@@ -89,11 +88,11 @@ namespace SkinPacker
                 "  * Only allowed characters are lowercase a-z and numbers 0-9",
                 "  * Only allowed punctuation are dashes (-), underscores (_) and dots (.)",
                 "Reverse domain notation is preferable, for example `h3vr.myusername.modname`");
-            
+
             nameHelp.AddTooltip("[REQUIRED] `name` field",
                 "A human-readable name of the mod.",
                 "Keep it short but make sure it's understandable enough by the end-user.");
-            
+
             versionHelp.AddTooltip("[REQUIRED] `version` field",
                 "Version of the mod.",
                 "Must be of form <major>.<minor>.<fix> where",
@@ -101,11 +100,11 @@ namespace SkinPacker
                 "  * <minor> is an integer that describes minor version of the mod (new features that don't break support for older versions of the game)",
                 "  * <fix> is an integer that describes fix version of the mod (small fix to the existing version)",
                 "<fix> is optional, in which case it's assumed to be `0`.");
-            
+
             descHelp.AddTooltip("`description` field",
                 "A human-readable description of the mod.",
                 "Can contain additional information that doesn't fit the title.");
-            
+
             skinsHelp.AddTooltip("`assetMappings` field",
                 "This table describes what textures belong to the mod and how to load them in-game.",
                 "To add a texture, click `Add`, select texture to add and fill additional mapping info.",
@@ -116,8 +115,8 @@ namespace SkinPacker
         private void InitializeValidators()
         {
             var guidPattern = new Regex("^[a-z0-9_.-]+$");
-            var versionPattern = new Regex("^\\d+\\.\\d+(\\.\\d+)?$"); 
-            
+            var versionPattern = new Regex("^\\d+\\.\\d+(\\.\\d+)?$");
+
             guidTextBox.AddValidator(() =>
             {
                 if (string.IsNullOrWhiteSpace(guidTextBox.Text))
@@ -126,9 +125,10 @@ namespace SkinPacker
                     return "GUID contains invalid characters, check help";
                 return string.Empty;
             });
-            
-            nameTextBox.AddValidator(() => string.IsNullOrWhiteSpace(nameTextBox.Text) ? "Required field" : string.Empty);
-            
+
+            nameTextBox.AddValidator(
+                () => string.IsNullOrWhiteSpace(nameTextBox.Text) ? "Required field" : string.Empty);
+
             versionTextBox.AddValidator(() =>
             {
                 if (string.IsNullOrWhiteSpace(versionTextBox.Text))
@@ -177,18 +177,16 @@ namespace SkinPacker
 
             var hasUnsupportedTypes = false;
             foreach (var manifestAssetMapping in manifest.AssetMappings)
-            {
                 if (manifestAssetMapping.Type != AssetType.Texture)
                     hasUnsupportedTypes = true;
                 else
                     assetMappings.Add(manifestAssetMapping);
-            }
 
             if (hasUnsupportedTypes)
                 MessageBox.Show(
                     "This manifest has unsupported asset types. Only textures were loaded. Saving the manifest will remove other asset types. It's suggested to not edit this manifest with this tool.",
                     "Unsupported manifest", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            
+
             ControlsEnabled = true;
         }
 
@@ -207,7 +205,7 @@ namespace SkinPacker
                 };
                 return true;
             }
-            
+
             try
             {
                 newManifest = JsonSerializer.DeserializeObject<ModManifest>(File.ReadAllText(manifestFile));
