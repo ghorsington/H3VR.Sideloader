@@ -1,13 +1,19 @@
 ﻿using System;
+using System.IO;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
+using H3VR.Sideloader;
+using MicroJson;
 using Microsoft.WindowsAPICodePack.Dialogs;
 
 namespace SkinPacker
 {
     public partial class MainView : Form
     {
-        public BindingSource assetMappings = new BindingSource();
+        private readonly BindingSource assetMappings = new BindingSource();
+        private ModManifest manifest;
+        private bool isDirty = false;
 
         public MainView()
         {
@@ -16,7 +22,7 @@ namespace SkinPacker
             AddToolTips();
             InitializeValidators();
 
-            Load += (sender, args) => ControlsEnabled = true;
+            Load += (sender, args) => ControlsEnabled = false;
         }
 
         private bool ControlsEnabled
@@ -48,7 +54,7 @@ namespace SkinPacker
             {
                 HeaderText = "Asset",
                 Name = "AssetType",
-                DataPropertyName = "AssetType",
+                DataPropertyName = "Type",
                 AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells
             });
             assetMappingView.Columns.Add(new DataGridViewTextBoxColumn
@@ -139,9 +145,81 @@ namespace SkinPacker
 
             var result = folderSelect.ShowDialog();
 
-            if (result == CommonFileDialogResult.Ok)
+            if (result == CommonFileDialogResult.Ok && TryLoadManifest(folderSelect.FileName, out var newManifest))
             {
+                if (isDirty)
+                {
+                    var saveResult = MessageBox.Show("There are unsaved changes. Save them?", "Save?",
+                        MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    if (saveResult == DialogResult.Yes && !SaveManifest())
+                        return;
+                }
+
+                manifest = newManifest;
                 projectFolderTextBox.Text = folderSelect.FileName;
+                LoadManifest();
+            }
+        }
+
+        private bool SaveManifest()
+        {
+            ControlsEnabled = false;
+            return true;
+        }
+
+        private void LoadManifest()
+        {
+            assetMappings.Clear();
+            guidTextBox.Text = manifest.Guid;
+            nameTextBox.Text = manifest.Name;
+            versionTextBox.Text = manifest.Version;
+            descTextBox.Text = manifest.Description;
+
+            var hasUnsupportedTypes = false;
+            foreach (var manifestAssetMapping in manifest.AssetMappings)
+            {
+                if (manifestAssetMapping.Type != AssetType.Texture)
+                    hasUnsupportedTypes = true;
+                else
+                    assetMappings.Add(manifestAssetMapping);
+            }
+
+            if (hasUnsupportedTypes)
+                MessageBox.Show(
+                    "This manifest has unsupported asset types. Only textures were loaded. Saving the manifest will remove other asset types. It's suggested to not edit this manifest with this tool.",
+                    "Unsupported manifest", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            
+            ControlsEnabled = true;
+        }
+
+        private bool TryLoadManifest(string path, out ModManifest newManifest)
+        {
+            var manifestFile = Path.Combine(path, "manifest.json");
+            if (!File.Exists(manifestFile))
+            {
+                newManifest = new ModManifest
+                {
+                    ManifestRevision = ModManifest.MANIFEST_REVISION,
+                    Guid = "",
+                    Name = "",
+                    Version = "",
+                    AssetMappings = new AssetMapping[0]
+                };
+                return true;
+            }
+            
+            try
+            {
+                newManifest = JsonSerializer.DeserializeObject<ModManifest>(File.ReadAllText(manifestFile));
+                return true;
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show(
+                    $"Failed to read manifest. Likely it's invalid or the program cannot access it. Error message: {exception.Message}",
+                    "Heck", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                newManifest = null;
+                return false;
             }
         }
     }

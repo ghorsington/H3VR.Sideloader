@@ -24,6 +24,7 @@ namespace H3VR.Sideloader
         public string Guid { get; set; }
         public string ManifestRevision { get; set; }
         public string Name { get; set; }
-        public Version Version { get; set; }
+        public string Version { get; set; }
+        public string Description { get; set; }
     }
 }

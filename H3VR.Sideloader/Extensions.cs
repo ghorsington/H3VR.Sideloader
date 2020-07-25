@@ -22,7 +22,7 @@ namespace H3VR.Sideloader
             if (manifest.Name == null)
                 Missing(nameof(manifest.Name));
             if (manifest.Version == null)
-                errs.Add("Missing or invalid `version`. Version must be of form `X.X.X.X`.");
+                errs.Add("Missing or invalid `version`. Version must be of form `X.X.X`.");
 
             foreach (var assetMapping in manifest.AssetMappings)
             {
