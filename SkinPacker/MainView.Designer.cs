@@ -375,6 +375,7 @@
             this.packModButton.TabIndex = 1;
             this.packModButton.Text = "Pack into .h3mod";
             this.packModButton.UseVisualStyleBackColor = true;
+            this.packModButton.Click += new System.EventHandler(this.packModButton_Click);
             // 
             // saveManifestButton
             // 

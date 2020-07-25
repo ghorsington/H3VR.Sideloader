@@ -302,5 +302,24 @@ namespace SkinPacker
         {
             SaveManifest();
         }
+
+        private void packModButton_Click(object sender, EventArgs e)
+        {
+            if (!SaveManifest())
+                return;
+            
+            var savePathDialog = new CommonSaveFileDialog
+            {
+                Filters = { new CommonFileDialogFilter("H3VR Sideloader Mod", "*.h3mod")},
+                Title = "Save sideloader file"
+            };
+
+            var result = savePathDialog.ShowDialog();
+            if (result != CommonFileDialogResult.Ok)
+                return;
+            
+            var packer = new ModPacker(manifest, projectFolderTextBox.Text, savePathDialog.FileName);
+            packer.ShowDialog();
+        }
     }
 }
