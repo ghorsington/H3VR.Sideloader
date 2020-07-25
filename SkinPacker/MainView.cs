@@ -10,18 +10,40 @@ namespace SkinPacker
 {
     public partial class MainView : Form
     {
+        private const string TITLE = "Skin Packer";
         private readonly BindingSource assetMappings = new BindingSource();
-        private readonly bool isDirty = false;
+        private bool isDirty;
+        private bool isLoading;
         private ModManifest manifest;
+
+        private bool Dirty
+        {
+            get => isDirty;
+            set
+            {
+                isDirty = value;
+                if (isLoading) return;
+                Text = isDirty ? $"{TITLE} [UNSAVED CHANGES]" : TITLE;
+            }
+        }
 
         public MainView()
         {
             InitializeComponent();
+            Text = TITLE;
             InitAssetMappingsView();
             AddToolTips();
             InitializeValidators();
 
             Load += (sender, args) => ControlsEnabled = false;
+        }
+        
+        private void MarkDirtyOnChange(Control c)
+        {
+            c.TextChanged += (sender, args) =>
+            {
+                Dirty = true;
+            };
         }
 
         private bool ControlsEnabled
@@ -77,7 +99,11 @@ namespace SkinPacker
                 deleteMappingButton.Enabled = assetMappingView.SelectedRows.Count != 0;
             };
 
-            deleteMappingButton.Click += (sender, args) => { assetMappings.RemoveCurrent(); };
+            deleteMappingButton.Click += (sender, args) =>
+            {
+                assetMappings.RemoveCurrent();
+                Dirty = true;
+            };
         }
 
         private void AddToolTips()
@@ -116,7 +142,8 @@ namespace SkinPacker
         {
             var guidPattern = new Regex("^[a-z0-9_.-]+$");
             var versionPattern = new Regex("^\\d+\\.\\d+(\\.\\d+)?$");
-
+            
+            MarkDirtyOnChange(guidTextBox);
             guidTextBox.AddValidator(() =>
             {
                 if (string.IsNullOrWhiteSpace(guidTextBox.Text))
@@ -125,10 +152,12 @@ namespace SkinPacker
                     return "GUID contains invalid characters, check help";
                 return string.Empty;
             });
-
+            
+            MarkDirtyOnChange(nameTextBox);
             nameTextBox.AddValidator(
                 () => string.IsNullOrWhiteSpace(nameTextBox.Text) ? "Required field" : string.Empty);
-
+            
+            MarkDirtyOnChange(versionTextBox);
             versionTextBox.AddValidator(() =>
             {
                 if (string.IsNullOrWhiteSpace(versionTextBox.Text))
@@ -137,6 +166,8 @@ namespace SkinPacker
                     return "Version must be of form X.X.X, check help for info";
                 return string.Empty;
             });
+            
+            MarkDirtyOnChange(descTextBox);
         }
 
         private void selectProjectFolderButton_Click(object sender, EventArgs e)
@@ -169,6 +200,7 @@ namespace SkinPacker
 
         private void LoadManifest()
         {
+            isLoading = true;
             assetMappings.Clear();
             guidTextBox.Text = manifest.Guid;
             nameTextBox.Text = manifest.Name;
@@ -186,8 +218,9 @@ namespace SkinPacker
                 MessageBox.Show(
                     "This manifest has unsupported asset types. Only textures were loaded. Saving the manifest will remove other asset types. It's suggested to not edit this manifest with this tool.",
                     "Unsupported manifest", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
+            isLoading = false;
             ControlsEnabled = true;
+            Dirty = false;
         }
 
         private bool TryLoadManifest(string path, out ModManifest newManifest)
@@ -195,6 +228,15 @@ namespace SkinPacker
             var manifestFile = Path.Combine(path, "manifest.json");
             if (!File.Exists(manifestFile))
             {
+                var result = MessageBox.Show("This folder does not have a manifest file. Create a new one?",
+                    "New project", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                if (result != DialogResult.Yes)
+                {
+                    newManifest = null;
+                    return false;
+                }
+                
                 newManifest = new ModManifest
                 {
                     ManifestRevision = ModManifest.MANIFEST_REVISION,
