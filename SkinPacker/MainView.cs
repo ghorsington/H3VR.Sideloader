@@ -10,16 +10,27 @@ namespace SkinPacker
         public MainView()
         {
             InitializeComponent();
-
             InitAssetMappingsView();
 
-            for (var i = 0; i < 20; i++)
-                assetMappings.Add(new AssetMapping
-                {
-                    AssetType = AssetType.Texture,
-                    Path = i + "asdökasjdoipasjdioasdioasdjoilasdjklöa",
-                    Target = "aswkldnasioudnasoidfnasjkldmnaökds"
-                });
+            Load += (sender, args) => ControlsEnabled = false;
+        }
+
+        private bool ControlsEnabled
+        {
+            get => guidTextBox.Enabled;
+            set
+            {
+                guidTextBox.Enabled = value;
+                nameTextBox.Enabled = value;
+                versionTextBox.Enabled = value;
+                descTextBox.Enabled = value;
+                addMappingButton.Enabled = value;
+                assetMappingView.Enabled = value;
+                editMappingButton.Enabled = value && assetMappingView.SelectedRows.Count != 0;
+                deleteMappingButton.Enabled = value && assetMappingView.SelectedRows.Count != 0;
+                saveManifestButton.Enabled = value;
+                packModButton.Enabled = value;
+            }
         }
 
         private void InitAssetMappingsView()
@@ -56,10 +67,7 @@ namespace SkinPacker
                 deleteMappingButton.Enabled = assetMappingView.SelectedRows.Count != 0;
             };
 
-            deleteMappingButton.Click += (sender, args) =>
-            {
-                assetMappings.RemoveCurrent();
-            };
+            deleteMappingButton.Click += (sender, args) => { assetMappings.RemoveCurrent(); };
         }
     }
 }
