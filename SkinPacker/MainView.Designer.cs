@@ -263,6 +263,7 @@
             this.descTextBox.Location = new System.Drawing.Point(129, 162);
             this.descTextBox.Multiline = true;
             this.descTextBox.Name = "descTextBox";
+            this.descTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.descTextBox.Size = new System.Drawing.Size(330, 72);
             this.descTextBox.TabIndex = 14;
             // 
