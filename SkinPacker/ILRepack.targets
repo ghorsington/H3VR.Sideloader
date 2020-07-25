@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <Target Name="ILRepacker" AfterTargets="Build" Condition="'$(Configuration)' == 'Release'">
+
+        <ItemGroup>
+            <InputAssemblies Include="$(OutputPath)\$(AssemblyName).exe"/>
+            <InputAssemblies Include="$(OutputPath)\Microsoft.WindowsAPICodePack.dll"/>
+            <InputAssemblies Include="$(OutputPath)\Microsoft.WindowsAPICodePack.Shell.dll"/>
+            <InputAssemblies Include="$(OutputPath)\Microsoft.WindowsAPICodePack.ShellExtensions.dll"/>
+        </ItemGroup>
+
+        <ILRepack
+                Parallel="true"
+                InputAssemblies="@(InputAssemblies)"
+                TargetKind="WinExe"
+                OutputFile="$(OutputPath)\$(AssemblyName).exe"
+        />
+        <Delete Files="$(OutputPath)\Microsoft.WindowsAPICodePack.dll" />
+        <Delete Files="$(OutputPath)\Microsoft.WindowsAPICodePack.Shell.dll" />
+        <Delete Files="$(OutputPath)\Microsoft.WindowsAPICodePack.ShellExtensions.dll" />
+    </Target>
+</Project>
