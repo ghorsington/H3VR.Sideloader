@@ -17,5 +17,16 @@ namespace SkinPacker
 
             tooltip.SetToolTip(control, string.Join(Environment.NewLine, lines));
         }
+
+        public static void AddValidator(this Control control, Func<string> validator)
+        {
+            var errorProvider = new ErrorProvider {BlinkStyle = ErrorBlinkStyle.NeverBlink};
+
+            control.Validated += (sender, args) =>
+            {
+                var result = validator();
+                errorProvider.SetError(control, result);
+            };
+        }
     }
 }

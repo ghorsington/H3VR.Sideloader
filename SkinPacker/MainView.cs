@@ -11,8 +11,9 @@ namespace SkinPacker
             InitializeComponent();
             InitAssetMappingsView();
             AddToolTips();
+            InitializeValidators();
 
-            Load += (sender, args) => ControlsEnabled = false;
+            // Load += (sender, args) => ControlsEnabled = false;
         }
 
         private bool ControlsEnabled
@@ -100,6 +101,16 @@ namespace SkinPacker
                 "To add a texture, click `Add`, select texture to add and fill additional mapping info.",
                 "To edit a texture, select one from the list and click `Edit`.",
                 "To delete a texture, select from the list and click `Remove`.");
+        }
+
+        private void InitializeValidators()
+        {
+            guidTextBox.AddValidator(() =>
+            {
+                if (guidTextBox.Text != "wew")
+                    return "Must be wew";
+                return string.Empty;
+            });
         }
     }
 }

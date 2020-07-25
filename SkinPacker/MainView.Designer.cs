@@ -69,13 +69,14 @@
             // tableLayoutPanel1
             // 
             this.tableLayoutPanel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.tableLayoutPanel1.ColumnCount = 3;
+            this.tableLayoutPanel1.ColumnCount = 4;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 15F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel1.Controls.Add(this.projectPathLabel, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.projectFolderTextBox, 1, 0);
-            this.tableLayoutPanel1.Controls.Add(this.selectProjectFolderButton, 2, 0);
+            this.tableLayoutPanel1.Controls.Add(this.selectProjectFolderButton, 3, 0);
             this.tableLayoutPanel1.Controls.Add(this.label1, 0, 2);
             this.tableLayoutPanel1.Controls.Add(this.label2, 1, 2);
             this.tableLayoutPanel1.Controls.Add(this.label3, 0, 3);
@@ -90,11 +91,11 @@
             this.tableLayoutPanel1.Controls.Add(this.descTextBox, 1, 6);
             this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 1, 7);
             this.tableLayoutPanel1.Controls.Add(this.flowLayoutPanel2, 0, 8);
-            this.tableLayoutPanel1.Controls.Add(this.guidHelp, 2, 3);
-            this.tableLayoutPanel1.Controls.Add(this.nameHelp, 2, 4);
-            this.tableLayoutPanel1.Controls.Add(this.versionHelp, 2, 5);
-            this.tableLayoutPanel1.Controls.Add(this.descHelp, 2, 6);
-            this.tableLayoutPanel1.Controls.Add(this.skinsHelp, 2, 7);
+            this.tableLayoutPanel1.Controls.Add(this.guidHelp, 3, 3);
+            this.tableLayoutPanel1.Controls.Add(this.nameHelp, 3, 4);
+            this.tableLayoutPanel1.Controls.Add(this.versionHelp, 3, 5);
+            this.tableLayoutPanel1.Controls.Add(this.descHelp, 3, 6);
+            this.tableLayoutPanel1.Controls.Add(this.skinsHelp, 3, 7);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -133,7 +134,7 @@
             this.projectFolderTextBox.Name = "projectFolderTextBox";
             this.projectFolderTextBox.ReadOnly = true;
             this.projectFolderTextBox.ShortcutsEnabled = false;
-            this.projectFolderTextBox.Size = new System.Drawing.Size(351, 20);
+            this.projectFolderTextBox.Size = new System.Drawing.Size(336, 20);
             this.projectFolderTextBox.TabIndex = 1;
             this.projectFolderTextBox.WordWrap = false;
             // 
@@ -165,7 +166,7 @@
             this.label2.ForeColor = System.Drawing.SystemColors.GrayText;
             this.label2.Location = new System.Drawing.Point(129, 58);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(345, 23);
+            this.label2.Size = new System.Drawing.Size(330, 23);
             this.label2.TabIndex = 4;
             this.label2.Text = "Hover over the \'Help\' link for more information about each field";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -225,13 +226,13 @@
             this.guidTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.guidTextBox.Location = new System.Drawing.Point(129, 84);
             this.guidTextBox.Name = "guidTextBox";
-            this.guidTextBox.Size = new System.Drawing.Size(345, 20);
+            this.guidTextBox.Size = new System.Drawing.Size(330, 20);
             this.guidTextBox.TabIndex = 10;
             // 
             // label8
             // 
             this.label8.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.tableLayoutPanel1.SetColumnSpan(this.label8, 3);
+            this.tableLayoutPanel1.SetColumnSpan(this.label8, 4);
             this.label8.Location = new System.Drawing.Point(10, 56);
             this.label8.Margin = new System.Windows.Forms.Padding(10, 0, 10, 0);
             this.label8.Name = "label8";
@@ -245,7 +246,7 @@
             this.nameTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.nameTextBox.Location = new System.Drawing.Point(129, 110);
             this.nameTextBox.Name = "nameTextBox";
-            this.nameTextBox.Size = new System.Drawing.Size(345, 20);
+            this.nameTextBox.Size = new System.Drawing.Size(330, 20);
             this.nameTextBox.TabIndex = 12;
             // 
             // versionTextBox
@@ -253,7 +254,7 @@
             this.versionTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.versionTextBox.Location = new System.Drawing.Point(129, 136);
             this.versionTextBox.Name = "versionTextBox";
-            this.versionTextBox.Size = new System.Drawing.Size(345, 20);
+            this.versionTextBox.Size = new System.Drawing.Size(330, 20);
             this.versionTextBox.TabIndex = 13;
             // 
             // descTextBox
@@ -262,7 +263,7 @@
             this.descTextBox.Location = new System.Drawing.Point(129, 162);
             this.descTextBox.Multiline = true;
             this.descTextBox.Name = "descTextBox";
-            this.descTextBox.Size = new System.Drawing.Size(345, 72);
+            this.descTextBox.Size = new System.Drawing.Size(330, 72);
             this.descTextBox.TabIndex = 14;
             // 
             // tableLayoutPanel2
@@ -277,7 +278,7 @@
             this.tableLayoutPanel2.RowCount = 2;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(345, 183);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(330, 183);
             this.tableLayoutPanel2.TabIndex = 15;
             // 
             // flowLayoutPanel1
@@ -289,7 +290,7 @@
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 3);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(339, 29);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(324, 29);
             this.flowLayoutPanel1.TabIndex = 0;
             this.flowLayoutPanel1.WrapContents = false;
             // 
@@ -345,13 +346,13 @@
             this.assetMappingView.ShowCellToolTips = false;
             this.assetMappingView.ShowEditingIcon = false;
             this.assetMappingView.ShowRowErrors = false;
-            this.assetMappingView.Size = new System.Drawing.Size(339, 142);
+            this.assetMappingView.Size = new System.Drawing.Size(324, 142);
             this.assetMappingView.TabIndex = 1;
             // 
             // flowLayoutPanel2
             // 
             this.flowLayoutPanel2.AutoSize = true;
-            this.tableLayoutPanel1.SetColumnSpan(this.flowLayoutPanel2, 3);
+            this.tableLayoutPanel1.SetColumnSpan(this.flowLayoutPanel2, 4);
             this.flowLayoutPanel2.Controls.Add(this.packModButton);
             this.flowLayoutPanel2.Controls.Add(this.saveManifestButton);
             this.flowLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
