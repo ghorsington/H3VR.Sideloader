@@ -17,6 +17,7 @@
 
     internal class ModManifest
     {
+        public const string MANIFEST_FILE_NAME = "manifest.json";
         public const string MANIFEST_REVISION = "1";
         public AssetMapping[] AssetMappings { get; set; }
         public string Guid { get; set; }

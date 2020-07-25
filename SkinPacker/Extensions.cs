@@ -21,11 +21,12 @@ namespace SkinPacker
         public static void AddValidator(this Control control, Func<string> validator)
         {
             var errorProvider = new ErrorProvider {BlinkStyle = ErrorBlinkStyle.NeverBlink};
-
-            control.Validated += (sender, args) =>
+            control.Validating += (sender, args) =>
             {
                 var result = validator();
                 errorProvider.SetError(control, result);
+                if (result != string.Empty)
+                    args.Cancel = true;
             };
         }
     }

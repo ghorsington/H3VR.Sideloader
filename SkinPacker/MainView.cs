@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using H3VR.Sideloader;
@@ -194,7 +195,22 @@ namespace SkinPacker
 
         private bool SaveManifest()
         {
-            ControlsEnabled = false;
+            if (!ValidateChildren(ValidationConstraints.Selectable))
+            {
+                MessageBox.Show("The manifest data is not valid! Please fix the errors first.", "Cannot save",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
+            manifest.ManifestRevision = ModManifest.MANIFEST_REVISION;
+            manifest.Guid = guidTextBox.Text;
+            manifest.Name = nameTextBox.Text;
+            manifest.Version = versionTextBox.Text;
+            manifest.Description = descTextBox.Text;
+            manifest.AssetMappings = assetMappings.Cast<AssetMapping>().ToArray();
+            var manifestPath = Path.Combine(projectFolderTextBox.Text, ModManifest.MANIFEST_FILE_NAME);
+            File.WriteAllText(manifestPath, JsonSerializer.SerializeObject(manifest));
+            Dirty = false;
             return true;
         }
 
@@ -225,7 +241,7 @@ namespace SkinPacker
 
         private bool TryLoadManifest(string path, out ModManifest newManifest)
         {
-            var manifestFile = Path.Combine(path, "manifest.json");
+            var manifestFile = Path.Combine(path, ModManifest.MANIFEST_FILE_NAME);
             if (!File.Exists(manifestFile))
             {
                 var result = MessageBox.Show("This folder does not have a manifest file. Create a new one?",
@@ -261,6 +277,11 @@ namespace SkinPacker
                 newManifest = null;
                 return false;
             }
+        }
+
+        private void saveManifestButton_Click(object sender, EventArgs e)
+        {
+            SaveManifest();
         }
     }
 }

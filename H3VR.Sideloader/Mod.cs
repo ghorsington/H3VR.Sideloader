@@ -12,7 +12,6 @@ namespace H3VR.Sideloader
 {
     internal class Mod
     {
-        private const string MANIFEST_FILE = "manifest.json";
         public ModManifest Manifest { get; private set; }
         public string ModPath { get; private set; }
         private ZipFile Archive { get; set; }
@@ -29,9 +28,9 @@ namespace H3VR.Sideloader
             if (!Directory.Exists(path))
                 throw new DirectoryNotFoundException("The path is not a valid mod directory!");
 
-            var manifestPath = Path.Combine(path, MANIFEST_FILE);
+            var manifestPath = Path.Combine(path, ModManifest.MANIFEST_FILE_NAME);
             if (!File.Exists(manifestPath))
-                throw new FileNotFoundException("Failed to find manifest.json, the directory is not valid!");
+                throw new FileNotFoundException($"Failed to find {ModManifest.MANIFEST_FILE_NAME}, the directory is not valid!");
 
             var manifest = new JsonSerializer().Deserialize<ModManifest>(File.ReadAllText(manifestPath));
             if (!manifest.Verify(out var errors))
@@ -49,7 +48,7 @@ namespace H3VR.Sideloader
         {
             var file = new ZipFile(path);
 
-            var manifestEntry = file.GetEntry(MANIFEST_FILE);
+            var manifestEntry = file.GetEntry(ModManifest.MANIFEST_FILE_NAME);
 
             if (manifestEntry == null)
                 throw new ModLoadException("The archive is not a valid zipmod.");

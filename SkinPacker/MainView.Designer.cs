@@ -384,6 +384,7 @@
             this.saveManifestButton.TabIndex = 2;
             this.saveManifestButton.Text = "Save";
             this.saveManifestButton.UseVisualStyleBackColor = true;
+            this.saveManifestButton.Click += new System.EventHandler(this.saveManifestButton_Click);
             // 
             // guidHelp
             // 
