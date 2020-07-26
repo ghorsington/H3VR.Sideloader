@@ -322,5 +322,15 @@ namespace SkinPacker
             var packer = new ModPacker(manifest, projectFolderTextBox.Text, savePathDialog.FileName);
             packer.ShowDialog();
         }
+
+        private void addMappingButton_Click(object sender, EventArgs e)
+        {
+            var newMapping = new AssetMapping { Type = AssetType.Texture };
+            var editDialog = new TextureEditDialog(newMapping);
+            var result = editDialog.ShowDialog();
+
+            if (result == DialogResult.OK)
+                assetMappings.Add(newMapping);
+        }
     }
 }

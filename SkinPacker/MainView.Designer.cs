@@ -305,6 +305,7 @@
             this.addMappingButton.TabIndex = 0;
             this.addMappingButton.Text = "Add";
             this.addMappingButton.UseVisualStyleBackColor = true;
+            this.addMappingButton.Click += new System.EventHandler(this.addMappingButton_Click);
             // 
             // deleteMappingButton
             // 
