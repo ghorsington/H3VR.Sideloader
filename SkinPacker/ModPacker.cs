@@ -77,8 +77,13 @@ namespace SkinPacker
                 {
                     foreach (var file in files)
                     {
-                        var zipFilePath = file.StartsWith(baseDir) ? file.Substring(0, baseDir.Length).Trim(PathUtils.PathSeparators) :
-                            IsInProjectDir(file) ? file : Path.GetFileName(file);
+                        var zipFilePath = file.StartsWith(baseDir)
+                            ?
+                            file.Substring(0, baseDir.Length).Trim(PathUtils.PathSeparators)
+                            :
+                            IsInProjectDir(file)
+                                ? file
+                                : Path.GetFileName(file);
                         Advance($"Packing {zipFilePath}");
                         zipStream.PutNextEntry(new ZipEntry(zipFilePath.Replace('\\', '/')));
                         using var fileStream = File.OpenRead(Path.Combine(baseDir, zipFilePath));

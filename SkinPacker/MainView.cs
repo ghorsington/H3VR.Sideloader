@@ -335,5 +335,14 @@ namespace SkinPacker
                 assetMappings.Add(newMapping);
             Dirty = true;
         }
+
+        private void editMappingButton_Click(object sender, EventArgs e)
+        {
+            var current = assetMappings.Current as AssetMapping;
+            var editDialog = new TextureEditDialog(current, BaseDir);
+            var result = editDialog.ShowDialog();
+            if (result == DialogResult.OK)
+                Dirty = true;
+        }
     }
 }

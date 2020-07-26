@@ -326,6 +326,7 @@
             this.editMappingButton.TabIndex = 2;
             this.editMappingButton.Text = "Edit";
             this.editMappingButton.UseVisualStyleBackColor = true;
+            this.editMappingButton.Click += new System.EventHandler(this.editMappingButton_Click);
             // 
             // assetMappingView
             // 

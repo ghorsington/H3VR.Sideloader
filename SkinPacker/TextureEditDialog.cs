@@ -9,8 +9,8 @@ namespace SkinPacker
 {
     internal partial class TextureEditDialog : Form
     {
-        private AssetMapping mapping;
-        private string baseDir;
+        private readonly string baseDir;
+        private readonly AssetMapping mapping;
 
         public TextureEditDialog(AssetMapping mapping, string baseDir)
         {
@@ -20,11 +20,17 @@ namespace SkinPacker
             InitializeValidators();
             AddTooltips();
             FillValues();
+
+            Closing += (sender, args) => DialogResult = DialogResult.Cancel;
         }
 
         private void InitializeValidators()
         {
-            void SetValidator(Control c) => c.TextChanged += (sender, args) => ValidateValues();
+            void SetValidator(Control c)
+            {
+                c.TextChanged += (sender, args) => ValidateValues();
+            }
+
             SetValidator(texturePathTextBox);
             SetValidator(prefabPathTextBox);
             SetValidator(materialNameTextBox);
@@ -34,8 +40,11 @@ namespace SkinPacker
 
         private void FillValues()
         {
-            static string GetOrDefault(string[] parts, int index) => index < parts.Length ? parts[index] : string.Empty;
-            
+            static string GetOrDefault(string[] parts, int index)
+            {
+                return index < parts.Length ? parts[index] : string.Empty;
+            }
+
             texturePathTextBox.Text = mapping.Path;
             var parts = mapping.Target.Split(':').Select(t => t.Trim()).ToArray();
             prefabPathTextBox.Text = GetOrDefault(parts, 0);
@@ -48,7 +57,7 @@ namespace SkinPacker
         private void ValidateValues()
         {
             var valid = File.Exists(Path.Combine(baseDir, texturePathTextBox.Text))
-                        && new []
+                        && new[]
                         {
                             prefabPathTextBox.Text,
                             materialNameTextBox.Text,
@@ -109,7 +118,8 @@ namespace SkinPacker
             var needsCopying = !fileDialog.FileName.StartsWith(baseDir);
             if (needsCopying)
             {
-                var copyResult = MessageBox.Show($"Texture {fileDialog.FileName} will be copied over into project folder. Continue?",
+                var copyResult = MessageBox.Show(
+                    $"Texture {fileDialog.FileName} will be copied over into project folder. Continue?",
                     "Needs copying", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
                 if (copyResult != DialogResult.Yes)
                     return;
@@ -129,7 +139,7 @@ namespace SkinPacker
             {
                 fileName = fileName.Substring(baseDir.Length).Trim(PathUtils.PathSeparators);
             }
-            
+
             texturePathTextBox.Text = fileName;
             ValidateValues();
         }

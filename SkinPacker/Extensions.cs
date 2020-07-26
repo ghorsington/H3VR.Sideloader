@@ -7,7 +7,7 @@ namespace SkinPacker
     public static class PathUtils
     {
         public static readonly char[] PathSeparators = {Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar};
-        
+
         public static bool IsFullPath(string path)
         {
             return !string.IsNullOrWhiteSpace(path)
