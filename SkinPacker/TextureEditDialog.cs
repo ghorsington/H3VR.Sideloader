@@ -118,14 +118,14 @@ namespace SkinPacker
             if (needsCopying)
             {
                 var copyResult = MessageBox.Show(
-                    $"Texture {fileDialog.FileName} will be copied over into project folder. Continue?",
+                    $"Texture {fileDialog.FileName} will be copied over into project folder. Continue?\nThis will overwrite the previous texture with the same name if it exists.",
                     "Needs copying", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
                 if (copyResult != DialogResult.Yes)
                     return;
                 fileName = Path.GetFileName(fileDialog.FileName);
                 try
                 {
-                    File.Copy(fileDialog.FileName, Path.Combine(baseDir, fileName));
+                    File.Copy(fileDialog.FileName, Path.Combine(baseDir, fileName), true);
                 }
                 catch (Exception ex)
                 {
