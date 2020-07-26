@@ -73,7 +73,8 @@ namespace SkinPacker
                 "Full path to the asset bundle and the prefab.",
                 "If this is specified, only textures within the prefab will be replaced.",
                 "The path must be lower case and start from `h3vr_data` folder.",
-                "Example: `h3vr_data\\streamingassets\\assets_resources_objectids_weaponry_smg\\thompsonm1a1` to reference `ThompsonM1A1` prefab from `assets_resources_objectids_weaponry_smg` asset bundle.");
+                "Example: `h3vr_data\\streamingassets\\assets_resources_objectids_weaponry_smg\\thompsonm1a1` to reference",
+                "`ThompsonM1A1` prefab from `assets_resources_objectids_weaponry_smg` asset bundle.");
 
             materialNameHelp.AddTooltip("Material name",
                 "Name of the Material object",
