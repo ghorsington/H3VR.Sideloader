@@ -115,6 +115,7 @@ namespace SkinPacker
             this.openFolderButton.TabIndex = 1;
             this.openFolderButton.Text = "Open containing folder";
             this.openFolderButton.UseVisualStyleBackColor = true;
+            this.openFolderButton.Click += new System.EventHandler(this.openFolderButton_Click);
             // 
             // ModPacker
             // 
@@ -131,7 +132,6 @@ namespace SkinPacker
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Packaging mod";
-            this.TopMost = true;
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             this.flowLayoutPanel1.ResumeLayout(false);

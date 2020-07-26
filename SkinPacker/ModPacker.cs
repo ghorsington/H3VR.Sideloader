@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -108,6 +109,12 @@ namespace SkinPacker
         {
             DialogResult = DialogResult.OK;
             Close();
+        }
+
+        private void openFolderButton_Click(object sender, EventArgs e)
+        {
+            var folderPath = $"{Path.GetDirectoryName(targetPath).Trim('\\', '/')}\\";
+            Process.Start(folderPath);
         }
     }
 }
