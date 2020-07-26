@@ -47,46 +47,15 @@ namespace SkinPacker
                     progressLabel.Text = "Preparing";
                 }));
 
-                bool IsInProjectDir(string file)
-                {
-                    return !PathUtils.IsFullPath(file) || file.StartsWith(baseDir);
-                }
-
-                foreach (var file in files)
-                {
-                    Advance($"Copying {file}");
-                    var fileName = Path.GetFileName(file);
-                    if (IsInProjectDir(file)) continue;
-                    try
-                    {
-                        File.Copy(file, Path.Combine(baseDir, fileName));
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show($"Failed to copy asset {file} because: {ex.Message}.", "Heck",
-                            MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        DialogResult = DialogResult.Cancel;
-                        CloseWnd();
-                        return;
-                    }
-                }
-
                 var zipName = Path.GetFileName(targetPath);
                 Advance($"Packing into {zipName}");
                 using (var zipStream = new ZipOutputStream(File.Create(targetPath)))
                 {
                     foreach (var file in files)
                     {
-                        var zipFilePath = file.StartsWith(baseDir)
-                            ?
-                            file.Substring(0, baseDir.Length).Trim(PathUtils.PathSeparators)
-                            :
-                            IsInProjectDir(file)
-                                ? file
-                                : Path.GetFileName(file);
-                        Advance($"Packing {zipFilePath}");
-                        zipStream.PutNextEntry(new ZipEntry(zipFilePath.Replace('\\', '/')));
-                        using var fileStream = File.OpenRead(Path.Combine(baseDir, zipFilePath));
+                        Advance($"Packing {file}");
+                        zipStream.PutNextEntry(new ZipEntry(file.Replace("\\", "/")));
+                        using var fileStream = File.OpenRead(Path.Combine(baseDir, file));
                         fileStream.CopyTo(zipStream);
                     }
 

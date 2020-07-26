@@ -7,14 +7,6 @@ namespace SkinPacker
     public static class PathUtils
     {
         public static readonly char[] PathSeparators = {Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar};
-
-        public static bool IsFullPath(string path)
-        {
-            return !string.IsNullOrWhiteSpace(path)
-                   && path.IndexOfAny(Path.GetInvalidPathChars()) == -1
-                   && Path.IsPathRooted(path)
-                   && !Path.GetPathRoot(path).Equals(Path.DirectorySeparatorChar.ToString(), StringComparison.Ordinal);
-        }
     }
 
     public static class Extensions
