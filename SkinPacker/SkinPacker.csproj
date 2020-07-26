@@ -5,7 +5,7 @@
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <AssemblyTitle>SkinPacker</AssemblyTitle>
     <Product>SkinPacker</Product>
-    <Copyright>Copyright ©  2020</Copyright>
+    <Copyright>Copyright © Geoffrey Horsington 2020</Copyright>
     <OutputPath>bin\$(Configuration)\</OutputPath>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <LangVersion>8</LangVersion>
