@@ -68,7 +68,7 @@ namespace SkinPacker
             this.progressLabel.Name = "progressLabel";
             this.progressLabel.Size = new System.Drawing.Size(488, 23);
             this.progressLabel.TabIndex = 0;
-            this.progressLabel.Text = "label1";
+            this.progressLabel.Text = "Starting up...";
             // 
             // progressBar
             // 
@@ -96,6 +96,7 @@ namespace SkinPacker
             // 
             // closButton
             // 
+            this.closButton.Enabled = false;
             this.closButton.Location = new System.Drawing.Point(410, 3);
             this.closButton.Name = "closButton";
             this.closButton.Size = new System.Drawing.Size(75, 23);
@@ -107,6 +108,7 @@ namespace SkinPacker
             // openFolderButton
             // 
             this.openFolderButton.AutoSize = true;
+            this.openFolderButton.Enabled = false;
             this.openFolderButton.Location = new System.Drawing.Point(280, 3);
             this.openFolderButton.Name = "openFolderButton";
             this.openFolderButton.Size = new System.Drawing.Size(124, 23);

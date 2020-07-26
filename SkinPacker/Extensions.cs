@@ -6,14 +6,15 @@ namespace SkinPacker
 {
     public static class PathUtils
     {
-        public static bool IsFullPath(string path) {
+        public static bool IsFullPath(string path)
+        {
             return !string.IsNullOrWhiteSpace(path)
                    && path.IndexOfAny(Path.GetInvalidPathChars()) == -1
                    && Path.IsPathRooted(path)
                    && !Path.GetPathRoot(path).Equals(Path.DirectorySeparatorChar.ToString(), StringComparison.Ordinal);
         }
     }
-    
+
     public static class Extensions
     {
         public static void AddTooltip(this Control control, string title, params string[] lines)

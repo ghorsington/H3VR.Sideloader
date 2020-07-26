@@ -14,6 +14,7 @@ namespace SkinPacker
     public partial class MainView : Form
     {
         private const string TITLE = "Skin Packer";
+        private readonly BindingSource assetMappings = new BindingSource();
 
         private readonly JsonSerializerSettings jsonSerializerSettings = new JsonSerializerSettings
         {
@@ -27,22 +28,11 @@ namespace SkinPacker
             Formatting = Formatting.Indented,
             MissingMemberHandling = MissingMemberHandling.Ignore
         };
+
         private readonly JsonSerializer serializer;
-        private readonly BindingSource assetMappings = new BindingSource();
         private bool isDirty;
         private bool isLoading;
         private ModManifest manifest;
-
-        private bool Dirty
-        {
-            get => isDirty;
-            set
-            {
-                isDirty = value;
-                if (isLoading) return;
-                Text = isDirty ? $"{TITLE} [UNSAVED CHANGES]" : TITLE;
-            }
-        }
 
         public MainView()
         {
@@ -56,13 +46,16 @@ namespace SkinPacker
 
             Load += (sender, args) => ControlsEnabled = false;
         }
-        
-        private void MarkDirtyOnChange(Control c)
+
+        private bool Dirty
         {
-            c.TextChanged += (sender, args) =>
+            get => isDirty;
+            set
             {
-                Dirty = true;
-            };
+                isDirty = value;
+                if (isLoading) return;
+                Text = isDirty ? $"{TITLE} [UNSAVED CHANGES]" : TITLE;
+            }
         }
 
         private bool ControlsEnabled
@@ -82,6 +75,11 @@ namespace SkinPacker
                 packModButton.Enabled = value;
                 ValidateChildren(ValidationConstraints.Selectable);
             }
+        }
+
+        private void MarkDirtyOnChange(Control c)
+        {
+            c.TextChanged += (sender, args) => { Dirty = true; };
         }
 
         private void InitAssetMappingsView()
@@ -161,7 +159,7 @@ namespace SkinPacker
         {
             var guidPattern = new Regex("^[a-z0-9_.-]+$");
             var versionPattern = new Regex("^\\d+\\.\\d+(\\.\\d+)?$");
-            
+
             MarkDirtyOnChange(guidTextBox);
             guidTextBox.AddValidator(() =>
             {
@@ -171,11 +169,11 @@ namespace SkinPacker
                     return "GUID contains invalid characters, check help";
                 return string.Empty;
             });
-            
+
             MarkDirtyOnChange(nameTextBox);
             nameTextBox.AddValidator(
                 () => string.IsNullOrWhiteSpace(nameTextBox.Text) ? "Required field" : string.Empty);
-            
+
             MarkDirtyOnChange(versionTextBox);
             versionTextBox.AddValidator(() =>
             {
@@ -185,7 +183,7 @@ namespace SkinPacker
                     return "Version must be of form X.X.X, check help for info";
                 return string.Empty;
             });
-            
+
             MarkDirtyOnChange(descTextBox);
         }
 
@@ -271,7 +269,7 @@ namespace SkinPacker
                     newManifest = null;
                     return false;
                 }
-                
+
                 newManifest = new ModManifest
                 {
                     ManifestRevision = ModManifest.MANIFEST_REVISION,
@@ -285,7 +283,9 @@ namespace SkinPacker
 
             try
             {
-                newManifest = serializer.Deserialize<ModManifest>(new JsonTextReader(new StringReader(File.ReadAllText(manifestFile))));
+                newManifest =
+                    serializer.Deserialize<ModManifest>(
+                        new JsonTextReader(new StringReader(File.ReadAllText(manifestFile))));
                 return true;
             }
             catch (Exception exception)
@@ -307,10 +307,10 @@ namespace SkinPacker
         {
             if (!SaveManifest())
                 return;
-            
+
             var savePathDialog = new CommonSaveFileDialog
             {
-                Filters = { new CommonFileDialogFilter("H3VR Sideloader Mod", "*.h3mod")},
+                Filters = {new CommonFileDialogFilter("H3VR Sideloader Mod", "*.h3mod")},
                 Title = "Save sideloader file",
                 DefaultExtension = ".h3mod"
             };
@@ -318,7 +318,7 @@ namespace SkinPacker
             var result = savePathDialog.ShowDialog();
             if (result != CommonFileDialogResult.Ok)
                 return;
-            
+
             var packer = new ModPacker(manifest, projectFolderTextBox.Text, savePathDialog.FileName);
             packer.ShowDialog();
         }
