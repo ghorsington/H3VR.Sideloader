@@ -102,7 +102,7 @@ namespace SkinPacker
             this.closButton.TabIndex = 0;
             this.closButton.Text = "Close";
             this.closButton.UseVisualStyleBackColor = true;
-            this.closButton.Click += new System.EventHandler(this.closButton_Click);
+            this.closButton.Click += new System.EventHandler(this.closeButton_Click);
             // 
             // openFolderButton
             // 

@@ -8,6 +8,7 @@
             <InputAssemblies Include="$(OutputPath)\Microsoft.WindowsAPICodePack.Shell.dll"/>
             <InputAssemblies Include="$(OutputPath)\Microsoft.WindowsAPICodePack.ShellExtensions.dll"/>
             <InputAssemblies Include="$(OutputPath)\Newtonsoft.Json.dll"/>
+            <InputAssemblies Include="$(OutputPath)\ICSharpCode.SharpZipLib.dll"/>
         </ItemGroup>
 
         <ILRepack
@@ -21,5 +22,6 @@
         <Delete Files="$(OutputPath)\Microsoft.WindowsAPICodePack.Shell.dll" />
         <Delete Files="$(OutputPath)\Microsoft.WindowsAPICodePack.ShellExtensions.dll" />
         <Delete Files="$(OutputPath)\Newtonsoft.Json.dll" />
+        <Delete Files="$(OutputPath)\ICSharpCode.SharpZipLib.dll" />
     </Target>
 </Project>
