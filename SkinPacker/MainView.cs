@@ -77,6 +77,8 @@ namespace SkinPacker
             }
         }
 
+        private string BaseDir => projectFolderTextBox.Text;
+
         private void MarkDirtyOnChange(Control c)
         {
             c.TextChanged += (sender, args) => { Dirty = true; };
@@ -224,7 +226,7 @@ namespace SkinPacker
             manifest.Version = versionTextBox.Text;
             manifest.Description = descTextBox.Text;
             manifest.AssetMappings = assetMappings.Cast<AssetMapping>().ToArray();
-            var manifestPath = Path.Combine(projectFolderTextBox.Text, ModManifest.MANIFEST_FILE_NAME);
+            var manifestPath = Path.Combine(BaseDir, ModManifest.MANIFEST_FILE_NAME);
             using var file = File.CreateText(manifestPath);
             serializer.Serialize(file, manifest);
             Dirty = false;
@@ -319,18 +321,19 @@ namespace SkinPacker
             if (result != CommonFileDialogResult.Ok)
                 return;
 
-            var packer = new ModPacker(manifest, projectFolderTextBox.Text, savePathDialog.FileName);
+            var packer = new ModPacker(manifest, BaseDir, savePathDialog.FileName);
             packer.ShowDialog();
         }
 
         private void addMappingButton_Click(object sender, EventArgs e)
         {
-            var newMapping = new AssetMapping { Type = AssetType.Texture };
-            var editDialog = new TextureEditDialog(newMapping);
+            var newMapping = new AssetMapping {Type = AssetType.Texture, Path = "", Target = ""};
+            var editDialog = new TextureEditDialog(newMapping, BaseDir);
             var result = editDialog.ShowDialog();
 
             if (result == DialogResult.OK)
                 assetMappings.Add(newMapping);
+            Dirty = true;
         }
     }
 }

@@ -34,8 +34,11 @@ namespace SkinPacker
                 {
                     Invoke((Action) (() => AdvanceStep(s)));
                 }
-                
-                void CloseWnd() => Invoke((Action) Close);
+
+                void CloseWnd()
+                {
+                    Invoke((Action) Close);
+                }
 
                 var files = manifest.AssetMappings.Select(m => m.Path).Distinct().ToList();
                 Invoke((Action) (() =>
@@ -74,7 +77,7 @@ namespace SkinPacker
                 {
                     foreach (var file in files)
                     {
-                        var zipFilePath = file.StartsWith(baseDir) ? file.Substring(0, baseDir.Length).Trim('\\', '/') :
+                        var zipFilePath = file.StartsWith(baseDir) ? file.Substring(0, baseDir.Length).Trim(PathUtils.PathSeparators) :
                             IsInProjectDir(file) ? file : Path.GetFileName(file);
                         Advance($"Packing {zipFilePath}");
                         zipStream.PutNextEntry(new ZipEntry(zipFilePath.Replace('\\', '/')));

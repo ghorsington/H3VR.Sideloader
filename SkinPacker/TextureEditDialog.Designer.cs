@@ -154,6 +154,7 @@ namespace SkinPacker
             this.selectTextButton.TabIndex = 2;
             this.selectTextButton.Text = "Select file...";
             this.selectTextButton.UseVisualStyleBackColor = true;
+            this.selectTextButton.Click += new System.EventHandler(this.selectTextButton_Click);
             // 
             // prefabPathHelp
             // 
@@ -309,6 +310,7 @@ namespace SkinPacker
             this.saveButton.TabIndex = 1;
             this.saveButton.Text = "Save";
             this.saveButton.UseVisualStyleBackColor = true;
+            this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
             // 
             // tableLayoutPanel2
             // 
