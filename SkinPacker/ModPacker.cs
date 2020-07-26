@@ -46,6 +46,16 @@ namespace SkinPacker
                     progressBar.Maximum = files.Count * 2 + 3;
                     progressLabel.Text = "Preparing";
                 }));
+                
+                foreach (var file in files)
+                {
+                    var fullFile = Path.Combine(baseDir, file);
+                    if (File.Exists(fullFile)) continue;
+                    MessageBox.Show($"Failed to find file {fullFile}, cannot pack!", "Heck", MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
+                    CloseWnd();
+                    return;
+                }
 
                 var zipName = Path.GetFileName(targetPath);
                 Advance($"Packing into {zipName}");
