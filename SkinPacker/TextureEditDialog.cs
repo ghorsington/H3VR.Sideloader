@@ -20,8 +20,6 @@ namespace SkinPacker
             InitializeValidators();
             AddTooltips();
             FillValues();
-
-            Closing += (sender, args) => DialogResult = DialogResult.Cancel;
         }
 
         private void InitializeValidators()
