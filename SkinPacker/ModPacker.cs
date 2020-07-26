@@ -43,7 +43,7 @@ namespace SkinPacker
                 var files = manifest.AssetMappings.Select(m => m.Path).Distinct().ToList();
                 Invoke((Action) (() =>
                 {
-                    progressBar.Maximum = files.Count * 2 + 3;
+                    progressBar.Maximum = files.Count + 3;
                     progressLabel.Text = "Preparing";
                 }));
                 
