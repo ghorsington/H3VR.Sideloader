@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using BepInEx;
 using BepInEx.Logging;
+using FistVR;
 using ICSharpCode.SharpZipLib.Zip;
 using UnityEngine;
 using XUnity.ResourceRedirector;
@@ -49,6 +50,7 @@ namespace H3VR.Sideloader
 
         private void Awake()
         {
+            ResourceRedirection.LogAllLoadedResources = true;
             ZipConstants.DefaultCodePage = Encoding.UTF8.CodePage;
             Logger = base.Logger;
             ResourceRedirection.EnableSyncOverAsyncAssetLoads();
@@ -116,10 +118,28 @@ namespace H3VR.Sideloader
             foreach (var obj in ctx.Assets)
             {
                 var path = ctx.GetUniqueFileSystemAssetPath(obj);
-                if (!(obj is GameObject go)) continue;
-                ReplaceTexturesMaterials(go, path);
-                ReplaceMeshes(go, path);
+                switch (obj)
+                {
+                    case ItemSpawnerID itemSpawnerId:
+                        ReplaceItemSpawnerIcon(itemSpawnerId, path);
+                        break;
+                    case GameObject go:
+                        ReplaceTexturesMaterials(go, path);
+                        ReplaceMeshes(go, path);
+                        break;
+                }
             }
+        }
+
+        private void ReplaceItemSpawnerIcon(ItemSpawnerID itemSpawnerId, string path)
+        {
+            var mod = textureAssets.Find(path, itemSpawnerId.Sprite.name, itemSpawnerId.Sprite.texture.name).FirstOrDefault();
+            if (mod == null)
+                return;
+            var tex = mod.Mod.LoadTexture(mod.FullPath);
+            var sprite = Sprite.Create(tex, itemSpawnerId.Sprite.rect, itemSpawnerId.Sprite.pivot,
+                itemSpawnerId.Sprite.pixelsPerUnit, 0, SpriteMeshType.Tight, itemSpawnerId.Sprite.border);
+            itemSpawnerId.Sprite = sprite;
         }
 
         private void ReplaceMeshes(GameObject go, string path)

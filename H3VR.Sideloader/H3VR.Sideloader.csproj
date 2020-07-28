@@ -14,6 +14,9 @@
     <DebugType>none</DebugType>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Assembly-CSharp, Version=1.2.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\lib\Assembly-CSharp.dll</HintPath>
+    </Reference>
     <Reference Include="BepInEx, Version=5.2.0.0, Culture=neutral, PublicKeyToken=null">
       <HintPath>..\lib\BepInEx.dll</HintPath>
       <Private>False</Private>
