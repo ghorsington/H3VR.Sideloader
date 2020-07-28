@@ -312,7 +312,11 @@ namespace SkinPacker
 
             var savePathDialog = new CommonSaveFileDialog
             {
-                Filters = {new CommonFileDialogFilter("H3VR Sideloader Mod", "*.h3mod")},
+                Filters =
+                {
+                    new CommonFileDialogFilter("H3VR Sideloader Mod", "*.h3mod"),
+                    new CommonFileDialogFilter("H3VR Sideloader Mod (alternative name)", "*.hotmod")
+                },
                 Title = "Save sideloader file",
                 DefaultExtension = ".h3mod"
             };
