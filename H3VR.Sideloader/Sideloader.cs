@@ -54,7 +54,9 @@ namespace H3VR.Sideloader
             ZipConstants.DefaultCodePage = Encoding.UTF8.CodePage;
             Logger = base.Logger;
             ResourceRedirection.EnableSyncOverAsyncAssetLoads();
-            ResourceRedirection.RegisterAssetLoadedHook(HookBehaviour.OneCallbackPerResourceLoaded, PatchLoadedBundle);
+            ResourceRedirection.RegisterAssetLoadedHook(HookBehaviour.OneCallbackPerResourceLoaded, PatchLoadedAsset);
+            ResourceRedirection.RegisterResourceLoadedHook(HookBehaviour.OneCallbackPerResourceLoaded,
+                PatchLoadedResource);
             ResourceRedirection.RegisterAsyncAndSyncAssetLoadingHook(ReplacePrefab);
 
             LoadMods();
@@ -118,21 +120,24 @@ namespace H3VR.Sideloader
             Logger.LogInfo($"Loaded {mods.Count} mods!");
         }
 
-        private void PatchLoadedBundle(AssetLoadedContext ctx)
+        private void PatchLoadedAsset(AssetLoadedContext ctx)
         {
             foreach (var obj in ctx.Assets)
             {
                 var path = ctx.GetUniqueFileSystemAssetPath(obj);
-                switch (obj)
-                {
-                    case ItemSpawnerID itemSpawnerId:
-                        ReplaceItemSpawnerIcon(itemSpawnerId, path);
-                        break;
-                    case GameObject go:
-                        ReplaceTexturesMaterials(go, path);
-                        ReplaceMeshes(go, path);
-                        break;
-                }
+                if (!(obj is GameObject go)) continue;
+                ReplaceTexturesMaterials(go, path);
+                ReplaceMeshes(go, path);
+            }
+        }
+
+        private void PatchLoadedResource(ResourceLoadedContext ctx)
+        {
+            foreach (var obj in ctx.Assets)
+            {
+                var path = ctx.GetUniqueFileSystemAssetPath(obj);
+                if (!(obj is ItemSpawnerID itemSpawnerId)) continue;
+                ReplaceItemSpawnerIcon(itemSpawnerId, path);
             }
         }
 
