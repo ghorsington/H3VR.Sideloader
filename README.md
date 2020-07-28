@@ -43,7 +43,7 @@ Full guide:
 
 ## How does it work?
 
-Sideloader makes mod installation easy: all mods are packaged into single `.h3mod` files that are simple to install.  
+Sideloader makes mod installation easy: all mods are packaged into single `.h3mod` (or `.hotmod`) files that are simple to install.  
 Each h3mod contains a special manifest file that provides necessary information for sideloader for asset swapping and 
 additional metadata that can be useful in future mod managers.
 
@@ -51,7 +51,7 @@ additional metadata that can be useful in future mod managers.
 
 [**Quick tutorial video for the impatient**](https://webm.red/view/8LIe.webm)
 
-Simply take `.h3mod` that you obtained and place it into `<H3VR Game Folder>/Mods` folder. Refer to Steam guide on how 
+Simply take `.h3mod` or `.hotmod` that you obtained and place it into `<H3VR Game Folder>/Mods` folder. Refer to Steam guide on how 
 to find your [H3VR game folder](https://steamcommunity.com/sharedfiles/filedetails/?id=760447682).
 
 Launch the game and you should have your mods installed an available!
