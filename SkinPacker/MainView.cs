@@ -314,17 +314,14 @@ namespace SkinPacker
             {
                 Filters =
                 {
-                    new CommonFileDialogFilter("H3VR Sideloader Mod", "*.h3mod"),
-                    new CommonFileDialogFilter("H3VR Sideloader Mod (alternative name)", "*.hotmod")
+                    new CommonFileDialogFilter("H3VR Sideloader Mod", "*.h3mod;*.hotmod"),
                 },
                 Title = "Save sideloader file",
                 DefaultExtension = ".h3mod"
             };
-
             var result = savePathDialog.ShowDialog();
             if (result != CommonFileDialogResult.Ok)
                 return;
-
             var packer = new ModPacker(manifest, BaseDir, savePathDialog.FileName);
             packer.ShowDialog();
         }
