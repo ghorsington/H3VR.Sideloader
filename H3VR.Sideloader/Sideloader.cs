@@ -43,10 +43,11 @@ namespace H3VR.Sideloader
             "meshName"
         };
 
-        private readonly AssetTree textureAssets = new AssetTree(TexturePathSchema.Length);
         private readonly AssetTree materialAssets = new AssetTree(MaterialPathSchema.Length);
         private readonly AssetTree meshAssets = new AssetTree(MeshPathSchema.Length);
         private readonly Dictionary<string, Mod> prefabReplacements = new Dictionary<string, Mod>();
+
+        private readonly AssetTree textureAssets = new AssetTree(TexturePathSchema.Length);
 
         private void Awake()
         {
@@ -82,15 +83,16 @@ namespace H3VR.Sideloader
             void LoadMods(IEnumerable<string> paths, Func<string, Mod> loader)
             {
                 foreach (var path in paths)
-                {
                     try
                     {
                         var mod = loader(path);
                         if (modIds.Contains(mod.Manifest.Guid))
                         {
-                            Logger.LogWarning($"Skipping [{mod.Name}] because a mod with same GUID ({mod.Manifest.Guid}) was already loaded (check logs)");
+                            Logger.LogWarning(
+                                $"Skipping [{mod.Name}] because a mod with same GUID ({mod.Manifest.Guid}) was already loaded (check logs)");
                             continue;
                         }
+
                         Logger.LogDebug($"Loading {mod.Name}");
                         modIds.Add(mod.Manifest.Guid);
                         mods.Add(mod);
@@ -99,9 +101,8 @@ namespace H3VR.Sideloader
                     {
                         Logger.LogWarning($"Skipping {path} because: ({e.GetType()}) {e.Message}");
                     }
-                }
             }
-            
+
             LoadMods(Directory.GetDirectories(modsPath, "*", SearchOption.TopDirectoryOnly), Mod.LoadFromDir);
             LoadMods(Extensions.GetAllFiles(modsPath, "*.h3mod", "*.hotmod"), Mod.LoadFromZip);
 
@@ -137,8 +138,10 @@ namespace H3VR.Sideloader
 
         private void ReplaceItemSpawnerIcon(ItemSpawnerID itemSpawnerId, string path)
         {
-            Logger.LogDebug($"ItemSpawnerID Icon: {string.Join(":", new []{ path, itemSpawnerId.Sprite.name, itemSpawnerId.Sprite.texture.name })}");
-            var mod = textureAssets.Find(path, itemSpawnerId.Sprite.name, itemSpawnerId.Sprite.texture.name).FirstOrDefault();
+            Logger.LogDebug(
+                $"ItemSpawnerID Icon: {string.Join(":", new[] {path, itemSpawnerId.Sprite.name, itemSpawnerId.Sprite.texture.name})}");
+            var mod = textureAssets.Find(path, itemSpawnerId.Sprite.name, itemSpawnerId.Sprite.texture.name)
+                .FirstOrDefault();
             if (mod == null)
                 return;
             var tex = mod.Mod.LoadTexture(mod.FullPath);
@@ -155,7 +158,7 @@ namespace H3VR.Sideloader
             {
                 var filterName = meshFilter.name;
                 var meshName = meshFilter.mesh.name.Replace(" Instance", "");
-                Logger.LogDebug($"Mesh: {string.Join(":", new []{ path, filterName, meshName })}");
+                Logger.LogDebug($"Mesh: {string.Join(":", new[] {path, filterName, meshName})}");
                 var replacement = meshAssets.Find(path, filterName, meshName).FirstOrDefault();
                 if (replacement != null)
                     meshFilter.mesh = replacement.Mod.LoadMesh(replacement.FullPath);
@@ -174,8 +177,8 @@ namespace H3VR.Sideloader
                 {
                     var material = materials[index];
                     var materialName = material.name.Replace(" (Instance)", "");
-                    
-                    Logger.LogDebug($"Material: {string.Join(":", new []{ path, materialName })}");
+
+                    Logger.LogDebug($"Material: {string.Join(":", new[] {path, materialName})}");
                     // Materials come before texture replacements
                     var materialMod = materialAssets.Find(path, materialName).FirstOrDefault();
                     if (materialMod != null)
@@ -185,7 +188,7 @@ namespace H3VR.Sideloader
                     if (material.mainTexture == null)
                         continue;
                     var textureName = material.mainTexture.name;
-                    Logger.LogDebug($"Texture: {string.Join(":", new []{ path, materialName, textureName })}");
+                    Logger.LogDebug($"Texture: {string.Join(":", new[] {path, materialName, textureName})}");
                     var nodes = textureAssets.Find(path, materialName, textureName);
                     if (nodes.Length == 0)
                         continue;

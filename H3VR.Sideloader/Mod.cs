@@ -12,16 +12,16 @@ namespace H3VR.Sideloader
 {
     internal class Mod
     {
+        private readonly Dictionary<string, AssetBundle> assetBundles = new Dictionary<string, AssetBundle>();
+        private readonly Dictionary<string, Material> materials = new Dictionary<string, Material>();
+        private readonly Dictionary<string, Mesh> meshes = new Dictionary<string, Mesh>();
+        private readonly Dictionary<string, string> prefabPaths = new Dictionary<string, string>();
+
+        private readonly Dictionary<string, Texture2D> textures = new Dictionary<string, Texture2D>();
         public ModManifest Manifest { get; private set; }
         public string ModPath { get; private set; }
         private ZipFile Archive { get; set; }
         public string Name => $"{Manifest.Name} {Manifest.Version}";
-
-        private readonly Dictionary<string, Texture2D> textures = new Dictionary<string, Texture2D>();
-        private readonly Dictionary<string, Material> materials = new Dictionary<string, Material>();
-        private readonly Dictionary<string, Mesh> meshes = new Dictionary<string, Mesh>();
-        private readonly Dictionary<string, AssetBundle> assetBundles = new Dictionary<string, AssetBundle>();
-        private readonly Dictionary<string, string> prefabPaths = new Dictionary<string, string>();
 
         public static Mod LoadFromDir(string path)
         {
@@ -30,7 +30,8 @@ namespace H3VR.Sideloader
 
             var manifestPath = Path.Combine(path, ModManifest.MANIFEST_FILE_NAME);
             if (!File.Exists(manifestPath))
-                throw new FileNotFoundException($"Failed to find {ModManifest.MANIFEST_FILE_NAME}, the directory is not valid!");
+                throw new FileNotFoundException(
+                    $"Failed to find {ModManifest.MANIFEST_FILE_NAME}, the directory is not valid!");
 
             var manifest = new JsonSerializer().Deserialize<ModManifest>(File.ReadAllText(manifestPath));
             if (!manifest.Verify(out var errors))

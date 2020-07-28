@@ -10,7 +10,7 @@ namespace H3VR.Sideloader
         {
             return patterns.SelectMany(p => Directory.GetFiles(dir, p, SearchOption.TopDirectoryOnly)).ToArray();
         }
-        
+
         public static bool Verify(this ModManifest manifest, out string[] errors)
         {
             var errs = new List<string>();

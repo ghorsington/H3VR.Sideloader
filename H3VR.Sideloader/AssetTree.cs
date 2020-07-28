@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
 
 namespace H3VR.Sideloader
 {
     internal class AssetTree
     {
         public const char PATH_SEPARATOR = ':';
+        private readonly int pathParts;
 
         private readonly PathNode root;
-        private readonly int pathParts;
 
         public AssetTree(int pathParts)
         {
