@@ -130,7 +130,7 @@ namespace SkinPacker
             this.label1.Dock = System.Windows.Forms.DockStyle.Top;
             this.label1.Location = new System.Drawing.Point(3, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(100, 23);
+            this.label1.Size = new System.Drawing.Size(119, 23);
             this.label1.TabIndex = 0;
             this.label1.Text = "Texture";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -139,10 +139,10 @@ namespace SkinPacker
             // 
             this.texturePathTextBox.BackColor = System.Drawing.SystemColors.Window;
             this.texturePathTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.texturePathTextBox.Location = new System.Drawing.Point(109, 3);
+            this.texturePathTextBox.Location = new System.Drawing.Point(128, 3);
             this.texturePathTextBox.Name = "texturePathTextBox";
             this.texturePathTextBox.ReadOnly = true;
-            this.texturePathTextBox.Size = new System.Drawing.Size(301, 20);
+            this.texturePathTextBox.Size = new System.Drawing.Size(282, 20);
             this.texturePathTextBox.TabIndex = 1;
             // 
             // selectTextButton
@@ -183,7 +183,7 @@ namespace SkinPacker
             // 
             this.label3.AutoSize = true;
             this.label3.Dock = System.Windows.Forms.DockStyle.Right;
-            this.label3.Location = new System.Drawing.Point(41, 78);
+            this.label3.Location = new System.Drawing.Point(60, 78);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(62, 26);
             this.label3.TabIndex = 5;
@@ -193,16 +193,16 @@ namespace SkinPacker
             // prefabPathTextBox
             // 
             this.prefabPathTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.prefabPathTextBox.Location = new System.Drawing.Point(109, 81);
+            this.prefabPathTextBox.Location = new System.Drawing.Point(128, 81);
             this.prefabPathTextBox.Name = "prefabPathTextBox";
-            this.prefabPathTextBox.Size = new System.Drawing.Size(301, 20);
+            this.prefabPathTextBox.Size = new System.Drawing.Size(282, 20);
             this.prefabPathTextBox.TabIndex = 6;
             // 
             // label4
             // 
             this.label4.AutoSize = true;
             this.label4.Dock = System.Windows.Forms.DockStyle.Right;
-            this.label4.Location = new System.Drawing.Point(30, 104);
+            this.label4.Location = new System.Drawing.Point(49, 104);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(73, 26);
             this.label4.TabIndex = 7;
@@ -213,18 +213,18 @@ namespace SkinPacker
             // 
             this.label5.AutoSize = true;
             this.label5.Dock = System.Windows.Forms.DockStyle.Right;
-            this.label5.Location = new System.Drawing.Point(31, 130);
+            this.label5.Location = new System.Drawing.Point(3, 130);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(72, 26);
+            this.label5.Size = new System.Drawing.Size(119, 26);
             this.label5.TabIndex = 8;
-            this.label5.Text = "Texture name";
+            this.label5.Text = "BaseColor texture name";
             this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // label6
             // 
             this.label6.AutoSize = true;
             this.label6.Dock = System.Windows.Forms.DockStyle.Right;
-            this.label6.Location = new System.Drawing.Point(48, 156);
+            this.label6.Location = new System.Drawing.Point(67, 156);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(55, 26);
             this.label6.TabIndex = 9;
@@ -234,25 +234,25 @@ namespace SkinPacker
             // materialNameTextBox
             // 
             this.materialNameTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.materialNameTextBox.Location = new System.Drawing.Point(109, 107);
+            this.materialNameTextBox.Location = new System.Drawing.Point(128, 107);
             this.materialNameTextBox.Name = "materialNameTextBox";
-            this.materialNameTextBox.Size = new System.Drawing.Size(301, 20);
+            this.materialNameTextBox.Size = new System.Drawing.Size(282, 20);
             this.materialNameTextBox.TabIndex = 10;
             // 
             // texNameTextBox
             // 
             this.texNameTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.texNameTextBox.Location = new System.Drawing.Point(109, 133);
+            this.texNameTextBox.Location = new System.Drawing.Point(128, 133);
             this.texNameTextBox.Name = "texNameTextBox";
-            this.texNameTextBox.Size = new System.Drawing.Size(301, 20);
+            this.texNameTextBox.Size = new System.Drawing.Size(282, 20);
             this.texNameTextBox.TabIndex = 11;
             // 
             // texParamTextBox
             // 
             this.texParamTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.texParamTextBox.Location = new System.Drawing.Point(109, 159);
+            this.texParamTextBox.Location = new System.Drawing.Point(128, 159);
             this.texParamTextBox.Name = "texParamTextBox";
-            this.texParamTextBox.Size = new System.Drawing.Size(301, 20);
+            this.texParamTextBox.Size = new System.Drawing.Size(282, 20);
             this.texParamTextBox.TabIndex = 12;
             // 
             // materialNameHelp
@@ -272,7 +272,7 @@ namespace SkinPacker
             this.label8.AutoSize = true;
             this.label8.Dock = System.Windows.Forms.DockStyle.Left;
             this.label8.ForeColor = System.Drawing.SystemColors.GrayText;
-            this.label8.Location = new System.Drawing.Point(109, 39);
+            this.label8.Location = new System.Drawing.Point(128, 39);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(277, 39);
             this.label8.TabIndex = 16;

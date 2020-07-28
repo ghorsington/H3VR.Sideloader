@@ -78,18 +78,22 @@ namespace SkinPacker
                 "Name of the Material object",
                 "If specified, only textures defined in Materials with this name will be replaced.");
 
-            texNameHelp.AddTooltip("Texture name",
-                "Name of the texture.",
+            texNameHelp.AddTooltip("BaseColor texture name",
+                "Name of the BaseColor texture.",
                 "If specified, only textures with this name will be replaced",
-                "This is what you usually want! The name of the texture is the same as it is defined in the asset bundle.",
+                "This is the name of the MAIN (i.e. the 'base color') texture!",
+                "To target normal and alloy textures, specify TexParam as well!",
                 "Example: `m1a1_BaseColor` to replace texture named `m1a1_BaseColor`.");
 
             texParamHelp.AddTooltip("Texture param name",
                 "Name of the parameter in the material's shader.",
                 "If specified, sets this texture as a shader parameter on the material that shows the texture.",
                 "This is useful in cases where you want to replace normal maps or bumpmaps.",
+                "Use the following values:",
+                "  - _BumpMap for normal map textures (ones that have `normal` in the name)",
+                "  - _SpecTex for alloy textures (ones that have `alloy` in the name)",
                 "This value is the same as it is defined in the shader attached to the material.",
-                "If not specified, the value defaults to `_MainTexture` which is the shader's main texture.");
+                "If not specified, the value defaults to `_MainTex` which is the shader's main texture.");
         }
 
         private void closeButton_Click(object sender, EventArgs e)
