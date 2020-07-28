@@ -70,17 +70,17 @@ namespace H3VR.Sideloader
                 if (node is ModNode mn)
                     return new[] {mn};
 
-                if (index >= path.Length)
+                var part = path[index];
+                if (node.Path != null && node.Path != part)
+                    return new ModNode[0];
+
+                if (index == path.Length - 1)
                 {
                     var result = new List<ModNode>();
                     CollectAll(node, result);
                     return result.ToArray();
                 }
-
-                var part = path[index];
-                if (node.Path != null && node.Path != part)
-                    return new ModNode[0];
-
+                
                 foreach (var nodeChild in node.Children.Where(n => n.Path != null))
                 {
                     var result = Process(index + 1, nodeChild);
