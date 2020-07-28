@@ -78,7 +78,7 @@ namespace H3VR.Sideloader
             var modsPath = Path.Combine(Paths.GameRootPath, MODS_DIR);
             Directory.CreateDirectory(modsPath);
 
-            foreach (var modDir in Directory.GetDirectories(modsPath))
+            foreach (var modDir in Extensions.GetAllFiles(modsPath, "*.h3mod", "*.hotmod"))
                 try
                 {
                     var mod = Mod.LoadFromDir(modDir);

@@ -1,9 +1,16 @@
 ﻿using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 
 namespace H3VR.Sideloader
 {
     internal static class Extensions
     {
+        public static string[] GetAllFiles(string dir, params string[] patterns)
+        {
+            return patterns.SelectMany(p => Directory.GetFiles(dir, p, SearchOption.TopDirectoryOnly)).ToArray();
+        }
+        
         public static bool Verify(this ModManifest manifest, out string[] errors)
         {
             var errs = new List<string>();
