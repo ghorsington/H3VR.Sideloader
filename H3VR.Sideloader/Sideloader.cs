@@ -50,7 +50,6 @@ namespace H3VR.Sideloader
 
         private void Awake()
         {
-            ResourceRedirection.LogAllLoadedResources = true;
             ZipConstants.DefaultCodePage = Encoding.UTF8.CodePage;
             Logger = base.Logger;
             ResourceRedirection.EnableSyncOverAsyncAssetLoads();
@@ -133,6 +132,7 @@ namespace H3VR.Sideloader
 
         private void ReplaceItemSpawnerIcon(ItemSpawnerID itemSpawnerId, string path)
         {
+            Logger.LogDebug($"ItemSpawnerID Icon: {string.Join(":", new []{ path, itemSpawnerId.Sprite.name, itemSpawnerId.Sprite.texture.name })}");
             var mod = textureAssets.Find(path, itemSpawnerId.Sprite.name, itemSpawnerId.Sprite.texture.name).FirstOrDefault();
             if (mod == null)
                 return;
@@ -150,6 +150,7 @@ namespace H3VR.Sideloader
             {
                 var filterName = meshFilter.name;
                 var meshName = meshFilter.mesh.name.Replace(" Instance", "");
+                Logger.LogDebug($"Mesh: {string.Join(":", new []{ path, filterName, meshName })}");
                 var replacement = meshAssets.Find(path, filterName, meshName).FirstOrDefault();
                 if (replacement != null)
                     meshFilter.mesh = replacement.Mod.LoadMesh(replacement.FullPath);
@@ -168,7 +169,8 @@ namespace H3VR.Sideloader
                 {
                     var material = materials[index];
                     var materialName = material.name.Replace(" (Instance)", "");
-
+                    
+                    Logger.LogDebug($"Material: {string.Join(":", new []{ path, materialName })}");
                     // Materials come before texture replacements
                     var materialMod = materialAssets.Find(path, materialName).FirstOrDefault();
                     if (materialMod != null)
@@ -178,6 +180,7 @@ namespace H3VR.Sideloader
                     if (material.mainTexture == null)
                         continue;
                     var textureName = material.mainTexture.name;
+                    Logger.LogDebug($"Texture: {string.Join(":", new []{ path, materialName, textureName })}");
                     var nodes = textureAssets.Find(path, materialName, textureName);
                     if (nodes.Length == 0)
                         continue;
