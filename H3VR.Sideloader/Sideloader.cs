@@ -77,28 +77,33 @@ namespace H3VR.Sideloader
             var mods = new List<Mod>();
             var modsPath = Path.Combine(Paths.GameRootPath, MODS_DIR);
             Directory.CreateDirectory(modsPath);
+            var modIds = new HashSet<string>(); // TODO: Make more elaborate (check version, etc)
 
-            foreach (var modDir in Extensions.GetAllFiles(modsPath, "*.h3mod", "*.hotmod"))
-                try
+            void LoadMods(IEnumerable<string> paths, Func<string, Mod> loader)
+            {
+                foreach (var path in paths)
                 {
-                    var mod = Mod.LoadFromDir(modDir);
-                    mods.Add(mod);
+                    try
+                    {
+                        var mod = loader(path);
+                        if (modIds.Contains(mod.Manifest.Guid))
+                        {
+                            Logger.LogWarning($"Skipping [{mod.Name}] because a mod with same GUID ({mod.Manifest.Guid}) was already loaded (check logs)");
+                            continue;
+                        }
+                        Logger.LogDebug($"Loading {mod.Name}");
+                        modIds.Add(mod.Manifest.Guid);
+                        mods.Add(mod);
+                    }
+                    catch (Exception e)
+                    {
+                        Logger.LogWarning($"Skipping {path} because: ({e.GetType()}) {e.Message}");
+                    }
                 }
-                catch (Exception e)
-                {
-                    Logger.LogWarning($"Skipping {modDir} because: ({e.GetType()}) {e.Message}");
-                }
-
-            foreach (var file in Directory.GetFiles(modsPath, "*.h3mod", SearchOption.TopDirectoryOnly))
-                try
-                {
-                    var mod = Mod.LoadFromZip(file);
-                    mods.Add(mod);
-                }
-                catch (Exception e)
-                {
-                    Logger.LogWarning($"Skipping {file} because: ({e.GetType()}) {e.Message}");
-                }
+            }
+            
+            LoadMods(Directory.GetDirectories(modsPath, "*", SearchOption.TopDirectoryOnly), Mod.LoadFromDir);
+            LoadMods(Extensions.GetAllFiles(modsPath, "*.h3mod", "*.hotmod"), Mod.LoadFromZip);
 
             // TODO: Sanity checking etc
             foreach (var mod in mods)
