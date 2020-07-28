@@ -19,7 +19,7 @@ that allows to
 Download these archives into the same folder:
 
 * [BepInEx 5.2](https://github.com/BepInEx/BepInEx/releases/download/v5.2/BepInEx_x64_5.2.0.0.zip)
-* [XUnity.AutoTranslator with ResourceRedirector](https://github.com/bbepis/XUnity.AutoTranslator/releases/download/v4.12.0/XUnity.AutoTranslator-BepIn-5x-4.12.0.zip)
+* [XUnity.ResourceRedirector](https://github.com/bbepis/XUnity.AutoTranslator/releases/download/v4.12.0/XUnity.ResourceRedirector-BepIn-5x-1.1.2.zip)
 * [H3VR.Sideloader](https://github.com/denikson/H3VR.Sideloader/releases/download/v0.1.0/H3VR.Sideloader_v0.1.0.zip)
 
 ### Installation
