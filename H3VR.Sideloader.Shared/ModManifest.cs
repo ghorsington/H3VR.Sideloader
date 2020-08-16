@@ -5,7 +5,8 @@
         Texture,
         Prefab,
         Mesh,
-        Material
+        Material,
+        AudioClip
     }
 
     internal class AssetMapping
