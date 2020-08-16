@@ -14,11 +14,11 @@ namespace H3VR.Sideloader
     internal class Mod
     {
         private readonly Dictionary<string, AssetBundle> assetBundles = new Dictionary<string, AssetBundle>();
+        private readonly Dictionary<string, AudioClip> audioClips = new Dictionary<string, AudioClip>();
         private readonly Dictionary<string, Material> materials = new Dictionary<string, Material>();
         private readonly Dictionary<string, Mesh> meshes = new Dictionary<string, Mesh>();
         private readonly Dictionary<string, Texture2D> textures = new Dictionary<string, Texture2D>();
-        private readonly Dictionary<string, AudioClip> audioClips = new Dictionary<string, AudioClip>();
-        
+
         public ModManifest Manifest { get; private set; }
         public string ModPath { get; private set; }
         private ZipFile Archive { get; set; }
@@ -104,7 +104,7 @@ namespace H3VR.Sideloader
         {
             if (!FileExists(path))
                 throw new FileNotFoundException($"Tried to load non-existent audio clip `{path}` from mod {Name}");
-            if(audioClips.TryGetValue(path, out var clip))
+            if (audioClips.TryGetValue(path, out var clip))
                 return clip;
             using var br = new BinaryReader(GetInputStream(path, out _));
             clip = audioClips[path] = WavUtility.ToAudioClip(br, name);
@@ -132,7 +132,7 @@ namespace H3VR.Sideloader
             assetPath = parts.Length >= 2 ? parts[parts.Length - 1] : null;
             return parts[0];
         }
-        
+
         private Stream GetInputStream(string path, out long size)
         {
             if (!FileExists(path))
