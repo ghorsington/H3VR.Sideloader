@@ -25,7 +25,7 @@ namespace H3VR.Sideloader
 
         private readonly IList<ILoader> loaders = Assembly.GetExecutingAssembly()
             .GetTypes()
-            .Where(t => typeof(ILoader).IsAssignableFrom(t) && !t.IsInterface && t.IsAbstract)
+            .Where(t => typeof(ILoader).IsAssignableFrom(t) && !t.IsInterface && !t.IsAbstract)
             .Select(t => (ILoader) Activator.CreateInstance(t))
             .OrderByDescending(l => l.Priority)
             .ToList();
@@ -76,7 +76,11 @@ namespace H3VR.Sideloader
             // TODO: Sanity checking etc
 
             foreach (var loader in loaders)
+            {
+                Logger.LogDebug($"Loading {loader}");
                 loader.Initialize(mods);
+            }
+                
 
             Logger.LogInfo($"Loaded {mods.Count} mods!");
         }
