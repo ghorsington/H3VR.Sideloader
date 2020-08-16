@@ -42,6 +42,8 @@ namespace H3VR.Sideloader.AssetLoaders
 
         private void ReplaceItemSpawnerIcon(ItemSpawnerID itemSpawnerId, string path)
         {
+            if (!itemSpawnerId.Sprite)
+                return;
             Sideloader.Logger.LogDebug(
                 $"ItemSpawnerID Icon: {string.Join(":", new[] {path, itemSpawnerId.Sprite.name, itemSpawnerId.Sprite.texture.name})}");
             var mod = AssetTree.Find(path, itemSpawnerId.Sprite.name, itemSpawnerId.Sprite.texture.name)
