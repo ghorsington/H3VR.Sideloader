@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using H3VR.Sideloader.Util;
 using ICSharpCode.SharpZipLib.Zip;
 using MicroJson;
+using H3VR.Sideloader.Shared;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -15,7 +17,6 @@ namespace H3VR.Sideloader
         private readonly Dictionary<string, AssetBundle> assetBundles = new Dictionary<string, AssetBundle>();
         private readonly Dictionary<string, Material> materials = new Dictionary<string, Material>();
         private readonly Dictionary<string, Mesh> meshes = new Dictionary<string, Mesh>();
-        private readonly Dictionary<string, string> prefabPaths = new Dictionary<string, string>();
 
         private readonly Dictionary<string, Texture2D> textures = new Dictionary<string, Texture2D>();
         public ModManifest Manifest { get; private set; }
@@ -74,7 +75,7 @@ namespace H3VR.Sideloader
         {
             foreach (var manifestAssetMapping in Manifest.AssetMappings.Where(m => m.Type == AssetType.Prefab))
             {
-                if (!FileExists(ResolveCombinedPath(manifestAssetMapping.Path, out _)))
+                if (!FileExists(GetAssetPath(manifestAssetMapping.Path, out _)))
                     Sideloader.Logger.LogWarning(
                         $"[{Name}] Asset `{manifestAssetMapping.Path}` of type `{AssetType.Prefab}` does not exist in the mod, skipping...");
                 if (mappings.TryGetValue(manifestAssetMapping.Target, out var otherMod))
@@ -84,7 +85,6 @@ namespace H3VR.Sideloader
                     continue;
                 }
 
-                prefabPaths[manifestAssetMapping.Target] = manifestAssetMapping.Path;
                 mappings[manifestAssetMapping.Target] = this;
             }
         }
@@ -93,29 +93,28 @@ namespace H3VR.Sideloader
         {
             foreach (var manifestAssetMapping in Manifest.AssetMappings.Where(m => m.Type == type))
             {
-                if (!FileExists(ResolveCombinedPath(manifestAssetMapping.Path, out _)))
+                if (!FileExists(GetAssetPath(manifestAssetMapping.Path, out _)))
                     Sideloader.Logger.LogWarning(
                         $"[{Name}] Asset `{manifestAssetMapping.Path}` of type `{type}` does not exist in the mod, skipping...");
                 tree.AddMod(manifestAssetMapping.Target, manifestAssetMapping.Path, this);
-                textures[manifestAssetMapping.Path] = null;
             }
         }
 
         public GameObject LoadPrefab(string target)
         {
             // Specifically don't cache prefabs because they are usually loaded only once per scene anyway
-            if (prefabPaths.TryGetValue(target, out var assetPath))
-                return LoadAssetBundleAsset(assetPath, new Dictionary<string, GameObject>());
+            if (FileExists(GetAssetPath(target, out var _)))
+                return LoadAssetBundleAsset(target, new Dictionary<string, GameObject>());
             Sideloader.Logger.LogWarning($"[{Name}] no prefab defined at `{target}`");
             return null;
         }
 
         public Texture2D LoadTexture(string path)
         {
-            if (!textures.TryGetValue(path, out var tex))
+            if (!FileExists(path))
                 throw new FileNotFoundException($"Tried to load non-existent texture `{path}` from mod {Name}");
 
-            if (tex != null) return tex;
+            if (textures.TryGetValue(path, out var tex)) return tex;
 
             tex = textures[path] = new Texture2D(1, 1, TextureFormat.ARGB32, false);
             tex.LoadImage(LoadBytes(path));
@@ -137,14 +136,14 @@ namespace H3VR.Sideloader
             Sideloader.Logger.LogDebug($"Loading asset from {path}");
             if (assetCache.TryGetValue(path, out var asset))
                 return asset;
-            var filePath = ResolveCombinedPath(path, out var assetPath);
+            var filePath = GetAssetPath(path, out var assetPath);
             if (!assetBundles.TryGetValue(filePath, out var assetBundle))
                 assetBundle = assetBundles[filePath] = AssetBundle.LoadFromMemory(LoadBytes(filePath));
             asset = assetCache[path] = assetBundle.LoadAsset<T>(assetPath);
             return asset;
         }
 
-        private string ResolveCombinedPath(string path, out string assetPath)
+        public string GetAssetPath(string path, out string assetPath)
         {
             assetPath = null;
             var parts = path.Split(new[] {':'}, StringSplitOptions.RemoveEmptyEntries);
@@ -167,7 +166,7 @@ namespace H3VR.Sideloader
             return result;
         }
 
-        private bool FileExists(string path)
+        public bool FileExists(string path)
         {
             if (Archive != null)
                 return Archive.GetEntry(path) != null;
@@ -179,6 +178,41 @@ namespace H3VR.Sideloader
     {
         public ModLoadException(string msg) : base(msg)
         {
+        }
+    }
+
+    internal static class ModExtensions
+    {
+        public static bool Verify(this ModManifest manifest, out string[] errors)
+        {
+            var errs = new List<string>();
+
+            void Missing(string field)
+            {
+                errs.Add($"Missing required property `{field}`.");
+            }
+
+            if (manifest.ManifestRevision == null)
+                Missing(nameof(manifest.ManifestRevision));
+            if (manifest.ManifestRevision != ModManifest.MANIFEST_REVISION)
+                errs.Add($"Invalid manifest revision. Supported values are: `{ModManifest.MANIFEST_REVISION}`.");
+            if (manifest.Guid == null)
+                Missing(nameof(manifest.Guid));
+            if (manifest.Name == null)
+                Missing(nameof(manifest.Name));
+            if (manifest.Version == null)
+                errs.Add("Missing or invalid `version`. Version must be of form `X.X.X`.");
+
+            foreach (var assetMapping in manifest.AssetMappings)
+            {
+                if (assetMapping.Path == null)
+                    Missing(nameof(assetMapping.Path));
+                if (assetMapping.Target == null)
+                    Missing(nameof(assetMapping.Path));
+            }
+
+            errors = errs.ToArray();
+            return errors.Length == 0;
         }
     }
 }

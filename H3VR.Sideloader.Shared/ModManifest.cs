@@ -1,4 +1,4 @@
-﻿namespace H3VR.Sideloader
+﻿namespace H3VR.Sideloader.Shared
 {
     internal enum AssetType
     {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace H3VR.Sideloader
+namespace H3VR.Sideloader.Util
 {
     internal class AssetTree
     {

@@ -2,11 +2,15 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using BepInEx;
 using BepInEx.Logging;
 using FistVR;
+using H3VR.Sideloader.AssetLoaders;
+using H3VR.Sideloader.Util;
 using ICSharpCode.SharpZipLib.Zip;
+using H3VR.Sideloader.Shared;
 using UnityEngine;
 using XUnity.ResourceRedirector;
 
@@ -22,61 +26,25 @@ namespace H3VR.Sideloader
 
         internal new static ManualLogSource Logger;
 
-        private static readonly string[] TexturePathSchema =
-        {
-            "prefabPath",
-            "materialName",
-            "textureName",
-            "materialParameter"
-        };
-
-        private static readonly string[] MaterialPathSchema =
-        {
-            "prefabPath",
-            "materialName"
-        };
-
-        private static readonly string[] MeshPathSchema =
-        {
-            "prefabPath",
-            "meshContainerName",
-            "meshName"
-        };
-
-        private readonly AssetTree materialAssets = new AssetTree(MaterialPathSchema.Length);
-        private readonly AssetTree meshAssets = new AssetTree(MeshPathSchema.Length);
-        private readonly Dictionary<string, Mod> prefabReplacements = new Dictionary<string, Mod>();
-
-        private readonly AssetTree textureAssets = new AssetTree(TexturePathSchema.Length);
+        private readonly IList<ILoader> loaders = Assembly.GetExecutingAssembly()
+            .GetTypes()
+            .Where(t => typeof(ILoader).IsAssignableFrom(t) && !t.IsInterface && t.IsAbstract)
+            .Select(t => (ILoader) Activator.CreateInstance(t))
+            .OrderByDescending(l => l.Priority)
+            .ToList();
 
         private void Awake()
         {
             ZipConstants.DefaultCodePage = Encoding.UTF8.CodePage;
             Logger = base.Logger;
             ResourceRedirection.EnableSyncOverAsyncAssetLoads();
-            ResourceRedirection.RegisterAssetLoadedHook(HookBehaviour.OneCallbackPerResourceLoaded, PatchLoadedAsset);
-            ResourceRedirection.RegisterResourceLoadedHook(HookBehaviour.OneCallbackPerResourceLoaded,
-                PatchLoadedResource);
-            ResourceRedirection.RegisterAsyncAndSyncAssetLoadingHook(ReplacePrefab);
 
             LoadMods();
-        }
-
-        private void ReplacePrefab(IAssetLoadingContext ctx)
-        {
-            var path = $"{ctx.GetNormalizedAssetBundlePath()}\\{ctx.Parameters.Name}".ToLowerInvariant();
-
-            if (prefabReplacements.TryGetValue(path, out var mod))
-            {
-                ctx.Asset = mod.LoadPrefab(path);
-                ctx.Complete(skipAllPostfixes: false);
-            }
         }
 
         private void LoadMods()
         {
             Logger.LogInfo("Loading mods...");
-
             var mods = new List<Mod>();
             var modsPath = Path.Combine(Paths.GameRootPath, MODS_DIR);
             Directory.CreateDirectory(modsPath);
@@ -109,107 +77,11 @@ namespace H3VR.Sideloader
             LoadMods(Extensions.GetAllFiles(modsPath, "*.h3mod", "*.hotmod"), Mod.LoadFromZip);
 
             // TODO: Sanity checking etc
-            foreach (var mod in mods)
-            {
-                mod.RegisterTreeAssets(textureAssets, AssetType.Texture);
-                mod.RegisterTreeAssets(materialAssets, AssetType.Material);
-                mod.RegisterTreeAssets(meshAssets, AssetType.Mesh);
-                mod.RegisterPrefabReplacements(prefabReplacements);
-            }
-
+            
+            foreach (var loader in loaders)
+                loader.Initialize(mods);
+            
             Logger.LogInfo($"Loaded {mods.Count} mods!");
-        }
-
-        private void PatchLoadedAsset(AssetLoadedContext ctx)
-        {
-            foreach (var obj in ctx.Assets)
-            {
-                var path = ctx.GetUniqueFileSystemAssetPath(obj);
-                if (!(obj is GameObject go)) continue;
-                ReplaceTexturesMaterials(go, path);
-                ReplaceMeshes(go, path);
-            }
-        }
-
-        private void PatchLoadedResource(ResourceLoadedContext ctx)
-        {
-            foreach (var obj in ctx.Assets)
-            {
-                var path = ctx.GetUniqueFileSystemAssetPath(obj);
-                if (!(obj is ItemSpawnerID itemSpawnerId)) continue;
-                ReplaceItemSpawnerIcon(itemSpawnerId, path);
-            }
-        }
-
-        private void ReplaceItemSpawnerIcon(ItemSpawnerID itemSpawnerId, string path)
-        {
-            Logger.LogDebug(
-                $"ItemSpawnerID Icon: {string.Join(":", new[] {path, itemSpawnerId.Sprite.name, itemSpawnerId.Sprite.texture.name})}");
-            var mod = textureAssets.Find(path, itemSpawnerId.Sprite.name, itemSpawnerId.Sprite.texture.name)
-                .FirstOrDefault();
-            if (mod == null)
-                return;
-            var tex = mod.Mod.LoadTexture(mod.FullPath);
-            var sprite = Sprite.Create(tex, itemSpawnerId.Sprite.rect, itemSpawnerId.Sprite.pivot,
-                itemSpawnerId.Sprite.pixelsPerUnit, 0, SpriteMeshType.Tight, itemSpawnerId.Sprite.border);
-            itemSpawnerId.Sprite = sprite;
-        }
-
-        private void ReplaceMeshes(GameObject go, string path)
-        {
-            // TODO: Eventually, might need to handle SkinnedMeshRenderers, but for now it seems H3 doesn't use those for guns
-            var meshFilters = go.GetComponentsInChildren<MeshFilter>();
-            foreach (var meshFilter in meshFilters)
-            {
-                var filterName = meshFilter.name;
-                var meshName = meshFilter.mesh.name.Replace(" Instance", "");
-                Logger.LogDebug($"Mesh: {string.Join(":", new[] {path, filterName, meshName})}");
-                var replacement = meshAssets.Find(path, filterName, meshName).FirstOrDefault();
-                if (replacement != null)
-                    meshFilter.mesh = replacement.Mod.LoadMesh(replacement.FullPath);
-            }
-        }
-
-        private void ReplaceTexturesMaterials(GameObject go, string path)
-        {
-            var meshRenderers = go.GetComponentsInChildren<MeshRenderer>();
-            foreach (var meshRenderer in meshRenderers)
-            {
-                var materials = meshRenderer.materials;
-                if (materials == null)
-                    continue;
-                for (var index = 0; index < materials.Length; index++)
-                {
-                    var material = materials[index];
-                    var materialName = material.name.Replace(" (Instance)", "");
-
-                    Logger.LogDebug($"Material: {string.Join(":", new[] {path, materialName})}");
-                    // Materials come before texture replacements
-                    var materialMod = materialAssets.Find(path, materialName).FirstOrDefault();
-                    if (materialMod != null)
-                        materials[index] = material = materialMod.Mod.LoadMaterial(materialMod.FullPath);
-
-                    // Finally, replace textures
-                    if (material.mainTexture == null)
-                        continue;
-                    var textureName = material.mainTexture.name;
-                    Logger.LogDebug($"Texture: {string.Join(":", new[] {path, materialName, textureName})}");
-                    var nodes = textureAssets.Find(path, materialName, textureName);
-                    if (nodes.Length == 0)
-                        continue;
-                    // TODO: Remove duplicates to prevent duplicate loading
-                    foreach (var modNode in nodes)
-                    {
-                        var tex = modNode.Mod.LoadTexture(modNode.FullPath);
-                        if (modNode.Path == null)
-                            material.mainTexture = tex;
-                        else
-                            material.SetTexture(modNode.Path, tex);
-                    }
-                }
-
-                meshRenderer.materials = materials;
-            }
         }
     }
 }

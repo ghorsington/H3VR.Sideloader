@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace SkinPacker
+namespace H3VR.Sideloader.Shared
 {
     partial class ModPacker
     {

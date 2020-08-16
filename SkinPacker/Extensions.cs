@@ -2,7 +2,7 @@
 using System.IO;
 using System.Windows.Forms;
 
-namespace SkinPacker
+namespace H3VR.Sideloader.Shared
 {
     public static class PathUtils
     {

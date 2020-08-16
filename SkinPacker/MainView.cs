@@ -3,13 +3,12 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
-using H3VR.Sideloader;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 
-namespace SkinPacker
+namespace H3VR.Sideloader.Shared
 {
     public partial class MainView : Form
     {

@@ -4,10 +4,9 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
-using H3VR.Sideloader;
 using ICSharpCode.SharpZipLib.Zip;
 
-namespace SkinPacker
+namespace H3VR.Sideloader.Shared
 {
     internal partial class ModPacker : Form
     {
