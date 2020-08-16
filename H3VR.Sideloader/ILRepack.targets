@@ -3,8 +3,8 @@
     <Target Name="ILRepacker" AfterTargets="Build" Condition="'$(Configuration)' == 'Release'">
 
         <ItemGroup>
-            <InputAssemblies Include="$(OutputPath)\ICSharpCode.SharpZipLib.dll"/>
             <InputAssemblies Include="$(OutputPath)\$(AssemblyName).dll"/>
+            <InputAssemblies Include="$(OutputPath)\ICSharpCode.SharpZipLib.dll"/>
         </ItemGroup>
 
         <ILRepack
