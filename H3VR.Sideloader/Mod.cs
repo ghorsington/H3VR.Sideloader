@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using H3VR.Sideloader.Util;
+using H3VR.Sideloader.Shared;
 using ICSharpCode.SharpZipLib.Zip;
 using MicroJson;
-using H3VR.Sideloader.Shared;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -71,39 +70,10 @@ namespace H3VR.Sideloader
             };
         }
 
-        public void RegisterPrefabReplacements(Dictionary<string, Mod> mappings)
-        {
-            foreach (var manifestAssetMapping in Manifest.AssetMappings.Where(m => m.Type == AssetType.Prefab))
-            {
-                if (!FileExists(GetAssetPath(manifestAssetMapping.Path, out _)))
-                    Sideloader.Logger.LogWarning(
-                        $"[{Name}] Asset `{manifestAssetMapping.Path}` of type `{AssetType.Prefab}` does not exist in the mod, skipping...");
-                if (mappings.TryGetValue(manifestAssetMapping.Target, out var otherMod))
-                {
-                    Sideloader.Logger.LogWarning(
-                        $"[{Name}] prefab {manifestAssetMapping.Type} is already being replaced by [{otherMod.Name}], skipping setting prefab replacement.");
-                    continue;
-                }
-
-                mappings[manifestAssetMapping.Target] = this;
-            }
-        }
-
-        public void RegisterTreeAssets(AssetTree tree, AssetType type)
-        {
-            foreach (var manifestAssetMapping in Manifest.AssetMappings.Where(m => m.Type == type))
-            {
-                if (!FileExists(GetAssetPath(manifestAssetMapping.Path, out _)))
-                    Sideloader.Logger.LogWarning(
-                        $"[{Name}] Asset `{manifestAssetMapping.Path}` of type `{type}` does not exist in the mod, skipping...");
-                tree.AddMod(manifestAssetMapping.Target, manifestAssetMapping.Path, this);
-            }
-        }
-
         public GameObject LoadPrefab(string target)
         {
             // Specifically don't cache prefabs because they are usually loaded only once per scene anyway
-            if (FileExists(GetAssetPath(target, out var _)))
+            if (FileExists(GetAssetPath(target, out _)))
                 return LoadAssetBundleAsset(target, new Dictionary<string, GameObject>());
             Sideloader.Logger.LogWarning($"[{Name}] no prefab defined at `{target}`");
             return null;

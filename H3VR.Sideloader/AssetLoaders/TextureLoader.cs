@@ -25,12 +25,14 @@ namespace H3VR.Sideloader.AssetLoaders
         {
             base.Initialize(mods);
             ResourceRedirection.RegisterAssetLoadedHook(HookBehaviour.OneCallbackPerResourceLoaded, PatchLoadedAsset);
-            ResourceRedirection.RegisterResourceLoadedHook(HookBehaviour.OneCallbackPerResourceLoaded, PatchLoadedResource);
+            ResourceRedirection.RegisterResourceLoadedHook(HookBehaviour.OneCallbackPerResourceLoaded,
+                PatchLoadedResource);
         }
 
         private void PatchLoadedResource(ResourceLoadedContext ctx)
         {
-            Sideloader.Logger.LogDebug($"Loaded resource to load resource {ctx.Parameters.Path}, {ctx.Parameters.Type}");
+            Sideloader.Logger.LogDebug(
+                $"Loaded resource to load resource {ctx.Parameters.Path}, {ctx.Parameters.Type}");
             foreach (var obj in ctx.Assets)
             {
                 var path = ctx.GetUniqueFileSystemAssetPath(obj);
@@ -38,12 +40,13 @@ namespace H3VR.Sideloader.AssetLoaders
                 ReplaceItemSpawnerIcon(itemSpawnerId, path);
             }
         }
-        
+
         private void ReplaceItemSpawnerIcon(ItemSpawnerID itemSpawnerId, string path)
         {
             Sideloader.Logger.LogDebug(
                 $"ItemSpawnerID Icon: {string.Join(":", new[] {path, itemSpawnerId.Sprite.name, itemSpawnerId.Sprite.texture.name})}");
-            var mod = AssetTree.Find(path, itemSpawnerId.Sprite.name, itemSpawnerId.Sprite.texture.name).FirstOrDefault();
+            var mod = AssetTree.Find(path, itemSpawnerId.Sprite.name, itemSpawnerId.Sprite.texture.name)
+                .FirstOrDefault();
             if (mod == null)
                 return;
             var tex = mod.Mod.LoadTexture(mod.FullPath);
@@ -61,7 +64,7 @@ namespace H3VR.Sideloader.AssetLoaders
                 ReplaceTextures(go, path);
             }
         }
-        
+
         private void ReplaceTextures(GameObject go, string path)
         {
             var meshRenderers = go.GetComponentsInChildren<MeshRenderer>();

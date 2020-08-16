@@ -6,12 +6,9 @@ using System.Reflection;
 using System.Text;
 using BepInEx;
 using BepInEx.Logging;
-using FistVR;
 using H3VR.Sideloader.AssetLoaders;
 using H3VR.Sideloader.Util;
 using ICSharpCode.SharpZipLib.Zip;
-using H3VR.Sideloader.Shared;
-using UnityEngine;
 using XUnity.ResourceRedirector;
 
 namespace H3VR.Sideloader
@@ -77,10 +74,10 @@ namespace H3VR.Sideloader
             LoadMods(Extensions.GetAllFiles(modsPath, "*.h3mod", "*.hotmod"), Mod.LoadFromZip);
 
             // TODO: Sanity checking etc
-            
+
             foreach (var loader in loaders)
                 loader.Initialize(mods);
-            
+
             Logger.LogInfo($"Loaded {mods.Count} mods!");
         }
     }

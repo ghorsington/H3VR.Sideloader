@@ -8,15 +8,15 @@ namespace H3VR.Sideloader.AssetLoaders
 {
     internal class MaterialLoader : AssetTreeLoaderBase
     {
-        // Load materials before loading textures
-        public override int Priority { get; } = 10;
-
         private static readonly string[] MaterialPathSchema =
         {
             "prefabPath",
             "materialName"
         };
-        
+
+        // Load materials before loading textures
+        public override int Priority { get; } = 10;
+
         protected override AssetType AssetType { get; } = AssetType.Material;
         protected override int TargetPathLength { get; } = MaterialPathSchema.Length;
 

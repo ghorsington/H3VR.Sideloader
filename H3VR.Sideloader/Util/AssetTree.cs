@@ -80,7 +80,7 @@ namespace H3VR.Sideloader.Util
                     CollectAll(node, result);
                     return result.ToArray();
                 }
-                
+
                 foreach (var nodeChild in node.Children.Where(n => n.Path != null))
                 {
                     var result = Process(index + 1, nodeChild);

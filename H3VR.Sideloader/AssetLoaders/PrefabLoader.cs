@@ -40,6 +40,7 @@ namespace H3VR.Sideloader.AssetLoaders
                         $"[{mod.Name}] prefab {manifestAssetMapping.Type} is already being replaced by [{otherMod.Name}], skipping setting prefab replacement.");
                     continue;
                 }
+
                 prefabReplacements[manifestAssetMapping.Target] = mod;
             }
         }

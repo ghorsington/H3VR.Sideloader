@@ -34,7 +34,7 @@ namespace H3VR.Sideloader.AssetLoaders
                 ReplaceMeshes(go, path);
             }
         }
-        
+
         private void ReplaceMeshes(GameObject go, string path)
         {
             // TODO: Eventually, might need to handle SkinnedMeshRenderers, but for now it seems H3 doesn't use those for guns
