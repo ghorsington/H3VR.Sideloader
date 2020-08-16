@@ -40,8 +40,18 @@ namespace H3VR.Sideloader.AssetLoaders
         {
             if (!__instance.clip)
                 return;
-            if (audioClips.TryGetValue(__instance.clip.name, out var entry))
-                __instance.clip = entry.Mod.LoadAudioClip(entry.AudioClipPath, __instance.clip.name);
+            Sideloader.Logger.LogDebug($"AudioClip: {__instance.clip}");
+            if (!audioClips.TryGetValue(__instance.clip.name, out var entry)) 
+                return;
+            try
+            {
+                var newClip = entry.Mod.LoadAudioClip(entry.AudioClipPath, __instance.clip.name);
+                __instance.clip = newClip;
+            }
+            catch (Exception e)
+            {
+                Sideloader.Logger.LogWarning($"Failed to load AudioClip {__instance.clip} from mod [{entry.Mod.Name}]: {e.Message}");
+            }
         }
 
         private class ModEntry
