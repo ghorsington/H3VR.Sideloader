@@ -35,7 +35,7 @@ using System.Text.RegularExpressions;
 // ReSharper disable once CheckNamespace
 namespace MicroJson
 {
-    public class ParserException : Exception
+    internal class ParserException : Exception
     {
         public ParserException(string msg, int line, int col)
             : base(msg)
@@ -48,12 +48,12 @@ namespace MicroJson
         public int Column { get; }
     }
 
-    public interface ILogger
+    internal interface ILogger
     {
         void WriteLine(string message, params object[] arguments);
     }
 
-    public class TextWriterLogger : ILogger
+    internal class TextWriterLogger : ILogger
     {
         public TextWriterLogger(TextWriter writer)
         {
@@ -75,7 +75,7 @@ namespace MicroJson
     /// <summary>
     ///     Parses JSON into POCOs.
     /// </summary>
-    public class JsonParser
+    internal class JsonParser
     {
         private string Input { get; set; }
         private int InputLength { get; set; }
@@ -515,7 +515,7 @@ namespace MicroJson
     /// <summary>
     ///     Serializes and deserializes JSON.
     /// </summary>
-    public class JsonSerializer
+    internal class JsonSerializer
     {
         private static readonly Regex DateTimeRegex = new Regex(@"^/Date\((-?\d+)\)/$");
 
