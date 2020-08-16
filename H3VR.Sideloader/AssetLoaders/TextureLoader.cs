@@ -17,7 +17,6 @@ namespace H3VR.Sideloader.AssetLoaders
             "materialParameter"
         };
 
-        public override int Priority { get; } = 5;
         protected override AssetType AssetType { get; } = AssetType.Texture;
         protected override int TargetPathLength { get; } = TexturePathSchema.Length;
 

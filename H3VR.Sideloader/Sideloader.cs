@@ -27,7 +27,6 @@ namespace H3VR.Sideloader
             .GetTypes()
             .Where(t => typeof(ILoader).IsAssignableFrom(t) && !t.IsInterface && !t.IsAbstract)
             .Select(t => (ILoader) Activator.CreateInstance(t))
-            .OrderByDescending(l => l.Priority)
             .ToList();
 
         private void Awake()
@@ -80,7 +79,7 @@ namespace H3VR.Sideloader
                 Logger.LogDebug($"Loading {loader}");
                 loader.Initialize(mods);
             }
-                
+
 
             Logger.LogInfo($"Loaded {mods.Count} mods!");
         }

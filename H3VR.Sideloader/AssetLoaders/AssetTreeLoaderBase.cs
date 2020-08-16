@@ -8,11 +8,8 @@ namespace H3VR.Sideloader.AssetLoaders
     internal abstract class AssetTreeLoaderBase : ILoader
     {
         protected abstract AssetType AssetType { get; }
-
         protected abstract int TargetPathLength { get; }
-
         protected AssetTree AssetTree { get; private set; }
-        public abstract int Priority { get; }
 
         public virtual void Initialize(IEnumerable<Mod> mods)
         {

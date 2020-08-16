@@ -83,9 +83,7 @@ namespace H3VR.Sideloader
         {
             if (!FileExists(path))
                 throw new FileNotFoundException($"Tried to load non-existent texture `{path}` from mod {Name}");
-
             if (textures.TryGetValue(path, out var tex)) return tex;
-
             tex = textures[path] = new Texture2D(1, 1, TextureFormat.ARGB32, false);
             tex.LoadImage(LoadBytes(path));
             return tex;

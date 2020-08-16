@@ -9,13 +9,11 @@ namespace H3VR.Sideloader.AssetLoaders
     {
         private readonly Dictionary<string, Mod> prefabReplacements = new Dictionary<string, Mod>();
 
-        public int Priority { get; } = 100;
-
         public void Initialize(IEnumerable<Mod> mods)
         {
             foreach (var mod in mods)
                 RegisterPrefabReplacements(mod);
-            ResourceRedirection.RegisterAsyncAndSyncAssetLoadingHook(ReplacePrefab);
+            ResourceRedirection.RegisterAsyncAndSyncAssetLoadingHook(500, ReplacePrefab);
         }
 
         private void ReplacePrefab(IAssetLoadingContext ctx)

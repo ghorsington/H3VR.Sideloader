@@ -14,16 +14,15 @@ namespace H3VR.Sideloader.AssetLoaders
             "materialName"
         };
 
-        // Load materials before loading textures
-        public override int Priority { get; } = 10;
-
         protected override AssetType AssetType { get; } = AssetType.Material;
         protected override int TargetPathLength { get; } = MaterialPathSchema.Length;
 
         public override void Initialize(IEnumerable<Mod> mods)
         {
             base.Initialize(mods);
-            ResourceRedirection.RegisterAssetLoadedHook(HookBehaviour.OneCallbackPerResourceLoaded, PatchLoadedAsset);
+            // Ensure materials are handled before textures
+            ResourceRedirection.RegisterAssetLoadedHook(HookBehaviour.OneCallbackPerResourceLoaded, 100,
+                PatchLoadedAsset);
         }
 
         private void PatchLoadedAsset(AssetLoadedContext ctx)

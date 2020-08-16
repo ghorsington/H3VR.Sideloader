@@ -15,7 +15,6 @@ namespace H3VR.Sideloader.AssetLoaders
             "meshName"
         };
 
-        public override int Priority { get; } = 0;
         protected override AssetType AssetType { get; } = AssetType.Mesh;
         protected override int TargetPathLength { get; } = MeshPathSchema.Length;
 
