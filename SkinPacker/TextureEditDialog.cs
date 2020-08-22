@@ -2,10 +2,10 @@
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using H3VR.Sideloader.Shared;
 using Microsoft.WindowsAPICodePack.Dialogs;
-using SkinPacker;
 
-namespace H3VR.Sideloader.Shared
+namespace SkinPacker
 {
     internal partial class TextureEditDialog : Form
     {

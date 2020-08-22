@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace H3VR.Sideloader.Shared.Properties
+namespace SkinPacker.Properties
 {
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.

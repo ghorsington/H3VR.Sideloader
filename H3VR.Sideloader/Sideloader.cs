@@ -13,7 +13,7 @@ using XUnity.ResourceRedirector;
 
 namespace H3VR.Sideloader
 {
-    [BepInPlugin("horse.coder.h3vr.sideloader", Shared.Info.NAME, Shared.Info.VERSION)]
+    [BepInPlugin("horse.coder.h3vr.sideloader", H3VR.Sideloader.Shared.Info.NAME, H3VR.Sideloader.Shared.Info.VERSION)]
     [BepInDependency("gravydevsupreme.xunity.resourceredirector")]
     public class Sideloader : BaseUnityPlugin
     {
@@ -38,7 +38,7 @@ namespace H3VR.Sideloader
         {
             Logger.LogInfo("Loading mods...");
             var mods = new List<Mod>();
-            var modsPath = Path.Combine(Paths.GameRootPath, Shared.Info.MODS_DIR);
+            var modsPath = Path.Combine(Paths.GameRootPath, H3VR.Sideloader.Shared.Info.MODS_DIR);
             Directory.CreateDirectory(modsPath);
             var modIds = new HashSet<string>(); // TODO: Make more elaborate (check version, etc)
 
@@ -66,7 +66,7 @@ namespace H3VR.Sideloader
             }
 
             LoadMods(Directory.GetDirectories(modsPath, "*", SearchOption.TopDirectoryOnly), Mod.LoadFromDir);
-            LoadMods(Extensions.GetAllFiles(modsPath, Shared.Info.ModExts.Select(s => $"*.{s}").ToArray()),
+            LoadMods(Extensions.GetAllFiles(modsPath, H3VR.Sideloader.Shared.Info.ModExts.Select(s => $"*.{s}").ToArray()),
                 Mod.LoadFromZip);
 
             // TODO: Sanity checking etc

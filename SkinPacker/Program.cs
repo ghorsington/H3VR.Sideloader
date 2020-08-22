@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace H3VR.Sideloader.Shared
+namespace SkinPacker
 {
     internal static class Program
     {

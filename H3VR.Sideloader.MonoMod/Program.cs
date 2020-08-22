@@ -45,7 +45,7 @@ namespace H3VR.Sideloader.MonoMod
             result = result.Concat(LoadMods(Directory.GetDirectories(modsDir, "*", SearchOption.TopDirectoryOnly),
                 LoadMonoModPatchesFromDirectory));
             result = result.Concat(LoadMods(
-                Extensions.GetAllFiles(modsDir, Info.ModExts.Select(s => $"*.{s}").ToArray()),
+                Extensions.GetAllFiles(modsDir, Shared.Info.ModExts.Select(s => $"*.{s}").ToArray()),
                 LoadMonoModPatchesFromZip));
             return result;
         }

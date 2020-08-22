@@ -41,7 +41,7 @@ namespace H3VR.Sideloader.AssetLoaders
             if (!__instance.clip)
                 return;
             Sideloader.Logger.LogDebug($"AudioClip: {__instance.clip}");
-            if (!audioClips.TryGetValue(__instance.clip.name, out var entry)) 
+            if (!audioClips.TryGetValue(__instance.clip.name, out var entry))
                 return;
             try
             {
@@ -50,7 +50,8 @@ namespace H3VR.Sideloader.AssetLoaders
             }
             catch (Exception e)
             {
-                Sideloader.Logger.LogWarning($"Failed to load AudioClip {__instance.clip} from mod [{entry.Mod.Name}]: {e.Message}");
+                Sideloader.Logger.LogWarning(
+                    $"Failed to load AudioClip {__instance.clip} from mod [{entry.Mod.Name}]: {e.Message}");
             }
         }
 

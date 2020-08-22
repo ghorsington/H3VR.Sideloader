@@ -1,4 +1,4 @@
-﻿namespace H3VR.Sideloader.Shared
+﻿namespace SkinPacker
 {
     partial class MainView
     {

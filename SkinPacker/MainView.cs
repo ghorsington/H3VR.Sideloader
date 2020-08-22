@@ -3,12 +3,13 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
+using H3VR.Sideloader.Shared;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 
-namespace H3VR.Sideloader.Shared
+namespace SkinPacker
 {
     public partial class MainView : Form
     {
@@ -313,7 +314,7 @@ namespace H3VR.Sideloader.Shared
             {
                 Filters =
                 {
-                    new CommonFileDialogFilter("H3VR Sideloader Mod", "*.h3mod;*.hotmod"),
+                    new CommonFileDialogFilter("H3VR Sideloader Mod", "*.h3mod;*.hotmod")
                 },
                 Title = "Save sideloader file",
                 DefaultExtension = ".h3mod"

@@ -4,9 +4,10 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
+using H3VR.Sideloader.Shared;
 using ICSharpCode.SharpZipLib.Zip;
 
-namespace H3VR.Sideloader.Shared
+namespace SkinPacker
 {
     internal partial class ModPacker : Form
     {
@@ -45,7 +46,7 @@ namespace H3VR.Sideloader.Shared
                     progressBar.Maximum = files.Count + 3;
                     progressLabel.Text = "Preparing";
                 }));
-                
+
                 foreach (var file in files)
                 {
                     var fullFile = Path.Combine(baseDir, file);
