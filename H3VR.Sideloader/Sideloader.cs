@@ -7,20 +7,16 @@ using System.Text;
 using BepInEx;
 using BepInEx.Logging;
 using H3VR.Sideloader.AssetLoaders;
-using H3VR.Sideloader.Util;
+using H3VR.Sideloader.Shared;
 using ICSharpCode.SharpZipLib.Zip;
 using XUnity.ResourceRedirector;
 
 namespace H3VR.Sideloader
 {
-    [BepInPlugin("horse.coder.h3vr.sideloader", NAME, VERSION)]
+    [BepInPlugin("horse.coder.h3vr.sideloader", Shared.Info.NAME, Shared.Info.VERSION)]
     [BepInDependency("gravydevsupreme.xunity.resourceredirector")]
     public class Sideloader : BaseUnityPlugin
     {
-        internal const string VERSION = "0.2.1";
-        internal const string NAME = "H3VR Sideloader";
-        private const string MODS_DIR = "Mods";
-
         internal new static ManualLogSource Logger;
 
         private readonly IList<ILoader> loaders = Assembly.GetExecutingAssembly()
@@ -42,7 +38,7 @@ namespace H3VR.Sideloader
         {
             Logger.LogInfo("Loading mods...");
             var mods = new List<Mod>();
-            var modsPath = Path.Combine(Paths.GameRootPath, MODS_DIR);
+            var modsPath = Path.Combine(Paths.GameRootPath, Shared.Info.MODS_DIR);
             Directory.CreateDirectory(modsPath);
             var modIds = new HashSet<string>(); // TODO: Make more elaborate (check version, etc)
 
@@ -70,7 +66,8 @@ namespace H3VR.Sideloader
             }
 
             LoadMods(Directory.GetDirectories(modsPath, "*", SearchOption.TopDirectoryOnly), Mod.LoadFromDir);
-            LoadMods(Extensions.GetAllFiles(modsPath, "*.h3mod", "*.hotmod"), Mod.LoadFromZip);
+            LoadMods(Extensions.GetAllFiles(modsPath, Shared.Info.ModExts.Select(s => $"*.{s}").ToArray()),
+                Mod.LoadFromZip);
 
             // TODO: Sanity checking etc
 

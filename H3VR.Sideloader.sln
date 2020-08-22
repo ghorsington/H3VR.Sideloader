@@ -6,6 +6,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkinPacker", "SkinPacker\Sk
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "H3VR.Sideloader.Shared", "H3VR.Sideloader.Shared\H3VR.Sideloader.Shared.shproj", "{5305CA52-4AC5-48F6-B0FA-28EDB480B695}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "H3VR.Sideloader.MonoMod", "H3VR.Sideloader.MonoMod\H3VR.Sideloader.MonoMod.csproj", "{6937118B-B486-4D1B-8DFB-46C5ABB7A24A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -20,5 +22,9 @@ Global
 		{560E5F3B-9341-4FBF-B86D-0C7FD2E1D695}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{560E5F3B-9341-4FBF-B86D-0C7FD2E1D695}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{560E5F3B-9341-4FBF-B86D-0C7FD2E1D695}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6937118B-B486-4D1B-8DFB-46C5ABB7A24A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6937118B-B486-4D1B-8DFB-46C5ABB7A24A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6937118B-B486-4D1B-8DFB-46C5ABB7A24A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6937118B-B486-4D1B-8DFB-46C5ABB7A24A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

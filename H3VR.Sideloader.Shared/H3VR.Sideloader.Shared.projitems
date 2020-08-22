@@ -9,6 +9,8 @@
     <Import_RootNamespace>H3VR.Sideloader.Shared</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Info.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ModManifest.cs" />
   </ItemGroup>
 </Project>

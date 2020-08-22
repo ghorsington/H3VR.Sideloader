@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using Microsoft.WindowsAPICodePack.Dialogs;
+using SkinPacker;
 
 namespace H3VR.Sideloader.Shared
 {

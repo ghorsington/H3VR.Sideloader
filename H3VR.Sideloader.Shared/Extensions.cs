@@ -2,7 +2,7 @@
 using System.IO;
 using System.Linq;
 
-namespace H3VR.Sideloader.Util
+namespace H3VR.Sideloader.Shared
 {
     internal static class Extensions
     {
