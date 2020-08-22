@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using FistVR;
 using H3VR.Sideloader.Shared;
 using ICSharpCode.SharpZipLib.Zip;
 using MicroJson;
@@ -75,7 +76,7 @@ namespace H3VR.Sideloader
         {
             // Specifically don't cache prefabs because they are usually loaded only once per scene anyway
             if (FileExists(GetAssetPath(target, out _)))
-                return LoadAssetBundleAsset(target, new Dictionary<string, GameObject>());
+                return LoadAssetBundleAsset<GameObject>(target);
             Sideloader.Logger.LogWarning($"[{Name}] no prefab defined at `{target}`");
             return null;
         }
@@ -100,6 +101,7 @@ namespace H3VR.Sideloader
             return LoadAssetBundleAsset(path, meshes);
         }
 
+
         public AudioClip LoadAudioClip(string path, string name = "wav")
         {
             if (!FileExists(path))
@@ -111,15 +113,23 @@ namespace H3VR.Sideloader
             return clip;
         }
 
-        private T LoadAssetBundleAsset<T>(string path, IDictionary<string, T> assetCache) where T : Object
+        public AssetBundle LoadAssetBundle(string path, out string assetPath)
         {
-            Sideloader.Logger.LogDebug($"Loading asset from {path}");
-            if (assetCache.TryGetValue(path, out var asset))
-                return asset;
-            var filePath = GetAssetPath(path, out var assetPath);
+            var filePath = GetAssetPath(path, out assetPath);
             if (!assetBundles.TryGetValue(filePath, out var assetBundle))
                 assetBundle = assetBundles[filePath] = AssetBundle.LoadFromMemory(LoadBytes(filePath));
-            asset = assetCache[path] = assetBundle.LoadAsset<T>(assetPath);
+            return assetBundle;
+        }
+        
+        public T LoadAssetBundleAsset<T>(string path, IDictionary<string, T> assetCache = null) where T : Object
+        {
+            Sideloader.Logger.LogDebug($"Loading asset from {path}");
+            if (assetCache != null && assetCache.TryGetValue(path, out var asset))
+                return asset;
+            var assetBundle = LoadAssetBundle(path, out var assetPath);
+            asset = assetBundle.LoadAsset<T>(assetPath);
+            if (assetCache != null)
+                assetCache[path] = asset;
             return asset;
         }
 

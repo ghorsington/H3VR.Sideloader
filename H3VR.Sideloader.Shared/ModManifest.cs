@@ -6,7 +6,9 @@
         Prefab,
         Mesh,
         Material,
-        AudioClip
+        AudioClip,
+        FVRObject,
+        ItemSpawnerID
     }
 
     internal class AssetMapping
