@@ -61,8 +61,8 @@ namespace H3VR.Sideloader.AssetLoaders
             Harmony.CreateAndPatchAll(typeof(FVRObjectLoader));
         }
 
-        [HarmonyPatch(typeof(GM), "Awake")]
-        [HarmonyPrefix]
+        [HarmonyPatch(typeof(IM), "Awake")]
+        [HarmonyPostfix]
         private static void InjectObjects()
         {
             foreach (var itemSpawnerId in ItemSpawnerIds)
