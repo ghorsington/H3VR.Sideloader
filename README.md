@@ -18,9 +18,9 @@ that allows to
 
 Download these archives into the same folder:
 
-* [BepInEx 5.2](https://github.com/BepInEx/BepInEx/releases/download/v5.2/BepInEx_x64_5.2.0.0.zip)
+* [BepInEx 5.3](https://github.com/BepInEx/BepInEx/releases/download/v5.3/BepInEx_x64_5.3.0.0.zip)
 * [XUnity.ResourceRedirector](https://github.com/bbepis/XUnity.AutoTranslator/releases/download/v4.12.0/XUnity.ResourceRedirector-BepIn-5x-1.1.2.zip)
-* [H3VR.Sideloader](https://github.com/denikson/H3VR.Sideloader/releases/download/v0.2.1/H3VR.Sideloader_v0.2.1.zip)
+* [H3VR.Sideloader](https://github.com/denikson/H3VR.Sideloader/releases/download/v0.3.0/H3VR.Sideloader_v0.3.0.zip)
 
 ### Installation
 
@@ -67,3 +67,6 @@ Run the tool, fill the required info and press `Pack h3mod`.
 
 **Meshes, materials, prefabs**: WIP, there is no tool yet to do this automatically.  
 Refer to the [wiki](https://github.com/denikson/H3VR.Sideloader/wiki) for info on how to create these packages manually.
+
+**Custom objects (weapons, spawner IDs)**: WIP, there is no tool yet to do this automatically.  
+Refer to the [wiki](https://github.com/denikson/H3VR.Sideloader/wiki/Custom-items) for WIP info about creating new weapons.
