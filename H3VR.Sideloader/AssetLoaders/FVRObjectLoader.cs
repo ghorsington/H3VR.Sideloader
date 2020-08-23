@@ -17,7 +17,7 @@ namespace H3VR.Sideloader.AssetLoaders
         private static readonly List<ItemSpawnerID> ItemSpawnerIds = new List<ItemSpawnerID>();
 
         private static readonly AccessTools.FieldRef<FVRObject, AssetID> AssetIdRef =
-            AccessTools.FieldRefAccess<FVRObject, AssetID>("m_anvilPrefab");
+            AccessTools.FieldRefAccess<FVRObject, AssetID>(AccessTools.Field(typeof(FVRObject), "m_anvilPrefab"));
 
         private static readonly Dictionary<string, AssetBundleAsset> AbAssets =
             new Dictionary<string, AssetBundleAsset>();
@@ -83,13 +83,14 @@ namespace H3VR.Sideloader.AssetLoaders
             return new CodeMatcher(instr)
                 .MatchForward(false,
                     new CodeMatch(OpCodes.Call, AccessTools.Method(typeof(File), nameof(File.Exists))))
-                .SetAndAdvance(OpCodes.Call,
-                    Transpilers.EmitDelegate((Func<string, bool>) (s => AbAssets.ContainsKey(s) || File.Exists(s))))
+                .SetAndAdvance(OpCodes.Nop, null)
+                .Insert(Transpilers.EmitDelegate((Func<string, bool>) (s => AbAssets.ContainsKey(s) || File.Exists(s))))
                 .MatchForward(false,
                     new CodeMatch(OpCodes.Call,
                         AccessTools.Method(typeof(AssetBundle), nameof(AssetBundle.LoadFromFileAsync),
                             new[] {typeof(string)})))
-                .SetAndAdvance(OpCodes.Call, Transpilers.EmitDelegate((Func<string, AsyncOperation>) (s =>
+                .SetAndAdvance(OpCodes.Nop, null)
+                .Insert(Transpilers.EmitDelegate((Func<string, AsyncOperation>) (s =>
                 {
                     if (AbAssets.TryGetValue(s, out var abAsset))
                         return new AnvilDummyOperation(abAsset.Mod.LoadAssetBundle(abAsset.Path, out _));
