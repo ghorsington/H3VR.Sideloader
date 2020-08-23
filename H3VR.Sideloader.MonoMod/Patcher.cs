@@ -74,6 +74,14 @@ namespace H3VR.Sideloader.MonoMod
             }
         }
 
+        private static void CopyStream(Stream from, Stream to)
+        {
+            var buf = new byte[4096];
+            int read;
+            while ((read = from.Read(buf, 0, buf.Length)) > 0)
+                to.Write(buf, 0, read);
+        }
+
         private static IEnumerable<Stream> LoadMonoModPatchesFromZip(string zip)
         {
             ZipFile file;
@@ -97,9 +105,11 @@ namespace H3VR.Sideloader.MonoMod
                 var fileName = Path.GetFileName(zipEntry.Name).ToLowerInvariant();
                 if (!fileName.EndsWith(".mm.dll"))
                     continue;
-                var s = file.GetInputStream(zipEntry);
-                loadedStreams.Add(s);
-                yield return s;
+                var ms = new MemoryStream();
+                using (var s = file.GetInputStream(zipEntry))
+                    CopyStream(s, ms);    
+                loadedStreams.Add(ms);
+                yield return ms;
             }
         }
 
