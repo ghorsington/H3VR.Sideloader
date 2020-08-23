@@ -43,7 +43,7 @@ namespace H3VR.Sideloader.AssetLoaders
                 {
                     case AssetType.FVRObject:
                     {
-                        var obj = validMod.LoadAssetBundleAsset<FVRObject>(assetMapping.Target);
+                        var obj = validMod.LoadAssetBundleAsset<FVRObject>(assetMapping.Path);
                         ref var assetId = ref AssetIdRef(obj);
                         assetId.Bundle = validMod.Manifest.Guid;
                         Objects.Add(obj);
@@ -51,7 +51,7 @@ namespace H3VR.Sideloader.AssetLoaders
                         break;
                     case AssetType.ItemSpawnerID:
                     {
-                        var obj = validMod.LoadAssetBundleAsset<ItemSpawnerID>(assetMapping.Target);
+                        var obj = validMod.LoadAssetBundleAsset<ItemSpawnerID>(assetMapping.Path);
                         ItemSpawnerIds.Add(obj);
                     }
                         break;
