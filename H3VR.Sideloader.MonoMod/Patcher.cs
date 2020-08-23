@@ -23,6 +23,14 @@ namespace H3VR.Sideloader.MonoMod
         // ReSharper disable once InconsistentNaming
         public static IEnumerable<string> TargetDLLs { get; } = new[] {"Assembly-CSharp.dll"};
 
+        public static string[] ResolveDirectories { get; } =
+        {
+            Paths.BepInExAssemblyDirectory,
+            Paths.ManagedPath,
+            Paths.PatcherPluginPath,
+            Paths.PluginPath
+        };
+
         private static IEnumerable<Stream> Init()
         {
             var modsDir = Path.Combine(Paths.GameRootPath, Info.MODS_DIR);
@@ -48,7 +56,7 @@ namespace H3VR.Sideloader.MonoMod
             result = result.Concat(LoadMods(Directory.GetDirectories(modsDir, "*", SearchOption.TopDirectoryOnly),
                 LoadMonoModPatchesFromDirectory));
             result = result.Concat(LoadMods(
-                Extensions.GetAllFiles(modsDir, Shared.Info.ModExts.Select(s => $"*.{s}").ToArray()),
+                Extensions.GetAllFiles(modsDir, Info.ModExts.Select(s => $"*.{s}").ToArray()),
                 LoadMonoModPatchesFromZip));
             return result;
         }
@@ -78,7 +86,7 @@ namespace H3VR.Sideloader.MonoMod
                 Logger.LogWarning($"Failed to open {zip}: {e.Message}");
                 yield break;
             }
-            
+
             openedFiles.Add(file);
 
             for (var i = 0; i < file.Count; i++)
@@ -122,36 +130,31 @@ namespace H3VR.Sideloader.MonoMod
                 return;
 
             using var modder = new SideloaderMonoModder(ass, Logger);
-            
+
             modder.DependencyDirs.AddRange(ResolveDirectories);
             var resolver = (BaseAssemblyResolver) modder.AssemblyResolver;
             var moduleResolver = (BaseAssemblyResolver) modder.Module.AssemblyResolver;
-            
+
             foreach (var resolveDirectory in ResolveDirectories)
                 resolver.AddSearchDirectory(resolveDirectory);
 
-            AssemblyDefinition Resolve(object sender, AssemblyNameReference name) => TypeLoader.Resolver.Resolve(name);
+            AssemblyDefinition Resolve(object sender, AssemblyNameReference name)
+            {
+                return TypeLoader.Resolver.Resolve(name);
+            }
 
             resolver.ResolveFailure += Resolve;
             moduleResolver.ResolveFailure += Resolve;
-            
+
             modder.Run(assemblyStreams);
 
             moduleResolver.ResolveFailure -= Resolve;
-            
+
             foreach (var loadedStream in loadedStreams)
                 loadedStream.Dispose();
-            
+
             foreach (var openedFile in openedFiles)
                 openedFile.Close();
         }
-        
-        public static string[] ResolveDirectories { get; set; } =
-        {
-            Paths.BepInExAssemblyDirectory,
-            Paths.ManagedPath,
-            Paths.PatcherPluginPath,
-            Paths.PluginPath
-        };
     }
 }
