@@ -34,7 +34,8 @@ namespace H3VR.Sideloader.AssetLoaders
             foreach (var validMod in validMods)
             foreach (var assetMapping in validMod.Manifest.AssetMappings.Where(IsNewAsset))
             {
-                AbAssets[$"{validMod.Manifest.Guid}#{assetMapping.Path}"] = new AssetBundleAsset
+                var assetBundleId = $"{validMod.Manifest.Guid}#{assetMapping.Path}";
+                AbAssets[assetBundleId] = new AssetBundleAsset
                 {
                     Path = assetMapping.Path,
                     Mod = validMod
@@ -45,7 +46,7 @@ namespace H3VR.Sideloader.AssetLoaders
                     {
                         var obj = validMod.LoadAssetBundleAsset<FVRObject>(assetMapping.Path);
                         ref var assetId = ref AssetIdRef(obj);
-                        assetId.Bundle = validMod.Manifest.Guid;
+                        assetId.Bundle = assetBundleId;
                         Objects.Add(obj);
                     }
                         break;
@@ -84,17 +85,21 @@ namespace H3VR.Sideloader.AssetLoaders
                 .MatchForward(false,
                     new CodeMatch(OpCodes.Call, AccessTools.Method(typeof(File), nameof(File.Exists))))
                 .SetAndAdvance(OpCodes.Nop, null)
-                .Insert(Transpilers.EmitDelegate((Func<string, bool>) (s => AbAssets.ContainsKey(s) || File.Exists(s))))
+                .Insert(
+                    new CodeInstruction(OpCodes.Ldarg_0),
+                    Transpilers.EmitDelegate((Func<string, string, bool>) ((path, bundle) => AbAssets.ContainsKey(bundle) || File.Exists(path))))
                 .MatchForward(false,
                     new CodeMatch(OpCodes.Call,
                         AccessTools.Method(typeof(AssetBundle), nameof(AssetBundle.LoadFromFileAsync),
                             new[] {typeof(string)})))
                 .SetAndAdvance(OpCodes.Nop, null)
-                .Insert(Transpilers.EmitDelegate((Func<string, AsyncOperation>) (s =>
+                .Insert(
+                    new CodeInstruction(OpCodes.Ldarg_0),
+                    Transpilers.EmitDelegate((Func<string, string, AsyncOperation>) ((path, bundle) =>
                 {
-                    if (AbAssets.TryGetValue(s, out var abAsset))
+                    if (AbAssets.TryGetValue(bundle, out var abAsset))
                         return new AnvilDummyOperation(abAsset.Mod.LoadAssetBundle(abAsset.Path, out _));
-                    return AssetBundle.LoadFromFileAsync(s);
+                    return AssetBundle.LoadFromFileAsync(path);
                 })))
                 .InstructionEnumeration();
         }
