@@ -108,7 +108,10 @@ namespace H3VR.Sideloader
                 throw new FileNotFoundException($"Tried to load non-existent audio clip `{path}` from mod {Name}");
             if (audioClips.TryGetValue(path, out var clip))
                 return clip;
-            using var br = new BinaryReader(GetInputStream(path, out _));
+            using var s = GetInputStream(path, out _);
+            using var ms = new MemoryStream();
+            s.CopyTo(ms);
+            using var br = new BinaryReader(ms);
             clip = audioClips[path] = WavUtility.ToAudioClip(br, name);
             return clip;
         }
