@@ -62,9 +62,9 @@ namespace H3VR.Sideloader.AssetLoaders
             Harmony.CreateAndPatchAll(typeof(FVRObjectLoader));
         }
 
-        [HarmonyPatch(typeof(IM), "Awake")]
+        [HarmonyPatch(typeof(IM), "GenerateItemDBs")]
         [HarmonyPostfix]
-        private static void InjectObjects()
+        private static void InjectObjects(IM __instance)
         {
             foreach (var itemSpawnerId in ItemSpawnerIds)
             {
@@ -73,7 +73,19 @@ namespace H3VR.Sideloader.AssetLoaders
             }
 
             foreach (var fvrObject in Objects)
+            {
                 IM.OD.Add(fvrObject.ItemID, fvrObject);
+
+                __instance.odicTagCategory.AddOrCreate(fvrObject.Category).Add(fvrObject);
+                __instance.odicTagFirearmEra.AddOrCreate(fvrObject.TagEra).Add(fvrObject);
+                __instance.odicTagFirearmSize.AddOrCreate(fvrObject.TagFirearmSize).Add(fvrObject);
+                __instance.odicTagFirearmAction.AddOrCreate(fvrObject.TagFirearmAction).Add(fvrObject);
+                __instance.odicTagFirearmFiringMode.AddOrCreate(fvrObject.TagFirearmFiringModes.FirstOrDefault()).Add(fvrObject);
+                __instance.odicTagFirearmFeedOption.AddOrCreate(fvrObject.TagFirearmFeedOption.FirstOrDefault()).Add(fvrObject);
+                __instance.odicTagFirearmMount.AddOrCreate(fvrObject.TagFirearmMounts.FirstOrDefault()).Add(fvrObject);
+                __instance.odicTagAttachmentMount.AddOrCreate(fvrObject.TagAttachmentMount).Add(fvrObject);
+                __instance.odicTagAttachmentFeature.AddOrCreate(fvrObject.TagAttachmentFeature).Add(fvrObject);
+            }    
         }
 
         [HarmonyPatch(typeof(AnvilManager), "GetAssetBundleAsyncInternal")]
@@ -108,6 +120,16 @@ namespace H3VR.Sideloader.AssetLoaders
         {
             public Mod Mod;
             public string Path;
+        }
+    }
+
+    public static class DictionaryExtension
+    {
+        public static TValue AddOrCreate<TKey, TValue>(this Dictionary<TKey, TValue> dictionary, TKey key) where TValue : new()
+        {
+            if (!dictionary.ContainsKey(key))
+                dictionary.Add(key, new TValue());
+            return dictionary[key];
         }
     }
 }
