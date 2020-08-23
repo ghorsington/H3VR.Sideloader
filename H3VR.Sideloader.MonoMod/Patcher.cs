@@ -74,14 +74,6 @@ namespace H3VR.Sideloader.MonoMod
             }
         }
 
-        private static void CopyStream(Stream from, Stream to)
-        {
-            var buf = new byte[4096];
-            int read;
-            while ((read = from.Read(buf, 0, buf.Length)) > 0)
-                to.Write(buf, 0, read);
-        }
-
         private static IEnumerable<Stream> LoadMonoModPatchesFromZip(string zip)
         {
             ZipFile file;
@@ -107,7 +99,7 @@ namespace H3VR.Sideloader.MonoMod
                     continue;
                 var ms = new MemoryStream();
                 using (var s = file.GetInputStream(zipEntry))
-                    CopyStream(s, ms);    
+                    s.CopyTo(ms); 
                 loadedStreams.Add(ms);
                 yield return ms;
             }

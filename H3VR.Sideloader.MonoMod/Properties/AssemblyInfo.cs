@@ -1,9 +1,7 @@
-﻿using System.Runtime.InteropServices;
+﻿using System.Reflection;
+using H3VR.Sideloader.Shared;
 
-// Setting ComVisible to false makes the types in this assembly not visible 
-// to COM components.  If you need to access a type in this assembly from 
-// COM, set the ComVisible attribute to true on that type.
-[assembly: ComVisible(false)]
-
-// The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("6937118B-B486-4D1B-8DFB-46C5ABB7A24A")]
+[assembly: AssemblyVersion(Info.VERSION)]
+[assembly: AssemblyFileVersion(Info.VERSION)]
+[assembly: AssemblyTitleAttribute(Info.NAME)]
+[assembly: AssemblyCopyright(Info.LICENSE)]
