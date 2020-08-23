@@ -60,7 +60,7 @@ Launch the game and you should have your mods installed an available!
 
 **Textures (weapon and item skins)**: 
 
-Download [latest `SkinPacker`](https://github.com/denikson/H3VR.Sideloader/releases/download/v0.2.1/SkinPacker.exe).  
+Download [latest `SkinPacker`](https://github.com/denikson/H3VR.Sideloader/releases/download/v0.3.0/SkinPacker.exe).  
 Run the tool, fill the required info and press `Pack h3mod`.
 
 [**Tutorial video**](https://webm.red/view/8b9h.webm)
