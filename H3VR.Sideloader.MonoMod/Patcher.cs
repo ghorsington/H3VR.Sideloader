@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using BepInEx;
+using BepInEx.Bootstrap;
 using BepInEx.Logging;
 using H3VR.Sideloader.Shared;
 using ICSharpCode.SharpZipLib.Zip;
@@ -16,6 +17,8 @@ namespace H3VR.Sideloader.MonoMod
         private static readonly ManualLogSource Logger = BepInEx.Logging.Logger.CreateLogSource("Sideloader.MonoMod");
 
         private static IEnumerable<Stream> assemblyStreams;
+        private static readonly List<Stream> loadedStreams = new List<Stream>();
+        private static readonly List<ZipFile> openedFiles = new List<ZipFile>();
 
         // ReSharper disable once InconsistentNaming
         public static IEnumerable<string> TargetDLLs { get; } = new[] {"Assembly-CSharp.dll"};
@@ -75,6 +78,8 @@ namespace H3VR.Sideloader.MonoMod
                 Logger.LogWarning($"Failed to open {zip}: {e.Message}");
                 yield break;
             }
+            
+            openedFiles.Add(file);
 
             for (var i = 0; i < file.Count; i++)
             {
@@ -84,11 +89,10 @@ namespace H3VR.Sideloader.MonoMod
                 var fileName = Path.GetFileName(zipEntry.Name).ToLowerInvariant();
                 if (!fileName.EndsWith(".mm.dll"))
                     continue;
-                using var s = file.GetInputStream(zipEntry);
+                var s = file.GetInputStream(zipEntry);
+                loadedStreams.Add(s);
                 yield return s;
             }
-
-            file.Close();
         }
 
         private static IEnumerable<Stream> LoadMonoModPatchesFromDirectory(string dir)
@@ -107,8 +111,8 @@ namespace H3VR.Sideloader.MonoMod
 
                 if (f == null)
                     continue;
+                loadedStreams.Add(f);
                 yield return f;
-                f.Dispose();
             }
         }
 
@@ -118,7 +122,36 @@ namespace H3VR.Sideloader.MonoMod
                 return;
 
             using var modder = new SideloaderMonoModder(ass, Logger);
+            
+            modder.DependencyDirs.AddRange(ResolveDirectories);
+            var resolver = (BaseAssemblyResolver) modder.AssemblyResolver;
+            var moduleResolver = (BaseAssemblyResolver) modder.Module.AssemblyResolver;
+            
+            foreach (var resolveDirectory in ResolveDirectories)
+                resolver.AddSearchDirectory(resolveDirectory);
+
+            AssemblyDefinition Resolve(object sender, AssemblyNameReference name) => TypeLoader.Resolver.Resolve(name);
+
+            resolver.ResolveFailure += Resolve;
+            moduleResolver.ResolveFailure += Resolve;
+            
             modder.Run(assemblyStreams);
+
+            moduleResolver.ResolveFailure -= Resolve;
+            
+            foreach (var loadedStream in loadedStreams)
+                loadedStream.Dispose();
+            
+            foreach (var openedFile in openedFiles)
+                openedFile.Close();
         }
+        
+        public static string[] ResolveDirectories { get; set; } =
+        {
+            Paths.BepInExAssemblyDirectory,
+            Paths.ManagedPath,
+            Paths.PatcherPluginPath,
+            Paths.PluginPath
+        };
     }
 }
