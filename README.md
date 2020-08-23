@@ -20,7 +20,7 @@ Download these archives into the same folder:
 
 * [BepInEx 5.3](https://github.com/BepInEx/BepInEx/releases/download/v5.3/BepInEx_x64_5.3.0.0.zip)
 * [XUnity.ResourceRedirector](https://github.com/bbepis/XUnity.AutoTranslator/releases/download/v4.12.0/XUnity.ResourceRedirector-BepIn-5x-1.1.2.zip)
-* [H3VR.Sideloader](https://github.com/denikson/H3VR.Sideloader/releases/download/v0.3.1/H3VR.Sideloader_v0.3.1.zip)
+* [H3VR.Sideloader](https://github.com/denikson/H3VR.Sideloader/releases/download/v0.3.2/H3VR.Sideloader_v0.3.2.zip)
 
 ### Installation
 
@@ -60,7 +60,7 @@ Launch the game and you should have your mods installed an available!
 
 **Textures (weapon and item skins)**: 
 
-Download [latest `SkinPacker`](https://github.com/denikson/H3VR.Sideloader/releases/download/v0.3.1/SkinPacker.exe).  
+Download [latest `SkinPacker`](https://github.com/denikson/H3VR.Sideloader/releases/download/v0.3.2/SkinPacker.exe).  
 Run the tool, fill the required info and press `Pack h3mod`.
 
 [**Tutorial video**](https://webm.red/view/8b9h.webm)
