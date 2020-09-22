@@ -64,13 +64,15 @@ namespace H3VR.Sideloader.AssetLoaders
 
         [HarmonyPatch(typeof(IM), "GenerateItemDBs")]
         [HarmonyPostfix]
-        private static void InjectObjects(IM __instance)
+        private static void InjectObjects(IM __instance, Dictionary<string, ItemSpawnerID> ___SpawnerIDDic)
         {
             var im = __instance;
             foreach (var itemSpawnerId in ItemSpawnerIds)
             {
                 IM.CD[itemSpawnerId.Category].Add(itemSpawnerId);
                 IM.SCD[itemSpawnerId.SubCategory].Add(itemSpawnerId);
+                if (!___SpawnerIDDic.ContainsKey(itemSpawnerId.ItemID))
+                    ___SpawnerIDDic[itemSpawnerId.ItemID] = itemSpawnerId;
             }
 
             foreach (var fvrObject in Objects)
