@@ -76,11 +76,9 @@ namespace H3VR.Sideloader.AssetLoaders
                     continue;
                 foreach (var material in materials)
                 {
-                    var materialName = material.name.Replace(" (Instance)", "");
+                    var materialName = material.name.Replace("(Instance)", "").Trim();
 
-                    if (material.mainTexture == null)
-                        continue;
-                    var textureName = material.mainTexture.name;
+                    var textureName = material.mainTexture ? material.mainTexture.name : "NULL";
                     Sideloader.Logger.LogDebug($"Texture: {string.Join(":", new[] {path, materialName, textureName})}");
                     var nodes = AssetTree.Find(path, materialName, textureName);
                     if (nodes.Length == 0)
