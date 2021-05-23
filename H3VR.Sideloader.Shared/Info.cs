@@ -2,7 +2,7 @@
 {
     internal static class Info
     {
-        public const string VERSION = "0.3.3";
+        public const string VERSION = "0.3.4";
         public const string NAME = "H3VR Sideloader";
         public const string MODS_DIR = "Mods";
         public const string LICENSE = "MIT: Geoffrey Horsington 2020";
