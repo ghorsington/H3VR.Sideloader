@@ -18,9 +18,9 @@ that allows to
 
 Download these archives into the same folder:
 
-* [BepInEx 5.3](https://github.com/BepInEx/BepInEx/releases/download/v5.3/BepInEx_x64_5.3.0.0.zip)
-* [XUnity.ResourceRedirector](https://github.com/bbepis/XUnity.AutoTranslator/releases/download/v4.12.0/XUnity.ResourceRedirector-BepIn-5x-1.1.2.zip)
-* [H3VR.Sideloader](https://github.com/denikson/H3VR.Sideloader/releases/download/v0.3.2/H3VR.Sideloader_v0.3.2.zip)
+* [BepInEx](https://h3vr.thunderstore.io/package/BepInEx/BepInExPack_H3VR)
+* [XUnity.ResourceRedirector](https://h3vr.thunderstore.io/package/bbepis/XUnity_ResourceRedirector)
+* [H3VR.Sideloader](https://github.com/ghorsington/H3VR.Sideloader/releases)
 
 ### Installation
 
@@ -29,8 +29,8 @@ Download these archives into the same folder:
 Full guide:
 
 1. Downloaded the requirements above and place them into the same folder
-2. Extract all the downloaded zips into H3VR game folder (`<STEAM folder>/steamapps/common/H3VR`) 
-   so that winhttp.dll is next to `h3vr.exe`
+2. Extract the downloaded folders into the game folder (`<STEAM folder>/steamapps/common/H3VR`) 
+   **while following the README of each requirement!**
    * It's recommended that you run the game now *at least once*. That way BepInEx initializes all the folders and configuration files.
    * *Optional* Enable the debug console by opening `<H3VR folder>/BepInEx/config/BepInEx.cfg`, finding and setting
       ```toml
@@ -39,7 +39,7 @@ Full guide:
       Enabled = true
       ```
 3. Create a `Mods` folder in H3VR folder (optional, will get generated manually as well)
-4. Run the game once for sidelaoder to initialize
+4. Run the game once for sideloader to initialize
 
 ## How does it work?
 
@@ -60,7 +60,7 @@ Launch the game and you should have your mods installed an available!
 
 **Textures (weapon and item skins)**: 
 
-Download [latest `SkinPacker`](https://github.com/denikson/H3VR.Sideloader/releases/download/v0.3.2/SkinPacker.exe).  
+Download [latest `SkinPacker`](https://github.com/denikson/H3VR.Sideloader/releases).  
 Run the tool, fill the required info and press `Pack h3mod`.
 
 [**Tutorial video**](https://webm.red/view/8b9h.webm)
