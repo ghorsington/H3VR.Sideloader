@@ -38,7 +38,8 @@ namespace H3VR.Sideloader
         {
             Logger.LogInfo("Loading mods...");
             var mods = new List<Mod>();
-            var modsPath = Path.Combine(Paths.GameRootPath, H3VR.Sideloader.Shared.Info.MODS_DIR);
+            var baseDir = Path.Combine(Paths.BepInExRootPath, "..");
+            var modsPath = Path.Combine(baseDir, H3VR.Sideloader.Shared.Info.MODS_DIR);
             Directory.CreateDirectory(modsPath);
             var modIds = new HashSet<string>(); // TODO: Make more elaborate (check version, etc)
 
