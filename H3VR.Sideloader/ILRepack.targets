@@ -12,7 +12,7 @@
                 Internalize="true"
                 InputAssemblies="@(InputAssemblies)"
                 TargetKind="Dll"
-                LibraryPath="$(SolutionDir)\lib"
+                LibraryPath="$(SolutionDir)\lib;$(PkgBepInEx_BaseLib)\lib\net35;$(PkgHarmonyX)\lib\net35"
                 OutputFile="$(OutputPath)\$(AssemblyName).dll"
         />
         <Delete Files="$(OutputPath)\ICSharpCode.SharpZipLib.dll"/>
