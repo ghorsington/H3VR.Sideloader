@@ -10,7 +10,7 @@ namespace H3VR.Sideloader.AssetLoaders
     internal class AudioClipLoader : ILoader
     {
         private static readonly Dictionary<string, ModEntry> audioClips =
-            new Dictionary<string, ModEntry>(StringComparer.InvariantCultureIgnoreCase);
+            new(StringComparer.InvariantCultureIgnoreCase);
 
         public void Initialize(IEnumerable<Mod> mods)
         {
@@ -40,7 +40,7 @@ namespace H3VR.Sideloader.AssetLoaders
         {
             if (!__instance.clip)
                 return;
-            Sideloader.Logger.LogDebug($"AudioClip: {__instance.clip}");
+            Sideloader.LogDebug($"AudioClip: {__instance.clip}");
             if (!audioClips.TryGetValue(__instance.clip.name, out var entry))
                 return;
             try

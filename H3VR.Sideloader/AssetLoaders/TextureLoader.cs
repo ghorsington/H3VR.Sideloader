@@ -30,7 +30,7 @@ namespace H3VR.Sideloader.AssetLoaders
 
         private void PatchLoadedResource(ResourceLoadedContext ctx)
         {
-            Sideloader.Logger.LogDebug(
+            Sideloader.LogDebug(
                 $"Loaded resource to load resource {ctx.Parameters.Path}, {ctx.Parameters.Type}");
             foreach (var obj in ctx.Assets)
             {
@@ -44,7 +44,7 @@ namespace H3VR.Sideloader.AssetLoaders
         {
             if (!itemSpawnerId.Sprite)
                 return;
-            Sideloader.Logger.LogDebug(
+            Sideloader.LogDebug(
                 $"ItemSpawnerID Icon: {string.Join(":", new[] {path, itemSpawnerId.Sprite.name, itemSpawnerId.Sprite.texture.name})}");
             var mod = AssetTree.Find(path, itemSpawnerId.Sprite.name, itemSpawnerId.Sprite.texture.name)
                 .FirstOrDefault();
@@ -79,7 +79,7 @@ namespace H3VR.Sideloader.AssetLoaders
                     var materialName = material.name.Replace("(Instance)", "").Trim();
 
                     var textureName = material.mainTexture ? material.mainTexture.name : "NULL";
-                    Sideloader.Logger.LogDebug($"Texture: {string.Join(":", new[] {path, materialName, textureName})}");
+                    Sideloader.LogDebug($"Texture: {string.Join(":", new[] {path, materialName, textureName})}");
                     var nodes = AssetTree.Find(path, materialName, textureName);
                     if (nodes.Length == 0)
                         continue;

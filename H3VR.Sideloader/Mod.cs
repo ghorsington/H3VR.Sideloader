@@ -125,7 +125,7 @@ namespace H3VR.Sideloader
         
         public T LoadAssetBundleAsset<T>(string path, IDictionary<string, T> assetCache = null) where T : Object
         {
-            Sideloader.Logger.LogDebug($"Loading asset from {path}");
+            Sideloader.LogDebug($"Loading asset from {path}");
             if (assetCache != null && assetCache.TryGetValue(path, out var asset))
                 return asset;
             var assetBundle = LoadAssetBundle(path, out var assetPath);

@@ -48,7 +48,7 @@ namespace H3VR.Sideloader.AssetLoaders
                     var material = materials[index];
                     var materialName = material.name.Replace(" (Instance)", "");
 
-                    Sideloader.Logger.LogDebug($"Material: {string.Join(":", new[] {path, materialName})}");
+                    Sideloader.LogDebug($"Material: {string.Join(":", new[] {path, materialName})}");
                     var materialMod = AssetTree.Find(path, materialName).FirstOrDefault();
                     if (materialMod != null)
                         materials[index] = materialMod.Mod.LoadMaterial(materialMod.FullPath);

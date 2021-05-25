@@ -42,7 +42,7 @@ namespace H3VR.Sideloader.AssetLoaders
             {
                 var filterName = meshFilter.name;
                 var meshName = meshFilter.mesh.name.Replace(" Instance", "");
-                Sideloader.Logger.LogDebug($"Mesh: {string.Join(":", new[] {path, filterName, meshName})}");
+                Sideloader.LogDebug($"Mesh: {string.Join(":", new[] {path, filterName, meshName})}");
                 var replacement = AssetTree.Find(path, filterName, meshName).FirstOrDefault();
                 if (replacement != null)
                     meshFilter.mesh = replacement.Mod.LoadMesh(replacement.FullPath);

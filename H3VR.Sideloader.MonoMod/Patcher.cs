@@ -33,8 +33,8 @@ namespace H3VR.Sideloader.MonoMod
 
         private static IEnumerable<Stream> Init()
         {
-            var baseDir = Path.Combine(Paths.BepInExRootPath, "..");
-            var modsDir = Path.Combine(baseDir, Info.MODS_DIR);
+            var config = new Config();
+            var modsDir = Path.Combine(Paths.BepInExRootPath, config.ModsFolder.Value);
             Directory.CreateDirectory(modsDir);
 
             static IEnumerable<Stream> LoadMods(IEnumerable<string> entries, Func<string, IEnumerable<Stream>> loader)

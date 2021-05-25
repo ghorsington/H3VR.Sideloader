@@ -18,6 +18,7 @@ namespace H3VR.Sideloader
     public class Sideloader : BaseUnityPlugin
     {
         internal new static ManualLogSource Logger;
+        internal new static readonly Config Config = new();
 
         private readonly IList<ILoader> loaders = Assembly.GetExecutingAssembly()
             .GetTypes()
@@ -34,12 +35,17 @@ namespace H3VR.Sideloader
             LoadMods();
         }
 
+        internal static void LogDebug(string message)
+        {
+            if (Config.WriteDebug.Value)
+                Logger.LogDebug(message);
+        }
+
         private void LoadMods()
         {
             Logger.LogInfo("Loading mods...");
             var mods = new List<Mod>();
-            var baseDir = Path.Combine(Paths.BepInExRootPath, "..");
-            var modsPath = Path.Combine(baseDir, H3VR.Sideloader.Shared.Info.MODS_DIR);
+            var modsPath = Path.Combine(Paths.BepInExRootPath, Config.ModsFolder.Value);
             Directory.CreateDirectory(modsPath);
             var modIds = new HashSet<string>(); // TODO: Make more elaborate (check version, etc)
 
@@ -58,7 +64,7 @@ namespace H3VR.Sideloader
                             continue;
                         }
 
-                        Logger.LogDebug($"Loading {mod.Name}");
+                        LogDebug($"Loading {mod.Name}");
                         modIds.Add(mod.Manifest.Guid);
                         mods.Add(mod);
                     }
@@ -76,7 +82,7 @@ namespace H3VR.Sideloader
 
             foreach (var loader in loaders)
             {
-                Logger.LogDebug($"Loading {loader}");
+                LogDebug($"Loading {loader}");
                 loader.Initialize(mods);
             }
 
