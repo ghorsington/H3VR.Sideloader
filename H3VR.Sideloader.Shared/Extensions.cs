@@ -8,7 +8,7 @@ namespace H3VR.Sideloader.Shared
     {
         public static IEnumerable<string> GetAllFiles(string dir, params string[] patterns)
         {
-            return patterns.SelectMany(p => Directory.GetFiles(dir, p, SearchOption.TopDirectoryOnly)).ToArray();
+            return patterns.SelectMany(p => Directory.GetFiles(dir, p, SearchOption.AllDirectories)).ToArray();
         }
 
         public static void CopyTo(this Stream from, Stream to)

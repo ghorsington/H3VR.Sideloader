@@ -49,6 +49,8 @@ namespace H3VR.Sideloader
                     try
                     {
                         var mod = loader(path);
+                        if (mod == null)
+                            continue;
                         if (modIds.Contains(mod.Manifest.Guid))
                         {
                             Logger.LogWarning(

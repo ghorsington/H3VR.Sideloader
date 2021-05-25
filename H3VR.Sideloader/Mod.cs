@@ -14,11 +14,11 @@ namespace H3VR.Sideloader
 {
     internal class Mod
     {
-        private readonly Dictionary<string, AssetBundle> assetBundles = new Dictionary<string, AssetBundle>();
-        private readonly Dictionary<string, AudioClip> audioClips = new Dictionary<string, AudioClip>();
-        private readonly Dictionary<string, Material> materials = new Dictionary<string, Material>();
-        private readonly Dictionary<string, Mesh> meshes = new Dictionary<string, Mesh>();
-        private readonly Dictionary<string, Texture2D> textures = new Dictionary<string, Texture2D>();
+        private readonly Dictionary<string, AssetBundle> assetBundles = new();
+        private readonly Dictionary<string, AudioClip> audioClips = new();
+        private readonly Dictionary<string, Material> materials = new();
+        private readonly Dictionary<string, Mesh> meshes = new();
+        private readonly Dictionary<string, Texture2D> textures = new();
 
         public ModManifest Manifest { get; private set; }
         public string ModPath { get; private set; }
@@ -32,8 +32,7 @@ namespace H3VR.Sideloader
 
             var manifestPath = Path.Combine(path, ModManifest.MANIFEST_FILE_NAME);
             if (!File.Exists(manifestPath))
-                throw new FileNotFoundException(
-                    $"Failed to find {ModManifest.MANIFEST_FILE_NAME}, the directory is not valid!");
+                return null;
 
             var manifest = new JsonSerializer().Deserialize<ModManifest>(File.ReadAllText(manifestPath));
             if (!manifest.Verify(out var errors))
