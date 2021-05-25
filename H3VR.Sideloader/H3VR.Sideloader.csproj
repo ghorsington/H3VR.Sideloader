@@ -3,7 +3,7 @@
     <TargetFramework>net35</TargetFramework>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-    <LangVersion>8</LangVersion>
+    <LangVersion>9</LangVersion>
     <OutputPath>../bin/plugin/BepInEx/plugins</OutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
