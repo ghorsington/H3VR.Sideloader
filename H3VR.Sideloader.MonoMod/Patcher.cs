@@ -141,23 +141,47 @@ namespace H3VR.Sideloader.MonoMod
             foreach (var resolveDirectory in ResolveDirectories)
                 resolver.AddSearchDirectory(resolveDirectory);
 
-            AssemblyDefinition Resolve(object sender, AssemblyNameReference name)
-            {
-                return TypeLoader.Resolver.Resolve(name);
-            }
-
-            resolver.ResolveFailure += Resolve;
-            moduleResolver.ResolveFailure += Resolve;
+            resolver.ResolveFailure += ResolverOnResolveFailure;
+            moduleResolver.ResolveFailure += ResolverOnResolveFailure;
 
             modder.Run(assemblyStreams);
 
-            moduleResolver.ResolveFailure -= Resolve;
+            moduleResolver.ResolveFailure -= ResolverOnResolveFailure;
 
             foreach (var loadedStream in loadedStreams)
                 loadedStream.Dispose();
 
             foreach (var openedFile in openedFiles)
                 openedFile.Close();
+        }
+        
+        private static AssemblyDefinition ResolverOnResolveFailure(object sender, AssemblyNameReference reference)
+        {
+            foreach (var directory in ResolveDirectories)
+            {
+                var potentialDirectories = new List<string> { directory };
+
+                potentialDirectories.AddRange(Directory.GetDirectories(directory, "*", SearchOption.AllDirectories));
+
+                var potentialFiles = potentialDirectories.Select(x => Path.Combine(x, $"{reference.Name}.dll"))
+                    .Concat(potentialDirectories.Select(
+                        x => Path.Combine(x, $"{reference.Name}.exe")));
+
+                foreach (var path in potentialFiles)
+                {
+                    if (!File.Exists(path))
+                        continue;
+
+                    var assembly = AssemblyDefinition.ReadAssembly(path, new ReaderParameters(ReadingMode.Deferred));
+
+                    if (assembly.Name.Name == reference.Name)
+                        return assembly;
+
+                    assembly.Dispose();
+                }
+            }
+
+            return null;
         }
     }
 }
