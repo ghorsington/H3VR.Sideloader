@@ -19,7 +19,7 @@
       <HintPath>..\lib\Assembly-CSharp.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="XUnity.ResourceRedirector, Version=1.1.2.0, Culture=neutral, PublicKeyToken=null">
+    <Reference Include="XUnity.ResourceRedirector, Version=1.2.0.0, Culture=neutral, PublicKeyToken=null">
       <HintPath>..\lib\XUnity.ResourceRedirector.dll</HintPath>
       <Private>False</Private>
     </Reference>
